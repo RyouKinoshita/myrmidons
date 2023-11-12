@@ -28,7 +28,7 @@ exports.registerUser = async (req, res, next) => {
       message: "Failed to create an account",
     });
   }
-  //RYOU POTSU
+
   sendToken(user, 200, res);
 };
 
