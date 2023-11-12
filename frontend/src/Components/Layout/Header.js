@@ -1,7 +1,6 @@
 // Header.js
 import React, { Fragment, useEffect, useState } from 'react'
 import '../../App.css'
-
 import { Link, useNavigate } from 'react-router-dom'
 import { getUser, logout } from '../../utils/helpers';
 import axios from 'axios';

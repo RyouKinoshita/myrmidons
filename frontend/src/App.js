@@ -5,6 +5,7 @@ import Header from './Components/Layout/Header'
 import Footer from './Components/Layout/Footer'
 import Home from './Components/Home'
 import Login from './Components/User/Login'
+import Register from './Components/User/Register';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} exact="true" />
           <Route path="/login" element={<Login />} exact="true" />
+          <Route path="/register" element={<Register />} exact="true" />
         </Routes>
         <Footer />
       </Router>
