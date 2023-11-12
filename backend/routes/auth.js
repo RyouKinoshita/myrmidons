@@ -1,17 +1,26 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const upload = require('../utils/multer')
+const upload = require("../utils/multer");
 
-const { registerUser, loginUser,logout,forgotPassword,resetPassword} = require('../controllers/authController');
+const {
+  registerUser,
+  loginUser,
+  logout,
+  forgotPassword,
+  resetPassword,
+  getUserProfile,
+  updatePassword,
+} = require("../controllers/authController");
+const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
 
+router.post("/register", upload.single("avatar"), registerUser);
+router.post("/login", loginUser);
+router.get("/logout", logout);
 
+router.post("/password/forgot", forgotPassword);
+router.put("/password/reset/:token", resetPassword);
 
-router.post('/register',upload.single("avatar"),registerUser);
-router.post('/login', loginUser);
-router.get('/logout',logout);
+router.get("/me", isAuthenticatedUser, getUserProfile);
 
-router.post('/password/forgot',forgotPassword);
-router.put('/password/reset/:token',resetPassword);
-
-
+router.put("/password/update", isAuthenticatedUser, updatePassword);
 module.exports = router;
