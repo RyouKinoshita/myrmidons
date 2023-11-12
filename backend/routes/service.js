@@ -4,7 +4,7 @@ const {newService,getServices,updateService,deleteService,getSingleService} = re
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 router.post('/service/new', newService);
-router.get('/service',isAuthenticatedUser,authorizeRoles('admin'), getServices);
+router.get('/service', getServices);
 router.get('/service/:id',getSingleService);
 router.route('/admin/service/:id').put(updateService).delete(deleteService);
 module.exports = router;

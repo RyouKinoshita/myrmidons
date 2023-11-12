@@ -74,10 +74,12 @@ nav {
 
 .card {
   height: 100%;
+  background-color: grey;
+  color:#f8ce0b;
 }
 
 .card-title a {
-  color: #2e2e2e;
+  color: whitesmoke;
 }
 
 .card-title a:hover {
