@@ -9,6 +9,7 @@ const {
   forgotPassword,
   resetPassword,
   getUserProfile,
+  updatePassword,
 } = require("../controllers/authController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
 
@@ -21,4 +22,5 @@ router.put("/password/reset/:token", resetPassword);
 
 router.get("/me", isAuthenticatedUser, getUserProfile);
 
+router.put("/password/update", isAuthenticatedUser, updatePassword);
 module.exports = router;
