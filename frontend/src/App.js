@@ -1,3 +1,4 @@
+
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from './Components/Layout/Header'
@@ -9,8 +10,14 @@ function App() {
    
     <div className="App">
       
-        <Header/>
-        <Footer/>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} exact="true" />
+          
+        </Routes>
+        <Footer />
+      </Router>
     </div>
     
   );
