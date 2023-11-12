@@ -11,6 +11,7 @@ const {
   getUserProfile,
   updatePassword,
   updateProfile,
+  allUsers,
 } = require("../controllers/authController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
 
@@ -31,4 +32,6 @@ router.put(
   //   upload.single("avatar"),
   updateProfile
 );
+
+router.get("/admin/users", allUsers);
 module.exports = router;
