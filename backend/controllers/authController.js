@@ -4,13 +4,13 @@ const sendToken = require("../utils/jwtToken");
 const cloudinary = require("cloudinary");
 const sendEmail = require("../utils/sendEmail");
 exports.registerUser = async (req, res, next) => {
-  const result = await cloudinary.v2.uploader.upload(req.file.path, {
+  const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
     folder: "profiles", // folder name in cloudinary, if not exist it will create automatically.
     width: 200, // convert the width of image to 200 pixel
     crop: "scale",
   });
 
-  const { name, email, password, role } = req.body;
+  const { name, email, password } = req.body;
 
   const user = await User.create({
     name,
