@@ -17,7 +17,7 @@ const Register = () => {
     const [avatarPreview, setAvatarPreview] = useState('/images/default_avatar.jpg')
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [error, setError] = useState('')
-    const [loading, setLoading] = useState(true)
+    // const [loading, setLoading] = useState(true)
 
 
     let navigate = useNavigate()
@@ -74,13 +74,13 @@ const Register = () => {
             const { data } = await axios.post(`http://localhost:4001/api/v1/register`, userData, config)
             console.log(data.user)
             setIsAuthenticated(true)
-            setLoading(false)
+            // setLoading(false)
             setUser(data.user)
             navigate('/')
 
         } catch (error) {
             setIsAuthenticated(false)
-            setLoading(false)
+            // setLoading(false)
             setUser(null)
             setError(error.response.data.message)
             console.log(error.response.data.message)
