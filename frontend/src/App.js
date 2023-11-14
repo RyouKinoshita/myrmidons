@@ -13,6 +13,7 @@ import ForgotPassword from './Components/User/ForgotPassword';
 import UpdateProfile from './Components/User/UpdateProfile';
 import UpdatePassword from './Components/User/UpdatePassword';
 import ServiceDetails from './Components/Service/ServiceDetails'
+import AboutUs from './Components/About/AboutUs'
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
@@ -76,6 +77,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} exact="true" />
+          <Route path="/about" element={<AboutUs />} />
           <Route path="/login" element={<Login />} exact="true" />
           <Route path="/register" element={<Register />} exact="true" />
           <Route path="/me" element={<Profile />} exact="true" />
