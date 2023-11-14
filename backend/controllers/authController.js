@@ -115,25 +115,20 @@ exports.forgotPassword = async (req, res, next) => {
 
 exports.resetPassword = async (req, res, next) => {
   // Hash URL token
-  const resetPasswordToken = crypto
-    .createHash("sha256")
-    .update(req.params.token)
-    .digest("hex");
+  const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex')
   const user = await User.findOne({
-    resetPasswordToken,
-    resetPasswordExpire: { $gt: Date.now() },
-  });
+      resetPasswordToken,
+      resetPasswordExpire: { $gt: Date.now() }
+  })
 
   if (!user) {
-    return res
-      .status(400)
-      .json({ message: "Password reset token is invalid or has been expired" });
-    // return next(new ErrorHandler('Password reset token is invalid or has been expired', 400))
+      return res.status(400).json({ message: 'Password reset token is invalid or has been expired' })
+      // return next(new ErrorHandler('Password reset token is invalid or has been expired', 400))
   }
 
   if (req.body.password !== req.body.confirmPassword) {
-    return res.status(400).json({ message: "Password does not match" });
-    // return next(new ErrorHandler('Password does not match', 400))
+      return res.status(400).json({ message: 'Password does not match' })
+      // return next(new ErrorHandler('Password does not match', 400))
   }
 
   // Setup new password
@@ -142,7 +137,8 @@ exports.resetPassword = async (req, res, next) => {
   user.resetPasswordExpire = undefined;
   await user.save();
   sendToken(user, 200, res);
-};
+}
+
 
 exports.getUserProfile = async (req, res, next) => {
   // console.log(req.header('authorization'))
