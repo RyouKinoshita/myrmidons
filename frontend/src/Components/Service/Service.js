@@ -22,7 +22,7 @@ const Service = ({service}) => {
 	              </div>
 	              <p className="card-text">${service.price}</p>
 				  {/* {`/product/${service._id}`} */}
-	              <Link to="#" id="view_btn" className="btn btn-block">View Details</Link>
+	              <Link to={`/service/${service._id}`} id="view_btn" className="btn btn-block">View Details</Link>
 	            </div>
 	          </div>
 	        </div>
