@@ -7,6 +7,8 @@ import Home from './Components/Home'
 import Login from './Components/User/Login'
 import Register from './Components/User/Register';
 import Profile from './Components/User/Profile'
+import NewPassword from './Components/User/NewPassword';
+import UpdateProfile from './Components/User/UpdateProfile';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
@@ -23,6 +25,9 @@ function App() {
           <Route path="/login" element={<Login />} exact="true" />
           <Route path="/register" element={<Register />} exact="true" />
           <Route path="/me" element={<Profile />} exact="true" />
+          <Route path="/password/reset/:token" element={<NewPassword />} exact="true" />
+          <Route path="/me/update" element={<UpdateProfile />} exact="true"
+          />
         </Routes>
         <Footer />
       </Router>

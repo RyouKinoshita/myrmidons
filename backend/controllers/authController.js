@@ -165,45 +165,43 @@ exports.updatePassword = async (req, res, next) => {
   await user.save();
   sendToken(user, 200, res);
 };
-
 exports.updateProfile = async (req, res, next) => {
   const newUserData = {
-    name: req.body.name,
-    email: req.body.email,
-  };
+      name: req.body.name,
+      email: req.body.email
+  }
 
   // Update avatar
-  //   if (req.body.avatar !== "") {
-  //     const user = await User.findById(req.user.id);
+  if (req.body.avatar !== '') {
+      const user = await User.findById(req.user.id)
 
-  //     const image_id = user.avatar.public_id;
-  //     const res = await cloudinary.v2.uploader.destroy(image_id);
+      const image_id = user.avatar.public_id;
+      const res = await cloudinary.v2.uploader.destroy(image_id);
 
-  //     const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-  //       folder: "avatars",
-  //       width: 150,
-  //       crop: "scale",
-  //     });
+      const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+          folder: 'avatars',
+          width: 150,
+          crop: "scale"
+      })
 
-  //     newUserData.avatar = {
-  //       public_id: result.public_id,
-  //       url: result.secure_url,
-  //     };
-  //   }
+      newUserData.avatar = {
+          public_id: result.public_id,
+          url: result.secure_url
+      }
+  }
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
-    new: true,
-    runValidators: true,
-  });
+      new: true,
+      runValidators: true,
+  })
   if (!user) {
-    return res.status(401).json({ message: "User Not Updated" });
+      return res.status(401).json({ message: 'User Not Updated' })
   }
 
   res.status(200).json({
-    success: true,
-  });
-};
-
+      success: true
+  })
+}
 exports.allUsers = async (req, res, next) => {
   const users = await User.find();
   res.status(200).json({

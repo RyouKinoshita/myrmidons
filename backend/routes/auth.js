@@ -30,7 +30,7 @@ router.put("/password/update", isAuthenticatedUser, updatePassword);
 router.put(
   "/me/update",
   isAuthenticatedUser,
-  //   upload.single("avatar"),
+   upload.single("avatar"),
   updateProfile
 );
 
