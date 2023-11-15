@@ -30,7 +30,7 @@ function App() {
     try {
       const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/service/${id}`)
       const item = {
-        product: data.service._id,
+        service: data.service._id,
         name: data.service.name,
         price: data.service.price,
         image: data.service.images[0].url,
@@ -73,7 +73,7 @@ function App() {
     <div className="App">
       
       <Router>
-        <Header />
+        <Header cartItems={state.cartItems} />
         <Routes>
           <Route path="/" element={<Home />} exact="true" />
           <Route path="/login" element={<Login />} exact="true" />

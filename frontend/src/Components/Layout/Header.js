@@ -7,7 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Header = () => {
+const Header = ({cartItems}) => {
   const [user, setUser] = useState('')
   const navigate = useNavigate()
   const logoutUser = async () => {
@@ -48,7 +48,7 @@ const Header = () => {
         <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
        
             <span id="cart" className="ml-3"  style={{ color: 'yellow' }}>Cart</span>
-            <span className="ml-1" id="cart_count">1</span>  
+            <span className="ml-1" id="cart_count">{cartItems.length}</span>  
             {user ? (<div className="ml-4 dropdown d-inline">
                         <Link to="#!" className="btn dropdown-toggle text-white mr-4" type="button" id="dropDownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <figure className="avatar avatar-nav">

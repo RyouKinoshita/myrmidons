@@ -6,6 +6,20 @@ import Service from './Service/Service';
 
 import Pagination from 'react-js-pagination'
 
+const categories = [
+    'Digital Marketing',
+    'Social Media Management',
+    'Graphics & Video Production',
+    'Web Development',
+    'Customer Service & QA',
+    'Project Management',
+    'Photography',
+    'KOL',
+    'Studio Services',
+    'PC/Mobile Game Management'
+   
+]
+
 const Home = () => {
     // const [loading, setLoading] = useState(true)
     const [service, setService] = useState([])
@@ -13,7 +27,9 @@ const Home = () => {
     const [serviceCount, setServiceCount] = useState(0)
     const [currentPage, setCurrentPage] = useState(1);
     const [resPerPage, setResPerPage] = useState(0)
+    const [category, setCategory] = useState('');
 
+    
     const getService = async () => {
         let link = `http://localhost:4001/api/v1/service`
         console.log(link)

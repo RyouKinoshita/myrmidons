@@ -57,8 +57,12 @@ const ServiceDetails = ({ addItemToCart, cartItems }) => {
            
                 <Fragment>
                     <MetaData title={service.name} />
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
                     <div className="row d-flex justify-content-around">
-                        <div className="col-12 col-lg-5 img-fluid" id="product_image">
+                        <div className="col-12 col-lg-5 img-fluid" id="service_image">
                             <Carousel pause='hover'>
                                 {service.images && service.images.map(image => (
                                     <Carousel.Item key={image.public_id}>
