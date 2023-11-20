@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from './Components/Layout/Header'
-import Footer from './Components/Layout/Footer'
-import Home from './Components/Home'
-import Login from './Components/User/Login'
-import Register from './Components/User/Register';
-import Profile from './Components/User/Profile'
-import NewPassword from './Components/User/NewPassword';
-import ForgotPassword from './Components/User/ForgotPassword';
-import UpdateProfile from './Components/User/UpdateProfile';
-import UpdatePassword from './Components/User/UpdatePassword';
-import ServiceDetails from './Components/Service/ServiceDetails'
-import AboutUs from './Components/About/AboutUs'
-import { toast, ToastContainer } from 'react-toastify';
+import Header from "./Components/Layout/Header";
+import Footer from "./Components/Layout/Footer";
+import Home from "./Components/Home";
+import Login from "./Components/User/Login";
+import Register from "./Components/User/Register";
+import Profile from "./Components/User/Profile";
+import NewPassword from "./Components/User/NewPassword";
+import ForgotPassword from "./Components/User/ForgotPassword";
+import UpdateProfile from "./Components/User/UpdateProfile";
+import UpdatePassword from "./Components/User/UpdatePassword";
+import ServiceDetails from "./Components/Service/ServiceDetails";
+import AboutUs from "./Components/About/AboutUs";
+import Portfolio from "./Components/Portfolio/Portfolio";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 function App() {

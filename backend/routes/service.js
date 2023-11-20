@@ -10,7 +10,14 @@ const {
 } = require("../controllers/serviceController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
 
-router.post("/service/new", newService);
+// router.post("/service/new", newService);
+router.post(
+  "/admin/service/new",
+  isAuthenticatedUser,
+  authorizeRoles("admin"),
+  upload.array("images", 10),
+  newService
+);
 router.get("/service", getServices);
 
 router.get("/service/:id", getSingleService);
@@ -20,5 +27,10 @@ router.get(
   authorizeRoles("admin"),
   getAdminServices
 );
-router.route("/admin/service/:id").put(updateService).delete(deleteService);
+router
+  .route("/admin/service/:id", isAuthenticatedUser, authorizeRoles("admin"))
+  .put(upload.array("images", 10), updateService)
+  .delete(deleteService);
+
+// router.route("/admin/service/:id").put(updateService).delete(deleteService);
 module.exports = router;
