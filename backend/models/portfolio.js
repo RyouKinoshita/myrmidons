@@ -29,31 +29,6 @@ const portfolioSchema = new mongoose.Schema({
             },
         }
     ],
-    // category: {
-    //     type: String,
-    //     required: [true, 'Please select category for this service'],
-    //     enum: {
-    //         values: [
-    //             'Digital Marketing',
-    //             'Social Media Management',
-    //             'Graphics & Video Production',
-    //             'Web Development',
-    //             'Customer Service & QA',
-    //             'Project Management',
-    //             'Photography',
-    //             'KOL',
-    //             'Studio Services',
-    //             'PC/Mobile Game Management'
-               
-    //         ],
-    //         message: 'Please select correct category for service'
-    //     }
-    // },
-    // user: {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'User',
-    //     required: true
-    // },
     createdAt: {
         type: Date,
         default: Date.now

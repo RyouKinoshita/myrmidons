@@ -1,15 +1,15 @@
-const portfolios = require('../models/portfolio');
+
 const Portfolio = require('../models/portfolio')
 // const APIFeatures = require('../utils/apiFeatures');
 // const cloudinary = require('cloudinary')
 
-exports.newService = async (req, res, next) => {
+exports.newPortfolio = async (req, res, next) => {
 	
 	// req.body.user = req.user.id;
 	const portfolios = await Portfolio.create(req.body);
 	res.status(201).json({
 		success: true,
-		service
+		portfolios
 	})
 }
 exports.getPortfolio = async (req, res, next) => {
@@ -40,7 +40,7 @@ exports.updatePortfolio = async (req, res, next) => {
 	}
 	res.status(200).json({
 		success: true,
-		service
+		portfolios
 	})
 }
 exports.deletePortfolio = async (req, res, next) => {
@@ -67,6 +67,6 @@ exports.getSinglePortfolio = async (req, res, next) => {
 	}
 	res.status(200).json({
 		success: true,
-		service
+		portfolios
 	})
 }
