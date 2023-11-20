@@ -13,6 +13,7 @@ import UpdateProfile from './Components/User/UpdateProfile';
 import UpdatePassword from './Components/User/UpdatePassword';
 import ServiceDetails from './Components/Service/ServiceDetails'
 import AboutUs from './Components/About/AboutUs'
+import Portfolio from './Components/Portfolio/Portfolio'
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
