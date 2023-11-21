@@ -31,7 +31,8 @@ const Home = () => {
 
     
     const getService = async () => {
-        let link = `http://localhost:4001/api/v1/service`
+        let link = `http://localhost:4001/api/v1/service?page=${currentPage}`
+        
         console.log(link)
         let res = await axios.get(link)
         console.log(res)
@@ -40,16 +41,17 @@ const Home = () => {
         setResPerPage(res.data.resPerPage)
         setServiceCount(res.data.serviceCount)
         // setLoading(false)
-
+console.log(resPerPage)
     }
     let count = serviceCount;
+    
     function setCurrentPageNo(pageNumber) {
         setCurrentPage(pageNumber)
     }
 
     useEffect(() => {
-        getService()
-    }, [])
+        getService(currentPage)
+    }, [currentPage])
     //  console.log(service)
     return (
         <Fragment>
@@ -62,7 +64,7 @@ const Home = () => {
                         <section id="products" className="container mt-5">
                             <div className="row">
                                 {service && service.map(service => (
-                                    <Service key={service._id} service={service} col={4} />
+                                    <Service key={service._id} service={service} col={3} />
                                     
                                 ))}
                             </div>

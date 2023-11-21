@@ -1,6 +1,6 @@
 const service = require("../models/service");
 const Service = require("../models/service");
-// const APIFeatures = require('../utils/apiFeatures');
+const APIFeatures = require('../utils/apiFeatures');
 const cloudinary = require("cloudinary");
 
 exports.newService = async (req, res, next) => {
@@ -47,14 +47,35 @@ exports.newService = async (req, res, next) => {
     service,
   });
 };
-exports.getServices = async (req, res, next) => {
-  const services = await Service.find({});
-  res.status(200).json({
-    success: true,
-    count: services.length,
-    services,
-  });
-};
+// exports.getServices = async (req, res, next) => {
+//   const resPerPage = 4;
+//   const serviceCount = await Service.countDocuments();
+//   APIFeatures.pagination(resPerPage);
+//   const services = await Service.find({});
+//   res.status(200).json({
+//     success: true,
+//     count: services.length,
+//     services,
+//   });
+// };
+exports.getServices = async (req,res,next) => {
+	
+	const resPerPage = 4;
+	const serviceCount = await Service.countDocuments();
+	const apiFeatures = new APIFeatures(Service.find(),req.query).search().filter(); 
+
+	// const products = await Product.find();
+	apiFeatures.pagination(resPerPage);
+	const services = await apiFeatures.query;
+	let filteredServiceCount = services.length;
+	res.status(200).json({
+		success: true,
+		filteredServiceCount,
+		serviceCount,
+		services,
+		resPerPage,
+	})
+}
 exports.updateService = async (req, res, next) => {
   let service = await Service.findById(req.params.id);
   console.log(req.body);
