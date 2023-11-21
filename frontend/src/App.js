@@ -15,6 +15,8 @@ import UpdatePassword from "./Components/User/UpdatePassword";
 import ServiceDetails from "./Components/Service/ServiceDetails";
 import AboutUs from "./Components/About/AboutUs";
 import Portfolio from "./Components/Portfolio/Portfolio";
+import Dashboard from "./Components/Admin/Dashboard";
+import ProtectedRoute from "./Components/Route/ProtectedRoute";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -105,6 +107,14 @@ function App() {
               />
             }
             exact="true"
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute isAdmin={true}>
+                <Dashboard />
+              </ProtectedRoute>
+            }
           />
         </Routes>
         <Footer />
