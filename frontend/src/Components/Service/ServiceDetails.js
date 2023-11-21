@@ -1,7 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Carousel } from 'react-bootstrap'
-
+import { useNavigate } from 'react-router-dom'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import MetaData from '../Layout/Metadata'
 import { getUser, getToken, successMsg, errMsg } from '../../utils/helpers'
 
@@ -20,9 +22,9 @@ const ServiceDetails = ({ addItemToCart, cartItems }) => {
     const [user, setUser] = useState(getUser())
     const [rating, setRating] = useState(0)
     const [comment, setComment] = useState('')
-
+    const [selectedDate, setSelectedDate] = useState(null);
     const [success, setSuccess] = useState('')
-
+   
 
     let { id } = useParams()
     // const alert = useAlert();
@@ -33,20 +35,35 @@ const ServiceDetails = ({ addItemToCart, cartItems }) => {
         let res = await axios.get(link)
         console.log(res)
         if (!res)
-            setError('Product not found')
+            setError('Service not found')
         setService(res.data.service)
         setLoading(false)
     }
 
-    
-    const addToCart = async () => {
-        await addItemToCart(id, quantity);
-    }
-   
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+      };
+      
+      let navigate = useNavigate()
+      const addToCart = async () => {
+        if (selectedDate) {
+          // Pass both service ID, quantity, and date to the addItemToCart function
+          await addItemToCart(id, selectedDate);
+          navigate('/')
+          // Reset the selected date after adding to cart
+          setSelectedDate(null);
+
+        } else {
+          // Handle case when date is not selected
+          setError('Please select a date before adding to cart.');
+        }
+        
+      };
     
 
     useEffect(() => {
         serviceDetails(id)
+        
       
     }, [id, error, success]);
 
@@ -86,9 +103,10 @@ const ServiceDetails = ({ addItemToCart, cartItems }) => {
                             <hr />
 
                             <p id="product_price">${service.price}</p>
-                           
+                            <h3>Date Selected: </h3>
+                            <DatePicker selected={selectedDate} onChange={handleDateChange} />
                             <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4"  onClick={addToCart}>Add to Cart</button>
-
+                            
                             <h4 className="mt-2">Description:</h4>
                             <p>{service.description}</p>
                             <hr />
@@ -100,5 +118,6 @@ const ServiceDetails = ({ addItemToCart, cartItems }) => {
         </Fragment>
     
 
-    )}
+    )
+                                }
 export default ServiceDetails

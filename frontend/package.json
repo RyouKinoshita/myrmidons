@@ -12,6 +12,7 @@
     "mdbreact": "^5.2.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
+    "react-datepicker": "^4.21.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-js-pagination": "^3.0.3",

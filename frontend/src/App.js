@@ -27,17 +27,20 @@ function App() {
       ? JSON.parse(localStorage.getItem("shippingInfo"))
       : {},
   });
-  const addItemToCart = async (id, quantity) => {
-    console.log(id, quantity);
+  const addItemToCart = async (id,selectedDate) => {
+    console.log(id,selectedDate);
+  const parsedDate = new Date(selectedDate);
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/api/v1/service/${id}`
+        `http://localhost:4001/api/v1/service/${id}`
       );
       const item = {
         service: data.service._id,
         name: data.service.name,
         price: data.service.price,
         image: data.service.images[0].url,
+        date: parsedDate,
+        
       };
 
       const isItemExist = state.cartItems.find(
