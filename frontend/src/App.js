@@ -39,15 +39,11 @@ function App() {
       ? JSON.parse(localStorage.getItem("shippingInfo"))
       : {},
   });
-<<<<<<< HEAD
 
-  const addItemToCart = async (id, quantity) => {
-    console.log(id, quantity);
-=======
   const addItemToCart = async (id,selectedDate) => {
     console.log(id,selectedDate);
   const parsedDate = new Date(selectedDate);
->>>>>>> 2d14254e9c452295c443f6abf9a3863443823275
+
     try {
       const { data } = await axios.get(
         `http://localhost:4001/api/v1/service/${id}`
@@ -101,11 +97,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} exact="true" />
           <Route path="/about" element={<AboutUs />} />
-<<<<<<< HEAD
           <Route path="/portfolio" element={<Portfolio />}/>
-=======
-          {/* <Route path="/members" element={<TeamPortfolio />} /> */}
->>>>>>> 2d14254e9c452295c443f6abf9a3863443823275
           <Route path="/login" element={<Login />} exact="true" />
           <Route path="/register" element={<Register />} exact="true" />
           <Route path="/me" element={<Profile />} exact="true" />
