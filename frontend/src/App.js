@@ -19,9 +19,10 @@ import Dashboard from "./Components/Admin/Dashboard";
 import ProtectedRoute from "./Components/Route/ProtectedRoute";
 import ServicesList from "./Components/Admin/ServicesList";
 import NewService from "./Components/Admin/NewService";
+import UpdateService from "./Components/Admin/UpdateService";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Cart from './Components/Cart/Cart';
+import Cart from "./Components/Cart/Cart";
 import axios from "axios";
 function App() {
   const App = () => {
@@ -44,14 +45,16 @@ function App() {
 
   const addItemToCart = async (id, selectedDate) => {
     console.log(id, selectedDate);
-    
-    const parsedDate = new Date(selectedDate);
-const year = parsedDate.getFullYear();
-const month = parsedDate.getMonth() + 1; // Month is zero-indexed, so add 1
-const day = parsedDate.getDate();
 
-const formattedDate = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-console.log(formattedDate);
+    const parsedDate = new Date(selectedDate);
+    const year = parsedDate.getFullYear();
+    const month = parsedDate.getMonth() + 1; // Month is zero-indexed, so add 1
+    const day = parsedDate.getDate();
+
+    const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
+      day < 10 ? "0" : ""
+    }${day}`;
+    console.log(formattedDate);
 
     try {
       const { data } = await axios.get(
@@ -100,11 +103,10 @@ console.log(formattedDate);
   const removeItemFromCart = async (id) => {
     setState({
       ...state,
-      cartItems: state.cartItems.filter(i => i.product !== id)
-    })
-    localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
-  }
-
+      cartItems: state.cartItems.filter((i) => i.product !== id),
+    });
+    localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+  };
 
   return (
     <div className="App">
@@ -113,12 +115,22 @@ console.log(formattedDate);
         <Routes>
           <Route path="/" element={<Home />} exact="true" />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/portfolio" element={<Portfolio />}/>
-          <Route path="/teampage" element={<TeamPage/>}/>
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/teampage" element={<TeamPage />} />
           <Route path="/login" element={<Login />} exact="true" />
           <Route path="/register" element={<Register />} exact="true" />
           <Route path="/me" element={<Profile />} exact="true" />
-          <Route path="/cart" element={<Cart cartItems={state.cartItems} addItemToCart={addItemToCart} removeItemFromCart={removeItemFromCart} />} exact="true" />
+          <Route
+            path="/cart"
+            element={
+              <Cart
+                cartItems={state.cartItems}
+                addItemToCart={addItemToCart}
+                removeItemFromCart={removeItemFromCart}
+              />
+            }
+            exact="true"
+          />
           <Route
             path="/password/forgot"
             element={<ForgotPassword />}
@@ -142,6 +154,7 @@ console.log(formattedDate);
             exact="true"
           />
           <Route path="/admin/service/new" element={<NewService />} />
+          <Route path="/admin/service/:id" element={<UpdateService />} />
           <Route
             path="/dashboard"
             element={
