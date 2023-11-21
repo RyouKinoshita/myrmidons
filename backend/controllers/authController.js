@@ -5,12 +5,12 @@ const cloudinary = require("cloudinary");
 const sendEmail = require("../utils/sendEmail");
 exports.registerUser = async (req, res, next) => {
   const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    folder: "profiles", // folder name in cloudinary, if not exist it will create automatically.
-    width: 200, // convert the width of image to 200 pixel
+    folder: "profiles", 
+    width: 200, 
     crop: "scale",
   });
 
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   const user = await User.create({
     name,
@@ -115,20 +115,25 @@ exports.forgotPassword = async (req, res, next) => {
 
 exports.resetPassword = async (req, res, next) => {
   // Hash URL token
-  const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex')
+  const resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
   const user = await User.findOne({
-      resetPasswordToken,
-      resetPasswordExpire: { $gt: Date.now() }
-  })
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
 
   if (!user) {
-      return res.status(400).json({ message: 'Password reset token is invalid or has been expired' })
-      // return next(new ErrorHandler('Password reset token is invalid or has been expired', 400))
+    return res
+      .status(400)
+      .json({ message: "Password reset token is invalid or has been expired" });
+    // return next(new ErrorHandler('Password reset token is invalid or has been expired', 400))
   }
 
   if (req.body.password !== req.body.confirmPassword) {
-      return res.status(400).json({ message: 'Password does not match' })
-      // return next(new ErrorHandler('Password does not match', 400))
+    return res.status(400).json({ message: "Password does not match" });
+    // return next(new ErrorHandler('Password does not match', 400))
   }
 
   // Setup new password
@@ -137,8 +142,7 @@ exports.resetPassword = async (req, res, next) => {
   user.resetPasswordExpire = undefined;
   await user.save();
   sendToken(user, 200, res);
-}
-
+};
 
 exports.getUserProfile = async (req, res, next) => {
   // console.log(req.header('authorization'))
@@ -161,43 +165,45 @@ exports.updatePassword = async (req, res, next) => {
   await user.save();
   sendToken(user, 200, res);
 };
+
 exports.updateProfile = async (req, res, next) => {
   const newUserData = {
-      name: req.body.name,
-      email: req.body.email
-  }
+    name: req.body.name,
+    email: req.body.email,
+  };
 
   // Update avatar
-  if (req.body.avatar !== '') {
-      const user = await User.findById(req.user.id)
+  //   if (req.body.avatar !== "") {
+  //     const user = await User.findById(req.user.id);
 
-      const image_id = user.avatar.public_id;
-      const res = await cloudinary.v2.uploader.destroy(image_id);
+  //     const image_id = user.avatar.public_id;
+  //     const res = await cloudinary.v2.uploader.destroy(image_id);
 
-      const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-          folder: 'avatars',
-          width: 150,
-          crop: "scale"
-      })
+  //     const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+  //       folder: "avatars",
+  //       width: 150,
+  //       crop: "scale",
+  //     });
 
-      newUserData.avatar = {
-          public_id: result.public_id,
-          url: result.secure_url
-      }
-  }
+  //     newUserData.avatar = {
+  //       public_id: result.public_id,
+  //       url: result.secure_url,
+  //     };
+  //   }
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
-      new: true,
-      runValidators: true,
-  })
+    new: true,
+    runValidators: true,
+  });
   if (!user) {
-      return res.status(401).json({ message: 'User Not Updated' })
+    return res.status(401).json({ message: "User Not Updated" });
   }
 
   res.status(200).json({
-      success: true
-  })
-}
+    success: true,
+  });
+};
+
 exports.allUsers = async (req, res, next) => {
   const users = await User.find();
   res.status(200).json({
