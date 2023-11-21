@@ -32,7 +32,7 @@ const Login = () => {
             const { data } = await axios.post(`http://localhost:4001/api/v1/login`, { email, password }, config)
             console.log(data)
             authenticate(data, () => navigate("/"))
-            
+            window.location.reload();
             
         } catch (error) {
             toast.error("Invalid user or password", {
