@@ -18,6 +18,7 @@ import Portfolio from "./Components/Portfolio/Portfolio";
 import Dashboard from "./Components/Admin/Dashboard";
 import ProtectedRoute from "./Components/Route/ProtectedRoute";
 import ServicesList from "./Components/Admin/ServicesList";
+import NewService from "./Components/Admin/NewService";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -122,6 +123,7 @@ function App() {
             }
             exact="true"
           />
+          <Route path="/admin/service/new" element={<NewService />} />
           <Route
             path="/dashboard"
             element={
