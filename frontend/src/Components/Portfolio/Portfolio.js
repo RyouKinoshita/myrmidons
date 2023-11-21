@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// Portfolio component
 const Portfolio = () => {
-  // State to store portfolio data
   const [portfolios, setPortfolios] = useState([]);
 
-  // State to track the hovered image
   const [hoveredPortfolio, setHoveredPortfolio] = useState(null);
 
-  // Fetch data from MongoDB when component mounts
   useEffect(() => {
     axios.get('http://localhost:4001/api/v1/portfolio')
       .then(response => {
@@ -20,7 +16,6 @@ const Portfolio = () => {
       });
   }, []);
 
-  // Handle hover events
   const handleMouseEnter = (portfolio) => {
     setHoveredPortfolio(portfolio);
   };
@@ -32,19 +27,15 @@ const Portfolio = () => {
   return (
     <div>
       <div className="navbar">
-        {/* Navbar content */}
       </div>
 
-      {/* Recent Projects section */}
       <div className="recent-projects-section" style={{ backgroundColor: 'gray', color: 'white', padding: '15px', marginTop: '-15px', marginBottom: '1cm' }}>
         <h1 style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '40px', fontFamily: 'Georgia, serif' }}>Recent Projects</h1>
       </div>
 
-      {/* Portfolio section */}
       <div className="portfolio-section">
         <div className="container">
           <div className="row portfolio-container">
-            {/* Map through portfolios data and render each item */}
             {portfolios.map(portfolio => (
               <div
                 key={portfolio._id}
@@ -59,7 +50,7 @@ const Portfolio = () => {
                     alt={portfolio.name}
                     style={{ width: '100%', height: '100%' }}
                   />
-                  {/* Absolute positioning for hovered content */}
+
                   {hoveredPortfolio && hoveredPortfolio._id === portfolio._id && (
                     <div
                       className="hovered-content"
