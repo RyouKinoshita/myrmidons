@@ -492,43 +492,51 @@ footer {
   align-items: stretch;
   min-height: 100vh;
   font-weight: normal;
-
   margin-top: 0;
   height: 100%;
   left: 0;
   top: 0;
-  z-index: 10;
+  z-index: 1000; 
+  margin-bottom: -129px; 
 }
+
 #sidebar {
-  min-width: 100%;
-  max-width: 100%;
-  background: #232f3e;
+  min-width: 200px; 
+  max-width: 20%; 
+  min-height: 200px;
+  max-height: 100%;
+  background: linear-gradient(20deg, #1a1a1a 30%, #DADA00 20%); 
   color: #fff;
   transition: all 0.3s;
 }
+
 #sidebar.active {
   margin-left: -250px;
 }
 
 #sidebar .sidebar-header {
   padding: 20px;
-  background: #232f3e;
+  background: linear-gradient(20deg, #1a1a1a 30%, #DADA00 20%); 
 }
+
 #sidebar ul.components {
   padding: 5px 0px;
-  border-bottom: 1px solid #232f3e;
+  border-bottom: 1px solid #1a1a1a; 
 }
 
 #sidebar ul li a {
   padding: 10px;
   font-size: 1.1em;
   display: block;
-  color: white;
+  color: #fff;
   text-decoration: none;
+  transition: background 0.3s, border-radius 0.3s; 
 }
+
 #sidebar ul li a:hover {
-  color: #232f3e;
+  color: #1a1a1a; 
   background: #fff;
+  border-radius: 5px; 
 }
 
 #sidebar ul li a i {
@@ -538,11 +546,13 @@ footer {
 #sidebar ul li.active > a,
 a[aria-expanded='true'] {
   color: #fff;
-  background: #232f3e;
+  /* background: #1a1a1a; */
 }
+
 a[data-toggle='collapse'] {
   position: relative;
 }
+
 .dropdown-toggle::after {
   display: block;
   position: absolute;
@@ -554,7 +564,7 @@ a[data-toggle='collapse'] {
 ul ul a {
   font-size: 1rem !important;
   padding-left: 30px !important;
-  background: #232f3e;
+  /* background: #1a1a1a; */
 }
 
 ul.CTAs {
@@ -568,6 +578,7 @@ ul.CTAs a {
   border-radius: 5px;
   margin-bottom: 5px;
 }
+
 
 /* Products List Admin */
 #products_table .btn {

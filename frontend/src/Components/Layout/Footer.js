@@ -1,15 +1,18 @@
-import React, { Fragment } from 'react'
+import React, { Fragment } from "react";
 
 const Footer = () => {
-    return (
-        <Fragment>
-            <footer className="footer">
-                <p className="text-center mt-1" style={{ color: 'yellow', backgroundColor: 'black', padding: '30px' }}>
-                    Myrmidons - 2022-2023, All Rights Reserved
-                </p>
-            </footer>
-        </Fragment>
-    )
-}
+  return (
+    <Fragment>
+      <footer className="footer">
+        <p
+          className="text-center mt-1"
+          style={{ color: "yellow", backgroundColor: "black", padding: "30px" }}
+        >
+          Myrmidons - 2022-2023, All Rights Reserved
+        </p>
+      </footer>
+    </Fragment>
+  );
+};
 
-export default Footer
+export default Footer;
