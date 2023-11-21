@@ -103,7 +103,7 @@ function App() {
   const removeItemFromCart = async (id) => {
     setState({
       ...state,
-      cartItems: state.cartItems.filter((i) => i.product !== id),
+      cartItems: state.cartItems.filter((i) => i.service !== id),
     });
     localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
   };
