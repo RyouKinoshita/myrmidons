@@ -17,11 +17,11 @@ import AboutUs from "./Components/About/AboutUs";
 import Portfolio from "./Components/Portfolio/Portfolio";
 import Dashboard from "./Components/Admin/Dashboard";
 import ProtectedRoute from "./Components/Route/ProtectedRoute";
+import ServicesList from "./Components/Admin/ServicesList";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 function App() {
-
   const App = () => {
     return (
       <div className="app">
@@ -40,9 +40,9 @@ function App() {
       : {},
   });
 
-  const addItemToCart = async (id,selectedDate) => {
-    console.log(id,selectedDate);
-  const parsedDate = new Date(selectedDate);
+  const addItemToCart = async (id, selectedDate) => {
+    console.log(id, selectedDate);
+    const parsedDate = new Date(selectedDate);
 
     try {
       const { data } = await axios.get(
@@ -54,7 +54,6 @@ function App() {
         price: data.service.price,
         image: data.service.images[0].url,
         date: parsedDate,
-        
       };
 
       const isItemExist = state.cartItems.find(
@@ -97,7 +96,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} exact="true" />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/portfolio" element={<Portfolio />}/>
+          <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/login" element={<Login />} exact="true" />
           <Route path="/register" element={<Register />} exact="true" />
           <Route path="/me" element={<Profile />} exact="true" />
@@ -128,6 +127,14 @@ function App() {
             element={
               <ProtectedRoute isAdmin={true}>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/service"
+            element={
+              <ProtectedRoute isAdmin={true}>
+                <ServicesList />
               </ProtectedRoute>
             }
           />
