@@ -9,7 +9,7 @@ import Register from "./Components/User/Register";
 import Profile from "./Components/User/Profile";
 import NewPassword from "./Components/User/NewPassword";
 import ForgotPassword from "./Components/User/ForgotPassword";
-import TeamPortfolio from './Components/TeamPortfolio';
+// import TeamPortfolio from './Components/TeamPortfolio';
 import UpdateProfile from "./Components/User/UpdateProfile";
 import UpdatePassword from "./Components/User/UpdatePassword";
 import ServiceDetails from "./Components/Service/ServiceDetails";
@@ -80,7 +80,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} exact="true" />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/members" element={<TeamPortfolio />} />
+          {/* <Route path="/members" element={<TeamPortfolio />} /> */}
           <Route path="/login" element={<Login />} exact="true" />
           <Route path="/register" element={<Register />} exact="true" />
           <Route path="/me" element={<Profile />} exact="true" />
