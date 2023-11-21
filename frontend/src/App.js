@@ -18,6 +18,16 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 function App() {
+
+  const App = () => {
+    return (
+      <div className="app">
+        <h1>Image Gallery</h1>
+        <Portfolio />
+      </div>
+    );
+  };
+
   const [state, setState] = useState({
     cartItems: localStorage.getItem("cartItems")
       ? JSON.parse(localStorage.getItem("cartItems"))
@@ -26,6 +36,7 @@ function App() {
       ? JSON.parse(localStorage.getItem("shippingInfo"))
       : {},
   });
+
   const addItemToCart = async (id, quantity) => {
     console.log(id, quantity);
     try {
@@ -79,7 +90,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} exact="true" />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/portfolio" element={<Portfolio />}/>
           <Route path="/login" element={<Login />} exact="true" />
           <Route path="/register" element={<Register />} exact="true" />
           <Route path="/me" element={<Profile />} exact="true" />

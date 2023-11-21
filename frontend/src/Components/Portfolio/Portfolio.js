@@ -1,58 +1,97 @@
-// Import necessary React components
-import React, { useState } from 'react';
-// import './App.css'; // Import your custom CSS file for styling
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-// Sample data for the gallery (replace with your own data)
-const galleryData = [
-  { id: 1, name: 'Web Design', category: 'web', imageUrl: 'https://via.placeholder.com/500' },
-  { id: 2, name: 'Graphic Design', category: 'design', imageUrl: 'https://via.placeholder.com/500' },
-  { id: 3, name: 'Photography', category: 'photo', imageUrl: 'https://via.placeholder.com/500' },
-  // Add more items as needed
-];
+// Portfolio component
+const Portfolio = () => {
+  // State to store portfolio data
+  const [portfolios, setPortfolios] = useState([]);
 
-
-// Gallery component
-const Portfolio = ({portfolios}) => {
   // State to track the hovered image
-  const [hoveredImage, setHoveredImage] = useState(null);
+  const [hoveredPortfolio, setHoveredPortfolio] = useState(null);
+
+  // Fetch data from MongoDB when component mounts
+  useEffect(() => {
+    axios.get('http://localhost:4001/api/v1/portfolio')
+      .then(response => {
+        setPortfolios(response.data.portfolios);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
   // Handle hover events
-  const handleMouseEnter = (id) => {
-    setHoveredImage(id);
+  const handleMouseEnter = (portfolio) => {
+    setHoveredPortfolio(portfolio);
   };
 
   const handleMouseLeave = () => {
-    setHoveredImage(null);
+    setHoveredPortfolio(null);
   };
 
   return (
-    <div className="portfolio-section">
-      <div className="container">
-        <div className="row portfolio-container">
-          {/* Map through gallery data and render each item */}
-          {galleryData.map((portfolios) => (
-            <div
-              key={portfolios.id}
-              className={`col-lg-4 col-md-6 col-sm-6 portfolio-item mix ${portfolios.category}`}
-              onMouseEnter={() => handleMouseEnter(portfolios.id)}
-              onMouseLeave={handleMouseLeave}
-            >
-              <div className="portfolio-overlay">
-                <p>{hoveredImage === portfolios.id ? portfolios.name : ''}</p>
-                <a href="portfolio.name"></a>
+    <div>
+      <div className="navbar">
+        {/* Navbar content */}
+      </div>
+
+      {/* Recent Projects section */}
+      <div className="recent-projects-section" style={{ backgroundColor: 'gray', color: 'white', padding: '15px', marginTop: '-15px', marginBottom: '1cm' }}>
+        <h1 style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '40px', fontFamily: 'Georgia, serif' }}>Recent Projects</h1>
+      </div>
+
+      {/* Portfolio section */}
+      <div className="portfolio-section">
+        <div className="container">
+          <div className="row portfolio-container">
+            {/* Map through portfolios data and render each item */}
+            {portfolios.map(portfolio => (
+              <div
+                key={portfolio._id}
+                className="col-lg-4 col-md-4 col-sm-4 portfolio-item mix"
+                onMouseEnter={() => handleMouseEnter(portfolio)}
+                onMouseLeave={handleMouseLeave}
+                style={{ position: 'relative', marginBottom: '1cm' }}
+              >
+                <div className="pd" style={{ position: 'relative' }}>
+                  <img
+                    src={portfolio.images[0].url}
+                    alt={portfolio.name}
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                  {/* Absolute positioning for hovered content */}
+                  {hoveredPortfolio && hoveredPortfolio._id === portfolio._id && (
+                    <div
+                      className="hovered-content"
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'rgba(169, 169, 169, 0.3)',
+                        borderRadius: '4px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        color: 'white',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      <p>Name: {portfolio.name}</p>
+                      <p>Location: {portfolio.location}</p>
+                      <p>Date: {portfolio.date}</p>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="pd">
-                <img src={portfolios.imageUrl} alt={portfolios.name} />
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
-    
   );
 };
-
-
 
 export default Portfolio;

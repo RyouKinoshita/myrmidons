@@ -13,13 +13,29 @@ exports.newPortfolio = async (req, res, next) => {
 	})
 }
 exports.getPortfolio = async (req, res, next) => {
-	const portfolios = await Portfolio.find({});
-	res.status(200).json({
+	try {
+	  const portfolios = await Portfolio.find({});
+	  res.status(200).json({
 		success: true,
 		count: portfolios.length,
-		portfolios
-	})
-}
+		portfolios,
+	  });
+	} catch (error) {
+	  console.error('Error fetching data:', error);
+	  res.status(500).json({
+		success: false,
+		message: 'Internal Server Error',
+	  });
+	}
+  };
+// exports.getPortfolio = async (req, res, next) => {
+// 	const portfolios = await Portfolio.find({});
+// 	res.status(200).json({
+// 		success: true,
+// 		count: portfolios.length,
+// 		portfolios
+// 	})
+// }
 exports.updatePortfolio = async (req, res, next) => {
 	let portfolios = await Portfolio.findById(req.params.id);
 	console.log(req.body)
