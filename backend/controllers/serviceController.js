@@ -1,6 +1,6 @@
 const service = require("../models/service");
 const Service = require("../models/service");
-const APIFeatures = require('../utils/apiFeatures');
+const APIFeatures = require("../utils/apiFeatures");
 const cloudinary = require("cloudinary");
 
 exports.newService = async (req, res, next) => {
@@ -58,47 +58,72 @@ exports.newService = async (req, res, next) => {
 //     services,
 //   });
 // };
-exports.getServices = async (req,res,next) => {
-	
-	const resPerPage = 4;
-	const serviceCount = await Service.countDocuments();
-	const apiFeatures = new APIFeatures(Service.find(),req.query).search().filter(); 
+exports.getServices = async (req, res, next) => {
+  const resPerPage = 4;
+  const serviceCount = await Service.countDocuments();
+  const apiFeatures = new APIFeatures(Service.find(), req.query)
+    .search()
+    .filter();
 
-	// const products = await Product.find();
-	apiFeatures.pagination(resPerPage);
-	const services = await apiFeatures.query;
-	let filteredServiceCount = services.length;
-	res.status(200).json({
-		success: true,
-		filteredServiceCount,
-		serviceCount,
-		services,
-		resPerPage,
-	})
-}
+  apiFeatures.pagination(resPerPage);
+  const services = await apiFeatures.query;
+  let filteredServiceCount = services.length;
+  res.status(200).json({
+    success: true,
+    filteredServiceCount,
+    serviceCount,
+    services,
+    resPerPage,
+  });
+};
+
 exports.updateService = async (req, res, next) => {
   let service = await Service.findById(req.params.id);
-  console.log(req.body);
+
   if (!service) {
     return res.status(404).json({
       success: false,
       message: "Service not found",
     });
   }
+
+  // Check if req.body.images is defined
+  let images = req.body.images;
+
+  if (images !== undefined) {
+    // Deleting images associated with the service
+    for (let i = 0; i < service.images.length; i++) {
+      const result = await cloudinary.v2.uploader.destroy(
+        service.images[i].public_id
+      );
+    }
+
+    let imagesLinks = [];
+    for (let i = 0; i < images.length; i++) {
+      const result = await cloudinary.v2.uploader.upload(images[i], {
+        folder: "services",
+      });
+      imagesLinks.push({
+        public_id: result.public_id,
+        url: result.secure_url,
+      });
+    }
+
+    req.body.images = imagesLinks;
+  }
+
   service = await Service.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
+    runValidators: true,
+    useFindandModify: false,
   });
-  if (!service) {
-    return res.status(404).json({
-      success: false,
-      message: "Service not updated",
-    });
-  }
-  res.status(200).json({
+
+  return res.status(200).json({
     success: true,
     service,
   });
 };
+
 exports.deleteService = async (req, res, next) => {
   const service = await Service.findByIdAndDelete(req.params.id);
   if (!service) {
@@ -107,7 +132,6 @@ exports.deleteService = async (req, res, next) => {
       message: "Service not found",
     });
   }
-  // await product.remove();
   res.status(200).json({
     success: true,
     message: "Service deleted",
