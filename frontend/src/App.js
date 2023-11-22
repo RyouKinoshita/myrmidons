@@ -109,6 +109,9 @@ function App() {
       ...state,
       cartItems: state.cartItems.filter((i) => i.service !== id),
     });
+    toast.success("Item Removed in Cart", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
     localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
   };
   const saveEventInfo = async (data) => {

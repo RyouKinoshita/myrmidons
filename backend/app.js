@@ -4,6 +4,8 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
  const services = require('./routes/service');
 const auth = require('./routes/auth');
+const member = require('./routes/members');
+const portfolio = require('./routes/portfolio');
 
 const order = require('./routes/order');
 
@@ -15,6 +17,8 @@ app.use(cookieParser());
 app.use('/api/v1', services);
 // app.use('/api/v1', products);
 app.use('/api/v1', auth);
+app.use('/api/v1', member);
+app.use('/api/v1', portfolio);
 app.use('/api/v1', order);
 
 
