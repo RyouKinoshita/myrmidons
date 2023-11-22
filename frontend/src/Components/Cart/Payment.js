@@ -8,18 +8,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getToken } from '../../utils/helpers';
 
 
-const Payment = ({cartItems, shippingInfo}) => {
+const Payment = ({cartItems, eventInfo}) => {
     const [loading, setLoading] = useState(true)
     let navigate = useNavigate();
     const order = {
         orderItems: cartItems,
-        shippingInfo
+        eventInfo
     }
 
     const orderInfo = JSON.parse(sessionStorage.getItem('orderInfo'));
     if (orderInfo) {
         order.itemsPrice = orderInfo.itemsPrice
-        order.shippingPrice = orderInfo.shippingPrice
+        order.date = orderInfo.date
         order.taxPrice = orderInfo.taxPrice
         order.totalPrice = orderInfo.totalPrice
     }
@@ -32,7 +32,7 @@ const Payment = ({cartItems, shippingInfo}) => {
                     'Authorization': `Bearer ${getToken()}`
                 }
             }
-            const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/order/new`, order, config)
+            const { data } = await axios.post(`http://localhost:4001/api/v1/order/new`, order, config)
             // setIsUpdated(data.success)
             setLoading(false)
             toast.success('order created', {

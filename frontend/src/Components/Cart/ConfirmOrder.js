@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import MetaData from '../Layout/Metadata'
 import CheckoutSteps from './CheckoutSteps'
 import { getUser } from '../../utils/helpers'
-const ConfirmOrder = ({cartItems, shippingInfo}) => {
+const ConfirmOrder = ({cartItems, eventInfo}) => {
+    console.log(eventInfo)
     const [user, setUser] = useState(getUser() ? getUser() : {})
     let navigate = useNavigate();
     // Calculate Order Prices
@@ -30,7 +31,7 @@ const ConfirmOrder = ({cartItems, shippingInfo}) => {
                 <div className="col-12 col-lg-8 mt-5 order-confirm">
                     <h4 className="mb-3">Shipping Info</h4>
                     {getUser() && <p><b>Name:</b> {user && user.name}</p>}
-                    <p className="mb-4"><b>Address:</b> {`${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.postalCode}, ${shippingInfo.country}`}</p>
+                    <p className="mb-4"><b>Address:</b> {`${eventInfo.address}, ${eventInfo.city}, ${eventInfo.postalCode}, ${eventInfo.country}`}</p>
 
                     <hr />
                     <h4 className="mt-4">Your Cart Items:</h4>
@@ -46,11 +47,15 @@ const ConfirmOrder = ({cartItems, shippingInfo}) => {
 
                                     <div className="col-5 col-lg-6">
                                         <Link to={`/service/${item.service}`}>{item.name}</Link>
+                                         
+                                                
+                                       
                                     </div>
-
+                                    
 
                                     <div className="col-4 col-lg-4 mt-4 mt-lg-0">
-                                        <p>${item.price} = <b>${(item.price).toFixed(2)}</b></p>
+                                        <p><b>${(item.price).toFixed(2)}</b></p>
+                                        <p>{item.date}</p>
                                     </div>
 
                                 </div>
