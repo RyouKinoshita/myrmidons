@@ -10,9 +10,18 @@ const Cart = ({ cartItems, removeItemFromCart }) => {
         removeItemFromCart(id)
     }
     const checkoutHandler = () => {
-        
-        navigate('/login?redirect=event')
+        const userDetails = JSON.parse(sessionStorage.getItem('user'));
+
+    if (userDetails ) {
+      // User is authenticated, proceed with checkout
+      navigate('/event');
+    } else {
+      // User is not authenticated, redirect to login
+      navigate('/login?redirect=event');
     }
+  };
+      
+    
     localStorage.setItem('cartItems', JSON.stringify(cartItems))
 
     return (

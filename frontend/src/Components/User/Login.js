@@ -50,7 +50,7 @@ const Login = () => {
     }
 
     useEffect(() => {
-        if (getUser() && redirect === 'shipping' ) {
+        if (getUser() && redirect === 'event' ) {
              navigate(`/${redirect}`)
              toast.success("You have successfully logged in!", {
                 position: toast.POSITION.TOP_RIGHT
