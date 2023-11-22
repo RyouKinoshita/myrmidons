@@ -1,7 +1,83 @@
 const Order = require('../models/order');
 const Service = require('../models/service');
 
+const nodemailer = require('nodemailer');
+const { jsPDF } = require('jspdf');
+
+
 exports.newOrder = async (req, res, next) => {
+    
+    const generateInvoice = (order) => {
+        const pdf = new jsPDF();
+    
+        // Set font size
+        pdf.setFontSize(12);
+    
+        // Add content to the PDF (order details, items, etc.)
+        pdf.text('Invoice', 10, 10);
+        
+        // User's Name and Contact No
+        pdf.text(`User's Name: ${req.user.name}`, 10, 20);
+        pdf.text(`Contact No: ${req.body.eventInfo.phoneNo}`, 10, 30);
+        
+        // Event Address
+        pdf.text(`Event Address: ${req.body.eventInfo.address}, ${req.body.eventInfo.city}, ${req.body.eventInfo.country}, ${req.body.eventInfo.postalCode}`, 10, 40);
+    
+        // Items Ordered
+        pdf.text('Items Ordered:', 10, 50);
+        req.body.orderItems.forEach((item, index) => {
+            pdf.text(`${index + 1}. ${item.name} - Date: ${item.date} - Price: ${item.price}`, 15, 60 + (index * 10));
+        });
+    
+        // Subtotal
+        pdf.text(`Subtotal: ${req.body.itemsPrice}`, 10, 60 + ((req.body.orderItems.length + 1) * 10));
+
+        pdf.text(`Tax: ${req.body.taxPrice}`, 10, 60 + ((req.body.orderItems.length + 1) * 10));
+    
+        // Total Price
+        pdf.text(`Total Price: ${req.body.totalPrice}`, 10, 70 + ((req.body.orderItems.length + 1) * 10));
+    
+        // ... add more content as needed
+    
+        // Save the PDF or send it as an attachment
+        return pdf.output('datauristring').split(',')[1];
+    };
+      
+      
+      const sendEmail = async (order) => {
+        // Replace these with your Mailtrap SMTP credentials
+        const mailtrapConfig = {
+          host: 'sandbox.smtp.mailtrap.io',
+          port: 2525,
+          auth: {
+            user: '13e96728922f7e',
+            pass: 'bab0043009cfd9',
+          },
+        };
+      
+        const transporter = nodemailer.createTransport(mailtrapConfig);
+      
+        const mailOptions = {
+          from: 'myrmidons@gmail.com', // Replace with your sender email
+          to: req.user.email, // Replace with recipient email
+          subject: 'Order Invoice',
+          text: 'Invoice attached.',
+          attachments: [
+            {
+              filename: 'invoice.pdf',
+              content: generateInvoice(order),
+              encoding: 'base64',
+            },
+          ],
+        };
+      
+        try {
+          await transporter.sendMail(mailOptions);
+          console.log('Email sent successfully');
+        } catch (error) {
+          console.error('Error sending email:', error);
+        }
+      };
     const {
         orderItems,
         eventInfo,
@@ -24,7 +100,7 @@ exports.newOrder = async (req, res, next) => {
         paidAt: Date.now(),
         user: req.user._id
     })
-
+    sendEmail(order);
     res.status(200).json({
         success: true,
         order

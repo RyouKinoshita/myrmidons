@@ -35,6 +35,7 @@ const Payment = ({cartItems, eventInfo}) => {
             const { data } = await axios.post(`http://localhost:4001/api/v1/order/new`, order, config)
             // setIsUpdated(data.success)
             setLoading(false)
+            
             toast.success('order created', {
                 position: toast.POSITION.BOTTOM_RIGHT
             });
