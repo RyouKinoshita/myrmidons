@@ -20,13 +20,15 @@ import ProtectedRoute from "./Components/Route/ProtectedRoute";
 import ServicesList from "./Components/Admin/ServicesList";
 import NewService from "./Components/Admin/NewService";
 import UpdateService from "./Components/Admin/UpdateService";
+import UsersList from "./Components/Admin/UsersList";
+
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cart from "./Components/Cart/Cart";
-import Event from './Components/Cart/Event';
-import ConfirmOrder from './Components/Cart/ConfirmOrder';
-import Payment from './Components/Cart/Payment';
-import OrderSuccess from './Components/Cart/OrderSuccess';
+import Event from "./Components/Cart/Event";
+import ConfirmOrder from "./Components/Cart/ConfirmOrder";
+import Payment from "./Components/Cart/Payment";
+import OrderSuccess from "./Components/Cart/OrderSuccess";
 import axios from "axios";
 function App() {
   const App = () => {
@@ -117,11 +119,11 @@ function App() {
   const saveEventInfo = async (data) => {
     setState({
       ...state,
-      eventInfo: data
-    })
-    localStorage.setItem('eventInfo', JSON.stringify(data))
+      eventInfo: data,
+    });
+    localStorage.setItem("eventInfo", JSON.stringify(data));
     console.log(saveEventInfo);
-  }
+  };
   return (
     <div className="App">
       <Router>
@@ -146,13 +148,33 @@ function App() {
             exact="true"
           />
 
-        <Route path="/event" element={<Event
-            eventInfo={state.eventInfo}
-            saveEventInfo={saveEventInfo}
-          />}
+          <Route
+            path="/event"
+            element={
+              <Event
+                eventInfo={state.eventInfo}
+                saveEventInfo={saveEventInfo}
+              />
+            }
           />
-          <Route path="/confirm" element={<ConfirmOrder cartItems={state.cartItems} eventInfo={state.eventInfo}  />} />
-          <Route path="/payment" element={<Payment cartItems={state.cartItems} eventInfo={state.eventInfo} />} />
+          <Route
+            path="/confirm"
+            element={
+              <ConfirmOrder
+                cartItems={state.cartItems}
+                eventInfo={state.eventInfo}
+              />
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <Payment
+                cartItems={state.cartItems}
+                eventInfo={state.eventInfo}
+              />
+            }
+          />
           <Route path="/success" element={<OrderSuccess />} />
           <Route
             path="/password/forgot"
@@ -178,6 +200,8 @@ function App() {
           />
           <Route path="/admin/service/new" element={<NewService />} />
           <Route path="/admin/service/:id" element={<UpdateService />} />
+          <Route path="/admin/users" element={<UsersList />} />
+          {/* <Route path="/admin/user/:id" element={<UpdateUser />} /> */}
           <Route
             path="/dashboard"
             element={

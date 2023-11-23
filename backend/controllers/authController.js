@@ -5,8 +5,8 @@ const cloudinary = require("cloudinary");
 const sendEmail = require("../utils/sendEmail");
 exports.registerUser = async (req, res, next) => {
   const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    folder: "profiles", 
-    width: 200, 
+    folder: "profiles",
+    width: 200,
     crop: "scale",
   });
 
@@ -225,5 +225,42 @@ exports.getUserDetails = async (req, res, next) => {
   res.status(200).json({
     success: true,
     user,
+  });
+};
+
+exports.deleteUser = async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return res
+      .status(401)
+      .json({ message: `User is not found with id: ${req.params.id}` });
+    // return next(new ErrorHandler(`User does not found with id: ${req.params.id}`))
+  }
+
+  // Remove avatar from cloudinary
+  const image_id = user.avatar.public_id;
+  await cloudinary.v2.uploader.destroy(image_id);
+  await User.findByIdAndRemove(req.params.id);
+  return res.status(200).json({
+    success: true,
+  });
+};
+
+exports.updateUser = async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  };
+
+  const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+    new: true,
+    runValidators: true,
+    // useFindAndModify: false
+  });
+
+  return res.status(200).json({
+    success: true,
   });
 };

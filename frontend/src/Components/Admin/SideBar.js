@@ -14,14 +14,14 @@ const Sidebar = () => {
 
           <li>
             <a
-              href="#productSubmenu"
+              href="#serviceSubmenu"
               data-toggle="collapse"
               aria-expanded="false"
               className="dropdown-toggle"
             >
               <i className="fa fa-product-hunt"></i> Services
             </a>
-            <ul className="collapse list-unstyled" id="productSubmenu">
+            <ul className="collapse list-unstyled" id="serviceSubmenu">
               <li>
                 <Link to="/admin/service">
                   <i className="fa fa-clipboard"></i> All
