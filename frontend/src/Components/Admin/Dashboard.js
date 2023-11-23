@@ -47,10 +47,31 @@ const Dashboard = () => {
     }
   };
 
+  const allUsers = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      };
+
+      const { data } = await axios.get(
+        `http://localhost:4001/api/v1/admin/users`,
+        config
+      );
+      console.log(data);
+      setUsers(data.users);
+      setLoading(false);
+    } catch (error) {
+      setError(error.response.data.message);
+    }
+  };
+
   useEffect(() => {
     getAdminServices();
     // allOrders()
-    // allUsers()
+    allUsers();
   }, []);
 
   return (
@@ -81,6 +102,26 @@ const Dashboard = () => {
                     <Link
                       className="card-footer text-white clearfix small z-1"
                       to="/admin/service"
+                    >
+                      <span className="float-left">View Details</span>
+                      <span className="float-right">
+                        <i className="fa fa-angle-right"></i>
+                      </span>
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-xl-3 col-sm-6 mb-3">
+                  <div className="card text-white bg-info o-hidden h-100">
+                    <div className="card-body">
+                      <div className="text-center card-font-size">
+                        Users
+                        <br /> <b>{users && users.length}</b>
+                      </div>
+                    </div>
+
+                    <Link
+                      className="card-footer text-white clearfix small z-1"
+                      to="/admin/users"
                     >
                       <span className="float-left">View Details</span>
                       <span className="float-right">
