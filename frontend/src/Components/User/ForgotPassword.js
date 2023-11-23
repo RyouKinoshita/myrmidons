@@ -19,7 +19,7 @@ const ForgotPassword = () => {
             }
         }
         try {
-            const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/password/forgot`, formData, config)
+            const { data } = await axios.post(`http://localhost:4001/api/v1/password/forgot`, formData, config)
             console.log(data.message)
             
             setLoading(false)
@@ -28,6 +28,7 @@ const ForgotPassword = () => {
             });
             navigate('/login')
         } catch (error) {
+            console.log(error)
             toast.error(error.response.data.message, {
                 position: toast.POSITION.BOTTOM_RIGHT
             });

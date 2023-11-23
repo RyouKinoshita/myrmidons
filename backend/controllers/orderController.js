@@ -3,10 +3,12 @@ const Service = require('../models/service');
 
 const nodemailer = require('nodemailer');
 const { jsPDF } = require('jspdf');
+const { update } = require('../models/order');
 
 
 exports.newOrder = async (req, res, next) => {
-    
+  
+
     const generateInvoice = (order) => {
         const pdf = new jsPDF();
     
@@ -32,10 +34,10 @@ exports.newOrder = async (req, res, next) => {
         // Subtotal
         pdf.text(`Subtotal: ${req.body.itemsPrice}`, 10, 60 + ((req.body.orderItems.length + 1) * 10));
 
-        pdf.text(`Tax: ${req.body.taxPrice}`, 10, 60 + ((req.body.orderItems.length + 1) * 10));
+        pdf.text(`Tax: ${req.body.taxPrice}`, 10, 70 + ((req.body.orderItems.length + 1) * 10));
     
         // Total Price
-        pdf.text(`Total Price: ${req.body.totalPrice}`, 10, 70 + ((req.body.orderItems.length + 1) * 10));
+        pdf.text(`Total Price: ${req.body.totalPrice}`, 10, 80 + ((req.body.orderItems.length + 1) * 10));
     
         // ... add more content as needed
     
@@ -46,22 +48,25 @@ exports.newOrder = async (req, res, next) => {
       
       const sendEmail = async (order) => {
         // Replace these with your Mailtrap SMTP credentials
-        const mailtrapConfig = {
-          host: 'sandbox.smtp.mailtrap.io',
-          port: 2525,
+        const gmailConfig = {
+          service: 'gmail',
           auth: {
-            user: '13e96728922f7e',
-            pass: 'bab0043009cfd9',
+            user: 'myrmiproductions@gmail.com',
+            pass: 'bkkg uqoq dbrh qhxm', // Generate an app-specific password for better security
           },
         };
       
-        const transporter = nodemailer.createTransport(mailtrapConfig);
+        // Create a Nodemailer transporter using Gmail
+        const transporter = nodemailer.createTransport(gmailConfig);
       
         const mailOptions = {
-          from: 'myrmidons@gmail.com', // Replace with your sender email
-          to: req.user.email, // Replace with recipient email
+          from: 'myrmiproductions@gmail.com', // Replace with your sender email
+          to: 'myrmiproductions@gmail.com', // Replace with recipient email
           subject: 'Order Invoice',
-          text: 'Invoice attached.',
+          html:  `
+          <p>Invoice attached. Click the button below to confirm:</p>
+          <a href="${confirmationLink}">Confirm Order</a>
+        `,
           attachments: [
             {
               filename: 'invoice.pdf',
@@ -100,12 +105,109 @@ exports.newOrder = async (req, res, next) => {
         paidAt: Date.now(),
         user: req.user._id
     })
-    sendEmail(order);
+    const confirmationLink = `http://localhost:4001/api/v1/order/${order._id}/confirm`;
+    sendEmail(order,confirmationLink);
     res.status(200).json({
         success: true,
         order
     })
 }
+exports.confirmOrder = async (req, res, next) => {
+  try {
+    const orderId = req.params.id;
+    const users = await Order.findById(orderId).populate('user');
+    const userEmail = users.user.email;
+    const updatedOrder = await Order.findByIdAndUpdate(
+      orderId,
+      { orderStatus: 'Confirmed' }, // Assuming 'status' is the field in your Order model representing order status
+      { new: true } // To return the updated order after the update is applied
+      
+    );
+    const order = await Order.findById(orderId);
+    const generateInvoice = (order) => {
+      const pdf = new jsPDF();
+  
+      // Set font size
+      pdf.setFontSize(12);
+  
+      // Add content to the PDF (order details, items, etc.)
+      pdf.text('Invoice:', 10, 10);
+      
+      // User's Name and Contact No
+      pdf.text(`User's Name: ${users.user.name}`, 10, 20);
+      pdf.text(`Contact No: ${order.eventInfo.phoneNo}`, 10, 30);
+      
+      // Event Address
+      pdf.text(`Event Address: ${order.eventInfo.address}, ${order.eventInfo.city}, ${order.eventInfo.country}, ${order.eventInfo.postalCode}`, 10, 40);
+  
+      // Items Ordered
+      pdf.text('Items Ordered:', 10, 50);
+      order.orderItems.forEach((item, index) => {
+          pdf.text(`${index + 1}. ${item.name} - Date: ${item.date} - Price: ${item.price}`, 15, 60 + (index * 10));
+      });
+  
+      // Subtotal
+      pdf.text(`Subtotal: ${order.itemsPrice}`, 10, 60 + ((order.orderItems.length + 1) * 10));
+
+      pdf.text(`Tax: ${order.taxPrice}`, 10, 70 + ((order.orderItems.length + 1) * 10));
+  
+      // Total Price
+      pdf.text(`Total Price: ${order.totalPrice}`, 10, 80 + ((order.orderItems.length + 1) * 10));
+  
+      // ... add more content as needed
+  
+      // Save the PDF or send it as an attachment
+      return pdf.output('datauristring').split(',')[1];
+  };
+    const sendEmail = async (order) => {
+      // Replace these with your Mailtrap SMTP credentials
+      const gmailConfig = {
+        service: 'gmail',
+        auth: {
+          user: 'myrmiproductions@gmail.com',
+          pass: 'bkkg uqoq dbrh qhxm', // Generate an app-specific password for better security
+        },
+      };
+    
+      // Create a Nodemailer transporter using Gmail
+      const transporter = nodemailer.createTransport(gmailConfig);
+    
+      const mailOptions = {
+        from: 'myrmiproductions@gmail.com', // Replace with your sender email
+        to: userEmail, // Replace with recipient email
+        subject: 'Order Invoice',
+        html:  `
+        <p>Invoice attached. </p>
+       
+      `,
+        attachments: [
+          {
+            filename: 'invoice.pdf',
+            content: generateInvoice(order),
+            encoding: 'base64',
+          },
+        ],
+      };
+    
+      try {
+        await transporter.sendMail(mailOptions);
+        
+        console.log('Email sent successfully');
+      } catch (error) {
+        console.error('Error sending email:', error);
+      }
+    };
+    // Fetch the order details from the database using orderId
+   
+    // Send an email to the user confirming the order
+    await sendEmail(order);
+
+    res.status(200).json({ success: true, message: 'Order confirmed' });
+  } catch (error) {
+    console.error('Error confirming order:', error);
+    res.status(500).json({ success: false, error: 'Failed to confirm order' });
+  }
+};
 
 // exports.getSingleOrder = async (req, res, next) => {
 //     const order = await Order.findById(req.params.id).populate('user', 'name email')

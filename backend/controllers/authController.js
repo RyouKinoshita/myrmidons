@@ -82,6 +82,7 @@ exports.logout = async (req, res, next) => {
   });
 };
 exports.forgotPassword = async (req, res, next) => {
+  
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return res.status(404).json({ error: "User not found with this email" });
