@@ -1,5 +1,6 @@
 const service = require("../models/service");
 const Service = require("../models/service");
+const Order = require("../models/order");
 const APIFeatures = require("../utils/apiFeatures");
 const cloudinary = require("cloudinary");
 
@@ -139,6 +140,21 @@ exports.deleteService = async (req, res, next) => {
 };
 exports.getSingleService = async (req, res, next) => {
   const service = await Service.findById(req.params.id);
+  const order = await Order.find({ 'orderItems.service': req.params.id })
+  .populate('orderItems.service')
+  .exec();
+  const datesArray = order.map(orderItem => orderItem.orderItems.map(item => item.date)).flat();
+  // const mappedOrders = order.map(order => {
+  //   const orderItemDates = order.orderItems.map(item => item.date);
+  //   return {
+  //     orderItemDates: orderItemDates,
+  //   };
+  // });
+  
+  // console.log(mappedOrders);
+  console.log(datesArray);
+  // const orderItemIds = order.orderItems.service.map(item => item._id);
+  // console.log(orderItemIds)
   if (!service) {
     return res.status(404).json({
       success: false,
@@ -148,8 +164,23 @@ exports.getSingleService = async (req, res, next) => {
   res.status(200).json({
     success: true,
     service,
+    order
   });
 };
+// exports.getServiceOrder = async (req, res, next) => {
+//   const order = await Order.findById(req.params.id).populate('orderItems', '_id');
+//   if (!order) {
+//     return res.status(404).json({
+//       success: false,
+//       message: "Service not found",
+//     });
+//   }
+//   const orderItemIds = order.orderItems.map(item => item._id);
+//   res.status(200).json({
+//     success: true,
+//     orderItemIds,
+//   });
+// };
 
 exports.getAdminServices = async (req, res, next) => {
   const services = await Service.find({});

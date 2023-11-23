@@ -24,7 +24,7 @@ const ServiceDetails = ({ addItemToCart, cartItems }) => {
     const [comment, setComment] = useState('')
     const [selectedDate, setSelectedDate] = useState(null);
     const [success, setSuccess] = useState('')
-   
+    const [disabledDates, setDisabledDates] = useState([]);
 
     let { id } = useParams()
     // const alert = useAlert();
@@ -37,12 +37,18 @@ const ServiceDetails = ({ addItemToCart, cartItems }) => {
         if (!res)
             setError('Service not found')
         setService(res.data.service)
+        const allDates = res.data.order.flatMap(orderItem =>
+            orderItem.orderItems.map(item => item.date)
+        );
+        const uniqueDates = [...new Set(allDates)];
+        setDisabledDates(uniqueDates)
         setLoading(false)
     }
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
       };
+      
       
       let navigate = useNavigate()
       const addToCart = async () => {
@@ -59,8 +65,13 @@ const ServiceDetails = ({ addItemToCart, cartItems }) => {
         }
         
       };
-    
-
+      
+      const filterDate = (date) => {
+        const formattedDate = date.toISOString().split('T')[0]; // Convert date to string in 'YYYY-MM-DD' format
+        const formattedDateLocal = new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().split('T')[0];
+        // Check if the date is in the list of disabled dates (orderItemIds)
+        return !disabledDates.includes(formattedDateLocal);
+      };
     useEffect(() => {
         serviceDetails(id)
         
@@ -104,7 +115,10 @@ const ServiceDetails = ({ addItemToCart, cartItems }) => {
 
                             <p id="product_price">${service.price}</p>
                             <h3>Date Selected: </h3>
-                            <DatePicker selected={selectedDate} onChange={handleDateChange} />
+                            <DatePicker selected={selectedDate}
+                                onChange={handleDateChange}
+                                filterDate={filterDate}
+                                placeholderText="Select a date" />
                             <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4"  onClick={addToCart}>Add to Cart</button>
                             
                             <h4 className="mt-2">Description:</h4>

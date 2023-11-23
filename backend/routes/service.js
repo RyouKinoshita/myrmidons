@@ -7,6 +7,7 @@ const {
   updateService,
   deleteService,
   getSingleService,
+  // getServiceOrder,
   getAdminServices,
 } = require("../controllers/serviceController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
@@ -22,6 +23,7 @@ router.post(
 router.get("/service", getServices);
 
 router.get("/service/:id", getSingleService);
+// router.get("/service/order", getServiceOrder);
 router.get(
   "/admin/service",
   isAuthenticatedUser,

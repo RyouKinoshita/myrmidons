@@ -84,6 +84,7 @@ exports.logout = async (req, res, next) => {
 exports.forgotPassword = async (req, res, next) => {
   
   const user = await User.findOne({ email: req.body.email });
+  console.log(req.body.email)
   if (!user) {
     return res.status(404).json({ error: "User not found with this email" });
     // return next(new ErrorHandler('User not found with this email', 404));
@@ -92,6 +93,7 @@ exports.forgotPassword = async (req, res, next) => {
   const resetToken = user.getResetPasswordToken();
   await user.save({ validateBeforeSave: false });
   // Create reset password url
+
   const resetUrl = `${req.protocol}://localhost:3000/password/reset/${resetToken}`;
   const message = `Your password reset token is as follow:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.`;
   try {
