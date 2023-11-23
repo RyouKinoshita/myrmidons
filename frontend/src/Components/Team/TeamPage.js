@@ -60,7 +60,7 @@ const Team = () => {
                         left: 0,
                         width: '100%',
                         height: '100%',
-                        backgroundColor: 'rgba(169, 169, 169, 0.8)',
+                        backgroundColor: 'rgba(150, 100, 150, 0.8)',
                         borderRadius: '4px',
                         display: 'flex',
                         flexDirection: 'column',

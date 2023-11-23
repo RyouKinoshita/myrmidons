@@ -23,6 +23,10 @@ import UpdateService from "./Components/Admin/UpdateService";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cart from "./Components/Cart/Cart";
+import Event from './Components/Cart/Event';
+import ConfirmOrder from './Components/Cart/ConfirmOrder';
+import Payment from './Components/Cart/Payment';
+import OrderSuccess from './Components/Cart/OrderSuccess';
 import axios from "axios";
 function App() {
   const App = () => {
@@ -38,8 +42,8 @@ function App() {
     cartItems: localStorage.getItem("cartItems")
       ? JSON.parse(localStorage.getItem("cartItems"))
       : [],
-    shippingInfo: localStorage.getItem("shippingInfo")
-      ? JSON.parse(localStorage.getItem("shippingInfo"))
+    shippingInfo: localStorage.getItem("eventInfo")
+      ? JSON.parse(localStorage.getItem("eventInfo"))
       : {},
   });
 
@@ -103,11 +107,21 @@ function App() {
   const removeItemFromCart = async (id) => {
     setState({
       ...state,
-      cartItems: state.cartItems.filter((i) => i.product !== id),
+      cartItems: state.cartItems.filter((i) => i.service !== id),
+    });
+    toast.success("Item Removed in Cart", {
+      position: toast.POSITION.BOTTOM_RIGHT,
     });
     localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
   };
-
+  const saveEventInfo = async (data) => {
+    setState({
+      ...state,
+      eventInfo: data
+    })
+    localStorage.setItem('eventInfo', JSON.stringify(data))
+    console.log(saveEventInfo);
+  }
   return (
     <div className="App">
       <Router>
@@ -131,6 +145,15 @@ function App() {
             }
             exact="true"
           />
+
+        <Route path="/event" element={<Event
+            eventInfo={state.eventInfo}
+            saveEventInfo={saveEventInfo}
+          />}
+          />
+          <Route path="/confirm" element={<ConfirmOrder cartItems={state.cartItems} eventInfo={state.eventInfo}  />} />
+          <Route path="/payment" element={<Payment cartItems={state.cartItems} eventInfo={state.eventInfo} />} />
+          <Route path="/success" element={<OrderSuccess />} />
           <Route
             path="/password/forgot"
             element={<ForgotPassword />}

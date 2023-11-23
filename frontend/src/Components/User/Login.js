@@ -34,6 +34,10 @@ const Login = () => {
             authenticate(data, () => navigate("/"))
             window.location.reload();
             
+            toast.success("You have successfully logged in!", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            })
+            
         } catch (error) {
             toast.error("Invalid user or password", {
                 position: toast.POSITION.BOTTOM_RIGHT
@@ -46,8 +50,11 @@ const Login = () => {
     }
 
     useEffect(() => {
-        if (getUser() && redirect === 'shipping' ) {
+        if (getUser() && redirect === 'event' ) {
              navigate(`/${redirect}`)
+             toast.success("You have successfully logged in!", {
+                position: toast.POSITION.TOP_RIGHT
+            })
         }
     }, [])
 
