@@ -1,4 +1,4 @@
-const members = require('../models/members.js')
+const members = require('../models/members')
 
 exports.getmembers = async (req, res, next) => {
 	const team = await members.find({});
@@ -17,3 +17,12 @@ exports.newMember = async (req, res, next) => {
 		members
 	})
 }
+exports.getTeam = async (req, res, next) => {
+	const team = await members.find({});
+	res.status(200).json({
+	  success: true,
+	  count: team.length,
+	  team,
+	});
+  };
+  
