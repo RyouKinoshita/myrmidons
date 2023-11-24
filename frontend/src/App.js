@@ -22,6 +22,9 @@ import NewService from "./Components/Admin/NewService";
 import UpdateService from "./Components/Admin/UpdateService";
 import UsersList from "./Components/Admin/UsersList";
 import UpdateUser from "./Components/Admin/UpdateUser";
+import ProjectList from "./Components/Admin/ProjectList"
+import NewProject from "./Components/Admin/NewProject";
+import UpdateProject from "./Components/Admin/UpdateProject";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cart from "./Components/Cart/Cart";
@@ -200,8 +203,11 @@ function App() {
           />
           <Route path="/admin/service/new" element={<NewService />} />
           <Route path="/admin/service/:id" element={<UpdateService />} />
+          <Route path="/admin/portfolio/new" element={<NewProject />} />
+          <Route path="/admin/portfolio/:id" element={<UpdateProject />} />
           <Route path="/admin/users" element={<UsersList />} />
           <Route path="/admin/user/:id" element={<UpdateUser />} />
+          <Route path="/admin/portfolio" element={<ProjectList />} />
           <Route
             path="/dashboard"
             element={
@@ -215,6 +221,14 @@ function App() {
             element={
               <ProtectedRoute isAdmin={true}>
                 <ServicesList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/portfolio"
+            element={
+              <ProtectedRoute isAdmin={true}>
+                <ProjectList />
               </ProtectedRoute>
             }
           />
