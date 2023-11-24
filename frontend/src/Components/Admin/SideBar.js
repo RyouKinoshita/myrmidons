@@ -73,13 +73,21 @@ const Sidebar = () => {
           </li>
 
           <li>
+<<<<<<< HEAD
             <Link to="/admin/portfolio">
+=======
+            <Link to="/admin/">
+>>>>>>> a3e09e18874fa1b01306c0bfeff73a3932b98fb7
               <i className="fa fa-product-hunt"></i> Portfolio
             </Link>
           </li>
 
           <li>
-            <Link to="/admin/orders">
+<<<<<<< HEAD
+            <Link to="/admin/MemberList">
+=======
+            <Link to="/admin/">
+>>>>>>> 5874a4671b9ac1581901704a4a082c3be44d6dac
               <i className="fa fa-group"></i> Team
             </Link>
           </li>
