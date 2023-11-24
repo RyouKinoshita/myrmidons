@@ -25,4 +25,15 @@ exports.getTeam = async (req, res, next) => {
 	  team,
 	});
   };
+
+  exports.getAdminMember = async (req, res, next) => {
+	const team = await members.find({});
+	console.log(team)
+	res.status(200).json({
+	  success: true,
+	  count: team.length,
+	  team,
+	});
+  };
+
   

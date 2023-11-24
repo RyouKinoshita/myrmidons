@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Carousel } from 'react-bootstrap'
 
 const Portfolio = () => {
-  const [portfolios, setPortfolios] = useState([]);
+  const [portfolio, setPortfolios] = useState([]);
 
   const [hoveredPortfolio, setHoveredPortfolio] = useState(null);
 
@@ -10,6 +11,7 @@ const Portfolio = () => {
     axios.get('http://localhost:4001/api/v1/portfolio')
       .then(response => {
         setPortfolios(response.data.portfolios);
+        console.log(portfolio)
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -36,7 +38,7 @@ const Portfolio = () => {
       <div className="portfolio-section">
         <div className="container">
           <div className="row portfolio-container">
-            {portfolios.map(portfolio => (
+            {portfolio.map(portfolio => (
               <div
                 key={portfolio._id}
                 className="col-lg-4 col-md-4 col-sm-4 portfolio-item mix"
@@ -45,11 +47,20 @@ const Portfolio = () => {
                 style={{ position: 'relative', marginBottom: '1cm' }}
               >
                 <div className="pd" style={{ position: 'relative' }}>
-                  <img
-                    src={portfolio.images[0].url}
-                    alt={portfolio.name}
-                    style={{ width: '100%', height: '100%' }}
-                  />
+                  
+                <Carousel.Item key={portfolio.images.public_id}>
+                                        <img src={portfolio.images} alt={portfolio.name} />
+                </Carousel.Item>
+
+                {/* <div className="col-12 col-lg-5 img-fluid" id="portfolios_image">
+                            <Carousel pause='hover'>
+                                {portfolios.images && portfolios.images.map(images => (
+                                    <Carousel.Item key={images.public_id}>
+                                        <img src={images.} alt={portfolios.name} />
+                                    </Carousel.Item>
+                                ))}
+                            </Carousel>
+                        </div> */}
 
                   {hoveredPortfolio && hoveredPortfolio._id === portfolio._id && (
                     <div
@@ -76,7 +87,7 @@ const Portfolio = () => {
                     </div>
                   )}
                 </div>
-              </div>
+               </div>
             ))}
           </div>
         </div>
