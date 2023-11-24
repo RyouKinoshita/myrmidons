@@ -288,26 +288,44 @@ exports.allOrders = async (req, res, next) => {
   });
 };
 
-// exports.updateOrder = async (req, res, next) => {
-//     const order = await Order.findById(req.params.id)
+exports.updateOrder = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id);
 
-//     if (order.orderStatus === 'Delivered') {
-//         return res.status(404).json({ message: `You have already delivered this order` })
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
 
-//     }
+    if (order.orderStatus === "Delivered") {
+      return res.status(400).json({ message: "Order already delivered" });
+    }
 
-//     order.orderItems.forEach(async item => {
-//         await updateStock(item.product, item.quantity)
-//     })
+    // Update order status to 'Confirmed'
+    order.orderStatus = "Confirmed";
+    order.deliveredAt = Date.now();
+    await order.save();
 
-//     order.orderStatus = req.body.status
-//     order.deliveredAt = Date.now()
-//     await order.save()
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
-//     res.status(200).json({
-//         success: true,
-//     })
-// }
+exports.deleteOrder = async (req, res, next) => {
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    return res.status(404).json({ message: `No Order found with this ID` });
+  }
+  await order.remove();
+
+  res.status(200).json({
+    success: true,
+  });
+};
 
 // async function updateStock(id, quantity) {
 //     const product = await Product.findById(id);

@@ -203,7 +203,6 @@ function App() {
           <Route path="/admin/service/:id" element={<UpdateService />} />
           <Route path="/admin/users" element={<UsersList />} />
           <Route path="/admin/user/:id" element={<UpdateUser />} />
-
           <Route path="/admin/orders" element={<OrdersList />} />
           <Route
             path="/dashboard"
