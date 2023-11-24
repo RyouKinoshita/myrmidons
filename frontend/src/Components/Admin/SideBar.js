@@ -55,7 +55,7 @@ const Sidebar = () => {
           </li>
 
           <li>
-            <Link to="/admin/orders">
+            <Link to="/admin/MemberList">
               <i className="fa fa-group"></i> Team
             </Link>
           </li>
