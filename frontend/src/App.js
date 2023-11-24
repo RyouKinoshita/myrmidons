@@ -24,6 +24,7 @@ import NewService from "./Components/Admin/NewService";
 import UpdateService from "./Components/Admin/UpdateService";
 import UsersList from "./Components/Admin/UsersList";
 import UpdateUser from "./Components/Admin/UpdateUser";
+import OrdersList from "./Components/Admin/OrdersList";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cart from "./Components/Cart/Cart";
@@ -206,6 +207,8 @@ function App() {
           <Route path="/admin/MemberList" element={<MemberList />} />
           <Route path="/admin/users" element={<UsersList />} />
           <Route path="/admin/user/:id" element={<UpdateUser />} />
+
+          <Route path="/admin/orders" element={<OrdersList />} />
           <Route
             path="/dashboard"
             element={
