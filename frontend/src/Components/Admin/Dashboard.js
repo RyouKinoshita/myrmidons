@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Dashboard = () => {
   const [services, setServices] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [error, setError] = useState("");
   const [users, setUsers] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -46,6 +47,26 @@ const Dashboard = () => {
       setError(error.response.data.message);
     }
   };
+  const getAdminProjects = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      };
+
+      const { data } = await axios.get(
+        `http://localhost:4001/api/v1/admin/portfolio`,
+        config
+      );
+      console.log(data);
+      setProjects(data.projects);
+      setLoading(false);
+    } catch (error) {
+      setError(error.response.data.message);
+    }
+  };
 
   const allUsers = async () => {
     try {
@@ -70,6 +91,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getAdminServices();
+    getAdminProjects();
     // allOrders()
     allUsers();
   }, []);
@@ -108,8 +130,29 @@ const Dashboard = () => {
                         <i className="fa fa-angle-right"></i>
                       </span>
                     </Link>
+
                   </div>
                 </div>
+                {/* <div className="col-xl-3 col-sm-6 mb-3">
+                    <div className="card text-white bg-success o-hidden h-100"></div>
+                    <div className="card-body">
+                      <div className="text-center card-font-size">
+                        Projects
+                        <br /> <b>{projects && projects.length}</b>
+                      </div>
+                    </div>
+
+                    <Link
+                      className="card-footer text-white clearfix small z-1"
+                      to="/admin/portfolio"
+                    >
+                      <span className="float-left">View Details</span>
+                      <span className="float-right">
+                        <i className="fa fa-angle-right"></i>
+                      </span>
+                    </Link>
+                    </div> */}
+                    {/* </div> */}
                 <div className="col-xl-3 col-sm-6 mb-3">
                   <div className="card text-white bg-info o-hidden h-100">
                     <div className="card-body">

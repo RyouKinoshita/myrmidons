@@ -6,9 +6,9 @@ const {
   confirmOrder,
   getSingleOrder,
   myOrders,
-  // allOrders,
-  // updateOrder,
-  // deleteOrder,
+  allOrders,
+  updateOrder,
+  deleteOrder,
   // totalOrders,
   // totalSales,
   // customerSales,
@@ -20,9 +20,12 @@ router.post("/order/new", isAuthenticatedUser, newOrder);
 router.get("/order/:id/confirm", confirmOrder);
 router.get("/order/:id", isAuthenticatedUser, getSingleOrder);
 router.get("/orders/me", isAuthenticatedUser, myOrders);
-// router.get("/admin/orders/", isAuthenticatedUser, allOrders);
+router.get("/admin/orders/", isAuthenticatedUser, allOrders);
 
-// router.route('/admin/order/:id').put(isAuthenticatedUser, updateOrder).delete(isAuthenticatedUser,  deleteOrder);
+router
+  .route("/admin/order/:id")
+  .put(isAuthenticatedUser, updateOrder)
+  .delete(isAuthenticatedUser, deleteOrder);
 // router.get('/admin/total-orders', totalOrders);
 // router.get('/admin/total-sales', totalSales);
 // router.get('/admin/customer-sales', customerSales);

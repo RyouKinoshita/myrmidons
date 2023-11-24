@@ -36,12 +36,40 @@ const OrdersList = () => {
         `http://localhost:4001/api/v1/admin/orders`,
         config
       );
+      console.log(data); // Add this line to log the data
+
       setAllOrders(data.orders);
       setLoading(false);
     } catch (error) {
       setError(error.response.data.message);
     }
   };
+  const updateOrderStatus = async (orderId) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `http://localhost:4001/api/v1/admin/order/${orderId}`,
+        { orderStatus: "Confirmed" }, // Set the new status here
+        config
+      );
+
+      if (data.success) {
+        successMsg("Order status updated successfully");
+        listOrders(); // Refresh the orders after updating status
+      } else {
+        errMsg("Failed to update order status");
+      }
+    } catch (error) {
+      setError(error.response.data.message);
+    }
+  };
+
   const deleteOrder = async (id) => {
     try {
       const config = {
@@ -82,10 +110,29 @@ const OrdersList = () => {
           field: "id",
           sort: "asc",
         },
-
+        {
+          label: "Event Services",
+          field: "eventService",
+          sort: "asc",
+        },
         {
           label: "No of Items",
           field: "numofItems",
+          sort: "asc",
+        },
+        {
+          label: "Event Address",
+          field: "eventaddress",
+          sort: "asc",
+        },
+        {
+          label: "Event City",
+          field: "eventcity",
+          sort: "asc",
+        },
+        {
+          label: "Event Country",
+          field: "eventcountry",
           sort: "asc",
         },
         {
@@ -109,11 +156,17 @@ const OrdersList = () => {
     allOrders.forEach((order) => {
       data.rows.push({
         id: order._id,
+        eventService: order.orderItems
+          .map((service) => service.name)
+          .join(", "),
         numofItems: order.orderItems.length,
+        eventaddress: order.eventInfo.address,
+        eventcity: order.eventInfo.city,
+        eventcountry: order.eventInfo.country,
         amount: `$${order.totalPrice}`,
         status:
           order.orderStatus &&
-          String(order.orderStatus).includes("Delivered") ? (
+          String(order.orderStatus).includes("Confirmed") ? (
             <p style={{ color: "green" }}>{order.orderStatus}</p>
           ) : (
             <p style={{ color: "red" }}>{order.orderStatus}</p>
@@ -121,10 +174,13 @@ const OrdersList = () => {
         actions: (
           <Fragment>
             <Link
-              to={`/admin/order/${order._id}`}
+              // to={`/admin/order/${order._id}`}
               className="btn btn-primary py-1 px-2"
             >
-              <i className="fa fa-eye"></i>
+              <i
+                className="fa fa-eye"
+                onClick={() => updateOrderStatus(order._id)}
+              ></i>
             </Link>
             <button
               className="btn btn-danger py-1 px-2 ml-2"

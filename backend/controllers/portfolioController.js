@@ -1,24 +1,61 @@
 
 const Portfolio = require('../models/portfolio')
-// const APIFeatures = require('../utils/apiFeatures');
-// const cloudinary = require('cloudinary')
+const APIFeatures = require('../utils/apiFeatures');
+const cloudinary = require('cloudinary')
 
 exports.newPortfolio = async (req, res, next) => {
-	
-	// req.body.user = req.user.id;
+	let images = [];
+	if (typeof req.body.images === "string") {
+	  images.push(req.body.images);
+	} else {
+	  images = req.body.images;
+	}
+  
+	let imagesLinks = [];
+  
+	for (let i = 0; i < images.length; i++) {
+	  let imageDataUri = images[i];
+	  // console.log(imageDataUri)
+	  try {
+		const result = await cloudinary.v2.uploader.upload(`${imageDataUri}`, {
+		  folder: "portfolio",
+		  width: 150,
+		  crop: "scale",
+		});
+  
+		imagesLinks.push({
+		  public_id: result.public_id,
+		  url: result.secure_url,
+		});
+	  } catch (error) {
+		console.log(error);
+	  }
+	}
+  
+	req.body.images = imagesLinks;
+	req.body.user = req.user.id;
+  
 	const portfolios = await Portfolio.create(req.body);
+	if (!portfolios)
+	  return res.status(400).json({
+		success: false,
+		message: "Project not created",
+	  });
+  
 	res.status(201).json({
-		success: true,
-		portfolios
-	})
-}
+	  success: true,
+	  portfolios,
+	});
+  };
 exports.getPortfolio = async (req, res, next) => {
 	try {
 	  const portfolios = await Portfolio.find({});
+	  
 	  res.status(200).json({
 		success: true,
 		count: portfolios.length,
 		portfolios,
+		
 	  });
 	} catch (error) {
 	  console.error('Error fetching data:', error);
@@ -42,7 +79,7 @@ exports.updatePortfolio = async (req, res, next) => {
 	if (!portfolios) {
 		return res.status(404).json({
 			success: false,
-			message: 'Service not found'
+			message: 'Project not found'
 		})
 	}
 	portfolios = await Portfolio.findByIdAndUpdate(req.params.id, req.body, {
@@ -51,7 +88,7 @@ exports.updatePortfolio = async (req, res, next) => {
 	if (!portfolios) {
 		return res.status(404).json({
 			success: false,
-			message: 'Service not updated'
+			message: 'project not updated'
 		})
 	}
 	res.status(200).json({
@@ -85,4 +122,13 @@ exports.getSinglePortfolio = async (req, res, next) => {
 		success: true,
 		portfolios
 	})
+}
+
+	exports.getAdminProject = async (req, res, next) => {
+		const portfolios = await Portfolio.find({});
+		res.status(200).json({
+		  success: true,
+		  count: portfolios.length,
+		  portfolios,
+		});
 }
