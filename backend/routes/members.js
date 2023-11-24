@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const {getmembers, newMember, getTeam, getAdminMember} = require('../controllers/membersController');
+const upload = require('../utils/multer')
+const {getmembers, newMember, getTeam, getAdminMember, updateMember, NewMember, deleteMember} = require('../controllers/membersController');
 const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
 
 router.get('/members', getmembers);
@@ -18,4 +19,14 @@ router.get(
     authorizeRoles("admin"),
     getAdminMember
   );
+
+  router
+  .get("/admin/MemberList/:id", isAuthenticatedUser, authorizeRoles("admin"))
+  .put(upload.array("images", 10), updateMember)
+  // .delete(deleteMember);
+
+
+
+
+
 module.exports = router;

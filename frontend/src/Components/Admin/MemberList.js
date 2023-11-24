@@ -70,7 +70,7 @@ const MemberList = () => {
           },
         };
         const { data } = await axios.delete(
-          `http://localhost:4001/api/v1/admin/MemberList/${id}`,
+          `http://localhost:4001/api/v1/admin/Memberlist/${id}`,
           config
         );
   
@@ -122,7 +122,7 @@ const MemberList = () => {
              (
             <Fragment>
               <Link
-                to={`/admin/MemberList/${members._id}`}
+                to={`/admin/UpdateMember/${members._id}`}
                 className="btn btn-primary py-1 px-2"
               >
                 <i className="fa fa-pencil"></i>
@@ -155,7 +155,7 @@ const MemberList = () => {
   
           <div className="col-12 col-md-10">
             <Fragment>
-              <h1 className="my-5">Team Members</h1>
+              <h1 className="my-5">All Members</h1>
   
               {loading ? (
                 <Loader />

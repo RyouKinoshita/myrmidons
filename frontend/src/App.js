@@ -19,6 +19,7 @@ import Dashboard from "./Components/Admin/Dashboard";
 import ProtectedRoute from "./Components/Route/ProtectedRoute";
 import MemberList from "./Components/Admin/MemberList";
 import NewMember from "./Components/Admin/NewMember";
+import UpdateMember from "./Components/Admin/UpdateMember";
 import ServicesList from "./Components/Admin/ServicesList";
 import NewService from "./Components/Admin/NewService";
 import UpdateService from "./Components/Admin/UpdateService";
@@ -204,6 +205,7 @@ function App() {
           <Route path="/admin/service/new" element={<NewService />} />
           <Route path="/admin/service/:id" element={<UpdateService />} />
           <Route path="/admin/NewMember" element={<NewMember />} />
+          <Route path="/admin/UpdateMember/:id" element={<UpdateMember />} />
           <Route path="/admin/MemberList" element={<MemberList />} />
           <Route path="/admin/users" element={<UsersList />} />
           <Route path="/admin/user/:id" element={<UpdateUser />} />
