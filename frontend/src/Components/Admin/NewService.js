@@ -158,16 +158,20 @@ const NewService = () => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="price_field">Ratings</label>
-                  <input
-                    type="text"
-                    id="price_field"
+                  <label htmlFor="ratings_field">Ratings</label>
+                  <select
+                    id="ratings_field"
                     className="form-control"
                     value={ratings}
-                    minimum="1"
-                    maximum="5"
                     onChange={(e) => setRatings(e.target.value)}
-                  />
+                  >
+                    <option value="">Select a rating</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
                 </div>
 
                 <div className="form-group">
