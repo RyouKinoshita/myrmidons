@@ -9,9 +9,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// import UserSalesChart from "./UserSalesChart";
-// import MonthlySalesChart from "./MonthlySalesChart";
-// import ProductSalesChart from "./ProductSalesChart";
+import UserSalesChart from "./UserSalesChart";
+import MonthlySalesChart from "./MonthlySalesChart";
+import ServiceSalesChart from "./ServiceSalesChart";
 
 const Dashboard = () => {
   const [services, setServices] = useState([]);
@@ -130,7 +130,6 @@ const Dashboard = () => {
                         <i className="fa fa-angle-right"></i>
                       </span>
                     </Link>
-
                   </div>
                 </div>
                 {/* <div className="col-xl-3 col-sm-6 mb-3">
@@ -152,7 +151,7 @@ const Dashboard = () => {
                       </span>
                     </Link>
                     </div> */}
-                    {/* </div> */}
+                {/* </div> */}
                 <div className="col-xl-3 col-sm-6 mb-3">
                   <div className="card text-white bg-info o-hidden h-100">
                     <div className="card-body">
@@ -173,6 +172,17 @@ const Dashboard = () => {
                     </Link>
                   </div>
                 </div>
+              </div>
+              <div className="row pr-4">
+                <Fragment>
+                  <UserSalesChart />
+                </Fragment>
+                <Fragment>
+                  <MonthlySalesChart />
+                </Fragment>
+                <Fragment>
+                  <ServiceSalesChart />
+                </Fragment>
               </div>
             </Fragment>
           )}
