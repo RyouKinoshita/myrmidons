@@ -1,4 +1,3 @@
-// Header.js
 import React, { Fragment, useEffect, useState } from "react";
 import "../../App.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -46,8 +45,7 @@ const Header = ({ cartItems }) => {
               </a>
             </span>
           </div>
-          
-          </div>
+        </div>
         <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
           <Link
             to="/about"
