@@ -264,12 +264,21 @@ exports.getSingleOrder = async (req, res, next) => {
 };
 
 exports.myOrders = async (req, res, next) => {
-  const orders = await Order.find().populate("user");
+  try {
+    // Retrieve orders for the logged-in user only
+    const orders = await Order.find({ user: req.user._id }).populate("user");
 
-  res.status(200).json({
-    success: true,
-    orders,
-  });
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    res.status(500).json({
+      success: false,
+      error: "Internal Server Error",
+    });
+  }
 };
 
 exports.allOrders = async (req, res, next) => {
