@@ -165,6 +165,7 @@ const MemberList = () => {
                   bordered
                   striped
                   hover
+                  style={{ color: "white", fontWeight: "bold"}}
                 />
               )}
             </Fragment>
