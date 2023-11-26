@@ -264,7 +264,7 @@ exports.getSingleOrder = async (req, res, next) => {
 };
 
 exports.myOrders = async (req, res, next) => {
-  const orders = await Order.find().populate("User");
+  const orders = await Order.find().populate("user");
 
   res.status(200).json({
     success: true,
@@ -296,8 +296,8 @@ exports.updateOrder = async (req, res, next) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    if (order.orderStatus === "Finished") {
-      return res.status(400).json({ message: "Order already finished" });
+    if (order.orderStatus === "Delivered") {
+      return res.status(400).json({ message: "Order already delivered" });
     }
 
     // Update order status to 'Confirmed'
