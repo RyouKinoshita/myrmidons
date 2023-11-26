@@ -65,13 +65,13 @@ const NewMember = () => {
       };
 
       const { data } = await axios.post(
-        `http://localhost:4001/api/v1/admin/MemberList`,
+        `http://localhost:4001/api/v1/admin/MemberList/new`,
         formData,
         config
       );
       setLoading(false);
       setSuccess(data.success);
-      setMember(data.member);
+      setMember(data.team);
     } catch (error) {
       setError(error.response.data.message);
     }
