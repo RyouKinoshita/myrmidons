@@ -131,7 +131,7 @@ const UpdateMember = () => {
                 <div className="col-12 col-md-10">
                     <Fragment>
                         <div className="wrapper my-5">
-                            <form className="shadow-lg" onSubmit={submitHandler} encType='multipart/form-data'>
+                            <form className="shadow-lg" onSubmit={submitHandler} encType='multipart/form-data' style={{border:"solid 4px white"}}>
                                 <h1 className="mb-4">Update Member</h1>
                                 <div className="form-group">
                                     <label htmlFor="name_field">Name</label>
@@ -182,9 +182,10 @@ const UpdateMember = () => {
                                     ))}
                                 </div>
                                 <button
-                                    id="login_button"
+                                    id="loginsbut"
                                     type="submit"
-                                    className="btn btn-block py-3"
+                                    className="buttonforLogin"
+                                    style={{marginLeft:"20px"}}
                                     disabled={loading ? true : false}
                                 >
                                     UPDATE

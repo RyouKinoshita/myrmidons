@@ -71,8 +71,8 @@ const Profile = () => {
                     <img src={user.avatar && user.avatar.url} alt={user.name} />
                 </div>
                 <div className="profile-details">
-                    <h2>{user.name}</h2>
-                    <p>Email: {user.email}</p>
+                    <h2 style={{color:"black"}}>{user.name}</h2>
+                    <p style={{color:"black"}}>Email: {user.email}</p>
                     <div className="buttons">
                         <Link to="/me/update" style={profileButtonStyle}>
                             Update Profile

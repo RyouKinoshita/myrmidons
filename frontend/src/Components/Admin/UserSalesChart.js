@@ -58,9 +58,9 @@ const UserSalesChart = ({ data }) => {
             Total Sales from Users
           </text>
 
-          <Bar dataKey="total" stroke="#000000" strokeWidth={5}>
+          <Bar dataKey="total" stroke="#000000" strokeWidth={5} >
             {sales.map((item, index) => (
-              <Cell key={`cell-${index}`} fill={barColors[index % 20]} />
+              <Cell key={`cell-${index}`} fill={barColors[index % 20]}  />
             ))}
           </Bar>
         </BarChart>

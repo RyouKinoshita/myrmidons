@@ -77,7 +77,7 @@ const Home = () => {
     }, [keyword]);
 
     useEffect(() => {
-        getService(currentPage,keyword);
+        getService(currentPage,keyword,category);
     }, [currentPage, category, keyword]);
     return (
         <Fragment>
