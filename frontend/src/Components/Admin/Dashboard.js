@@ -9,15 +9,16 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// import UserSalesChart from "./UserSalesChart";
-// import MonthlySalesChart from "./MonthlySalesChart";
-// import ProductSalesChart from "./ProductSalesChart";
+import UserSalesChart from "./UserSalesChart";
+import MonthlySalesChart from "./MonthlySalesChart";
+import ServiceSalesChart from "./ServiceSalesChart";
 
 const Dashboard = () => {
   const [services, setServices] = useState([]);
-  const [projects, setProjects] = useState([]);
+  const [portfolios, setPortfolios] = useState([]);
   const [error, setError] = useState("");
   const [users, setUsers] = useState([]);
+
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalAmount, setTotalAmount] = useState([]);
@@ -61,7 +62,7 @@ const Dashboard = () => {
         config
       );
       console.log(data);
-      setProjects(data.projects);
+      setPortfolios(data.portfolios);
       setLoading(false);
     } catch (error) {
       setError(error.response.data.message);
@@ -172,6 +173,37 @@ const Dashboard = () => {
                     </Link>
                   </div>
                 </div>
+                <div className="col-xl-3 col-sm-6 mb-3">
+                  <div className="card text-white bg-info o-hidden h-100">
+                    <div className="card-body">
+                      <div className="text-center card-font-size">
+                        Portfolio
+                        <br /> <b>{portfolios && portfolios.length}</b>
+                      </div>
+                    </div>
+
+                    <Link
+                      className="card-footer text-white clearfix small z-1"
+                      to="/admin/portfolio"
+                    >
+                      <span className="float-left">View Details</span>
+                      <span className="float-right">
+                        <i className="fa fa-angle-right"></i>
+                      </span>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+              <div className="row pr-4">
+                <Fragment>
+                  <UserSalesChart />
+                </Fragment>
+                <Fragment>
+                  <MonthlySalesChart />
+                </Fragment>
+                <Fragment>
+                  <ServiceSalesChart />
+                </Fragment>
               </div>
             </Fragment>
           )}

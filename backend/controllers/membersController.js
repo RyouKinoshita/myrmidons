@@ -1,4 +1,6 @@
 const members = require('../models/members')
+const APIFeatures = require("../utils/apiFeatures");
+const cloudinary = require("cloudinary");
 
 exports.getmembers = async (req, res, next) => {
 	const team = await members.find({});
@@ -9,25 +11,61 @@ exports.getmembers = async (req, res, next) => {
 	})
 }
 exports.newMember = async (req, res, next) => {
-	
-	// req.body.user = req.user.id;
-	const team = await members.create(req.body);
+	let images = [];
+	if (typeof req.body.images === "string") {
+	  images.push(req.body.images);
+	} else {
+	  images = req.body.images;
+	}
+  
+	let imagesLinks = [];
+  
+	for (let i = 0; i < images.length; i++) {
+	  let imageDataUri = images[i];
+	  // console.log(imageDataUri)
+	  try {
+		const result = await cloudinary.v2.uploader.upload(`${imageDataUri}`, {
+		  folder: "members",
+		  width: 150,
+		  crop: "scale",
+		});
+  
+		imagesLinks.push({
+		  public_id: result.public_id,
+		  url: result.secure_url,
+		});
+	  } catch (error) {
+		console.log(error);
+	  }
+	}
+  
+	req.body.images = imagesLinks;
+	req.body.user = req.user.id;
+  
+	const member = await members.create(req.body);
+	if (!member)
+	  return res.status(400).json({
+		success: false,
+		message: "Member not created",
+	  });
+  
 	res.status(201).json({
-		success: true,
-		members
-	})
-}
+	  success: true,
+	  member,
+	});
+  };
+
 exports.getTeam = async (req, res, next) => {
 	const team = await members.find({});
 	res.status(200).json({
-	  success: true,
+	  success: true, 
 	  count: team.length,
 	  team,
 	});
   };
 
   exports.getAdminMember = async (req, res, next) => {
-	const team = await members.find({});
+	const team = await members.findById(req.params.id);
 	console.log(team)
 	res.status(200).json({
 	  success: true,
@@ -83,8 +121,15 @@ exports.getTeam = async (req, res, next) => {
 	  member,
 	});
   };
-
-
+  exports.deleteMember = async (req, res, next) => {
+	const member = await members.findByIdAndDelete(req.params.id);
+	if (!member) {
+	  return res.status(404).json({
+		member,
+		success: false,
+	  });
+	}
+  }
 
   
   

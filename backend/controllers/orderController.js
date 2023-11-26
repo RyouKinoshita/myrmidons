@@ -264,12 +264,21 @@ exports.getSingleOrder = async (req, res, next) => {
 };
 
 exports.myOrders = async (req, res, next) => {
-  const orders = await Order.find().populate("User");
+  try {
+    // Retrieve orders for the logged-in user only
+    const orders = await Order.find({ user: req.user._id }).populate("user");
 
-  res.status(200).json({
-    success: true,
-    orders,
-  });
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    res.status(500).json({
+      success: false,
+      error: "Internal Server Error",
+    });
+  }
 };
 
 exports.allOrders = async (req, res, next) => {
@@ -347,154 +356,177 @@ exports.deleteOrder = async (req, res, next) => {
 //     })
 // }
 
-// exports.totalOrders = async (req, res, next) => {
-//     const totalOrders = await Order.aggregate([
-//         {
-//             $group: {
-//                 _id: null,
-//                 count: { $sum: 1 }
-//             }
-//         }
-//     ])
-//     if (!totalOrders) {
-//         return res.status(404).json({
-//             message: 'error total orders',
-//         })
-//     }
-//     res.status(200).json({
-//         success: true,
-//         totalOrders
-//     })
+exports.totalOrders = async (req, res, next) => {
+  const totalOrders = await Order.aggregate([
+    {
+      $group: {
+        _id: null,
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+  if (!totalOrders) {
+    return res.status(404).json({
+      message: "error total orders",
+    });
+  }
+  res.status(200).json({
+    success: true,
+    totalOrders,
+  });
+};
 
-// }
+exports.totalSales = async (req, res, next) => {
+  const totalSales = await Order.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalSales: { $sum: "$totalPrice" },
+      },
+    },
+  ]);
+  if (!totalSales) {
+    return res.status(404).json({
+      message: "error total sales",
+    });
+  }
+  res.status(200).json({
+    success: true,
+    totalSales,
+  });
+};
 
-// exports.totalSales = async (req, res, next) => {
-//     const totalSales = await Order.aggregate([
-//         {
-//             $group: {
-//                 _id: null,
-//                 totalSales: { $sum: "$totalPrice" }
-//             }
-//         }
-//     ])
-//     if (!totalSales) {
-//         return res.status(404).json({
-//             message: 'error total sales',
-//         })
-//     }
-//     res.status(200).json({
-//         success: true,
-//         totalSales
-//     })
-// }
+exports.customerSales = async (req, res, next) => {
+  const customerSales = await Order.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "user",
+        foreignField: "_id",
+        as: "userDetails",
+      },
+    },
 
-// exports.customerSales = async (req, res, next) => {
-//     const customerSales = await Order.aggregate([
-//         {
-//             $lookup: {
-//                 from: 'users',
-//                 localField: 'user',
-//                 foreignField: '_id',
-//                 as: 'userDetails'
-//             },
-//         },
-//         // {
-//         //     $group: {
-//         //         _id: "$user",
-//         //         total: { $sum: "$totalPrice" },
-//         //     }
-//         // },
+    { $unwind: "$userDetails" },
 
-//         { $unwind: "$userDetails" },
-//         // {
-//         //     $group: {
-//         //         _id: "$user",
-//         //         total: { $sum: "$totalPrice" },
-//         //         doc: { "$first": "$$ROOT" },
+    {
+      $group: {
+        _id: "$userDetails.name",
+        total: { $sum: "$totalPrice" },
+      },
+    },
 
-//         //     }
-//         // },
+    { $sort: { total: -1 } },
+  ]);
+  console.log(customerSales);
+  if (!customerSales) {
+    return res.status(404).json({
+      message: "error customer sales",
+    });
+  }
+  // return console.log(customerSales)
+  res.status(200).json({
+    success: true,
+    customerSales,
+  });
+};
+exports.salesPerMonth = async (req, res, next) => {
+  const salesPerMonth = await Order.aggregate([
+    {
+      $group: {
+        // _id: {month: { $month: "$paidAt" } },
+        _id: {
+          year: { $year: "$paidAt" },
+          month: { $month: "$paidAt" },
+        },
+        total: { $sum: "$totalPrice" },
+      },
+    },
 
-//         // {
-//         //     $replaceRoot: {
-//         //         newRoot: { $mergeObjects: [{ total: '$total' }, '$doc'] },
-//         //     },
-//         // },
-//         {
-//             $group: {
-//                 _id: "$userDetails.name",
-//                 total: { $sum: "$totalPrice" }
-//             }
-//         },
-//         // {
-//         //     $project: {
-//         //         _id: 0,
-//         //         "userDetails.name": 1,
-//         //         total: 1,
-//         //     }
-//         // },
-//         { $sort: { total: -1 } },
+    {
+      $addFields: {
+        month: {
+          $let: {
+            vars: {
+              monthsInString: [
+                ,
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sept",
+                "Oct",
+                "Nov",
+                "Dec",
+              ],
+            },
+            in: {
+              $arrayElemAt: ["$$monthsInString", "$_id.month"],
+            },
+          },
+        },
+      },
+    },
+    { $sort: { "_id.month": 1 } },
+    {
+      $project: {
+        _id: 0,
+        month: 1,
+        total: 1,
+      },
+    },
+  ]);
+  if (!salesPerMonth) {
+    return res.status(404).json({
+      message: "error sales per month",
+    });
+  }
+  // return console.log(customerSales)
+  res.status(200).json({
+    success: true,
+    salesPerMonth,
+  });
+};
 
-//     ])
-//     console.log(customerSales)
-//     if (!customerSales) {
-//         return res.status(404).json({
-//             message: 'error customer sales',
-//         })
-//     }
-//     // return console.log(customerSales)
-//     res.status(200).json({
-//         success: true,
-//         customerSales
-//     })
+exports.serviceSales = async (req, res, next) => {
+  try {
+    const serviceSales = await Service.aggregate([
+      {
+        $lookup: {
+          from: "orders",
+          localField: "_id",
+          foreignField: "orderItems.service",
+          as: "serviceOrders",
+        },
+      },
+      {
+        $group: {
+          _id: "$name",
+          totalSales: { $sum: "$price" },
+        },
+      },
+      { $sort: { totalSales: -1 } },
+    ]);
 
-// }
-// exports.salesPerMonth = async (req, res, next) => {
-//     const salesPerMonth = await Order.aggregate([
-//         {
-//             $group: {
-//                 // _id: {month: { $month: "$paidAt" } },
-//                 _id: {
-//                     year: { $year: "$paidAt" },
-//                     month: { $month: "$paidAt" }
-//                 },
-//                 total: { $sum: "$totalPrice" },
-//             },
-//         },
+    if (!serviceSales) {
+      return res.status(404).json({
+        message: "error service sales",
+      });
+    }
 
-//         {
-//             $addFields: {
-//                 month: {
-//                     $let: {
-//                         vars: {
-//                             monthsInString: [, 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', ' Sept', 'Oct', 'Nov', 'Dec']
-//                         },
-//                         in: {
-//                             $arrayElemAt: ['$$monthsInString', "$_id.month"]
-//                         }
-//                     }
-//                 }
-//             }
-//         },
-//         { $sort: { "_id.month": 1 } },
-//         {
-//             $project: {
-//                 _id: 0,
-//                 month: 1,
-//                 total: 1,
-//             }
-//         }
-
-//     ])
-//     if (!salesPerMonth) {
-//         return res.status(404).json({
-//             message: 'error sales per month',
-//         })
-//     }
-//     // return console.log(customerSales)
-//     res.status(200).json({
-//         success: true,
-//         salesPerMonth
-//     })
-
-// }
+    res.status(200).json({
+      success: true,
+      serviceSales,
+    });
+  } catch (error) {
+    console.error("Error fetching service sales:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch service sales",
+    });
+  }
+};

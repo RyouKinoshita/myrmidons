@@ -73,12 +73,6 @@ const Sidebar = () => {
           </li>
 
           <li>
-            <Link to="/admin/portfolio">
-              <i className="fa fa-product-hunt"></i> Portfolio
-            </Link>
-          </li>
-
-          <li>
             <a
               href="#memberSubmenu"
               data-toggle="collapse"
