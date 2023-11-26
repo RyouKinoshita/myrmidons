@@ -1,4 +1,3 @@
-// Header.js
 import React, { Fragment, useEffect, useState } from "react";
 import "../../App.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -51,7 +50,7 @@ const Header = ({ cartItems }) => {
              <Button variant="outlined" href="/portfolio" style={{color:"yellow", border:"2px solid", marginLeft:"20px"}}>Portfolio</Button>
              
           </div>
-          
+
           </div>
         <div className="col-12 col-md-3 mt-4 mt-md-0 text-center" >
           
@@ -59,6 +58,8 @@ const Header = ({ cartItems }) => {
           <IconButton color="primary" aria-label="add to shopping cart" href="/cart" style={{color:"yellow"}}>
         <AddShoppingCartIcon />
       </IconButton>
+
+      
           </span>
           <span className="ml-1" id="cart_count">
             {cartItems.length}

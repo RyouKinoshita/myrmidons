@@ -119,11 +119,17 @@ exports.facebook = async (req, res, next) => {
   }
 };
 exports.registerUser = async (req, res, next) => {
-  const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    folder: "profiles",
-    width: 200,
-    crop: "scale",
-  });
+  const result = await cloudinary.v2.uploader.upload(
+    req.body.avatar,
+    {
+      folder: "profiles",
+      width: 200,
+      crop: "scale",
+    },
+    (err, res) => {
+      console.log(err, res);
+    }
+  );
 
   const { name, email, password, role } = req.body;
 
