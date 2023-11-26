@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
+import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import { Link } from 'react-router-dom'
@@ -10,45 +10,43 @@ const Service = ({ service }) => {
 	return (
 
 		<Fragment>
+		<Row xs={1} md={1} className="g-4">
+		  <Col>
+			<Card style={{ width: '1200px'}}>
+			  <Card.Body style={{backgroundColor: "white", border: "2px solid black", fontWeight: "bold", fontFamily:"Impact",textAlign:"center"}}>
+				<Row>
+				  <Col md={4}>
+				  <div className="image-container" id='cardcon'>
+  <Card.Img
+    variant="top"
+    src={service.images && service.images.length > 0 ? service.images[0].url : "holder.js/100px160"}
+    alt={service.name}
+    className="image-content" id='cardcont'
+  />
+</div>
+				  </Col>
+				  <Col md={8}>
+					<Card.Title style={{
+						fontSize: "50px",
+						color:"black",
+						textDecoration: "underline"
+					}}>{service.name}</Card.Title>
+					<Card.Title style={{fontWeight: "bold", fontFamily:"Arial",textAlign:"left",color:"black"}}>Category: {service.category}</Card.Title>
+					<Card.Title style={{fontWeight: "bold", fontFamily:"Arial",textAlign:"left",color:"black"}}>Price: ${service.price}</Card.Title>
+					<Card.Title style={{fontWeight: "bold", fontFamily:"Arial",textAlign:"left",color:"black",fontSize: "15px"}}>Description: </Card.Title>
+					<Card.Text style={{fontFamily:"Arial",textAlign:"left",color:"black",fontSize: "14px"}}>
+					  {service.description}
+					</Card.Text>
+					<Link to={`/service/${service._id}`} id="view_btn" className="btn btn-block">View Details</Link>
+				  </Col>
+				</Row>
+			  </Card.Body>
+			</Card>
 			
-			<div className="col-sm-12 col-md-6 col-lg-3 my-3">
-				<div className="card p-3 rounded">
-					{/* <Carousel pause='hover'>
-                                {service.images && service.images.map(image => (
-                                    <Carousel.Item key={image.public_id}>
-                                        <img className="d-block w-100" src={image.url} alt={service.title} />
-                                    </Carousel.Item>
-                                ))}
-                            </Carousel> */}
-					{service.images && service.images.length > 0 && (
-						<img
-							className="card-img-top"
-							src={service.images[0].url}
-							alt={service.name}
-							style={{
-								width: "210px",
-								height: "150px",
-								border: "5px black",
-								borderRadius: "5px",
-							}}
-						/>
-					)}
-					<div className="card-body d-flex flex-column">
-						<h5 className="card-title">
-							<a href="">{service.name}</a>
-						</h5>
-						<div className="ratings mt-auto">
-							<div className="rating-outer">
-								<div className="rating-inner" style={{ width: `${(service.ratings / 5) * 100}%` }}></div>
-							</div>
-						</div>
-						<p className="card-text">${service.price}</p>
-						{/* {`/product/${service._id}`} */}
-						<Link to={`/service/${service._id}`} id="view_btn" className="btn btn-block">View Details</Link>
-					</div>
-				</div>
-			</div>
-		</Fragment>
+		  </Col>
+		</Row>
+		<br/>
+	  </Fragment>
 		
 	)
 }

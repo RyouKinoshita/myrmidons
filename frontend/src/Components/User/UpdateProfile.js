@@ -100,11 +100,11 @@ const UpdateProfile = () => {
 
             <div className="row wrapper">
                 <div className="col-10 col-lg-5">
-                    <form className="shadow-lg" onSubmit={submitHandler} encType='multipart/form-data'>
-                        <h1 className="mt-2 mb-5">Update Profile</h1>
+                    <form className="shadow-lg" onSubmit={submitHandler} encType='multipart/form-data' style={{backgroundColor:"gray"}}>
+                        <h1 className="mt-2 mb-5"  style={{color:"black",fontWeight: "bold"}}>Update Profile</h1>
 
                         <div className="form-group">
-                            <label htmlFor="email_field">Name</label>
+                            <label htmlFor="email_field"  style={{color:"black",fontWeight: "bold"}}>Name</label>
                             <input
                                 type="name"
                                 id="name_field"
@@ -116,7 +116,7 @@ const UpdateProfile = () => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="email_field">Email</label>
+                            <label htmlFor="email_field"  style={{color:"black",fontWeight: "bold"}}>Email</label>
                             <input
                                 type="email"
                                 id="email_field"
@@ -128,7 +128,7 @@ const UpdateProfile = () => {
                         </div>
 
                         <div className='form-group'>
-                            <label htmlFor='avatar_upload'>Avatar</label>
+                            <label htmlFor='avatar_upload'  style={{color:"black",fontWeight: "bold"}}>Avatar</label>
                             <div className='d-flex align-items-center'>
                                 <div>
                                     <figure className='avatar mr-3 item-rtl'>
@@ -155,7 +155,7 @@ const UpdateProfile = () => {
                             </div>
                         </div>
 
-                        <button type="submit" className="btn update-btn btn-block mt-4 mb-3" disabled={loading ? true : false} >Update</button>
+                        <button type="submit" className="buttonforLogin" id="loginbuts" disabled={loading ? true : false} >Update</button>
                     </form>
                 </div>
             </div>

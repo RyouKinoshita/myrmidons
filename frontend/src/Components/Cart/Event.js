@@ -29,6 +29,7 @@ const Event = ({ event, saveEventInfo }) => {
                     <form
                         className="shadow-lg"
                         onSubmit={submitHandler}
+                        style={{border:"solid 3px white"}}
                     >
                         <h1 className="mb-4">Shipping Info</h1>
                         <div className="form-group">
@@ -99,9 +100,10 @@ const Event = ({ event, saveEventInfo }) => {
                         </div>
 
                         <button
-                            id="shipping_btn"
+                            id="loginbuts"
                             type="submit"
-                            className="btn btn-block py-3"
+                            className="buttonforLogin"
+                            style={{border:"solid 3px white"}}
                         >
                             CONTINUE
                         </button>

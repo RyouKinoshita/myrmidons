@@ -1,90 +1,99 @@
-import React, { Fragment, useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-// import Loader from '../Layouts/Loader'
-import MetaData from '../Layout/Metadata'
-import { getUser, } from '../../utils/helpers';
+import React, { Fragment, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import MetaData from '../Layout/Metadata';
+import { getUser } from '../../utils/helpers';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getToken } from '../../utils/helpers';
+import { fontFamily, textAlign } from '@mui/system';
 
 const Profile = () => {
-    // const [loading, setLoading] = useState(true)
-    const [user, setUser] = useState('')
-    
+    const [user, setUser] = useState('');
 
     const getProfile = async () => {
         const config = {
             headers: {
-                // 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
             }
-        }
+        };
         try {
-            const { data } = await axios.get(`http://localhost:4001/api/v1/me`, config)
-            console.log(data)
-            setUser(data.user)
-            // setLoading(false)
+            const { data } = await axios.get(`http://localhost:4001/api/v1/me`, config);
+            setUser(data.user);
         } catch (error) {
-            console.log(error)
-            toast.error("invalid user or password", {
+            console.log(error);
+            toast.error('Invalid user or password', {
                 position: toast.POSITION.BOTTOM_RIGHT
-            })
+            });
         }
+    };
 
-    }
-    // const getUserToken = async () => {
-    //     const userToken = getToken()
-    //     console.log(userToken)
-    //     setToken(userToken)
-    // }
     useEffect(() => {
-        // getUserToken()
-        getProfile()
+        getProfile();
+    }, []);
 
-    }, [])
+    const profileCardStyle = {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        border: '1px solid #ccc',
+        borderRadius: '5px',
+        padding: '20px',
+        maxWidth: '700px',
+        margin: 'auto',
+        marginTop: '50px',
+        backgroundColor: 'gray',
+        textAlign: "center",
+        fontWeight: "bold",
+        fontFamily: "Georgia, serif"
+    };
+
+    const profilePictureStyle = {
+        marginBottom: '20px',
+        border:"5px solid black"
+    };
+
+    const profileButtonStyle = {
+        padding: '10px 20px',
+        margin: '5px',
+        textDecoration: 'none',
+        color: '#fff',
+        borderRadius: '5px',
+        backgroundColor: 'blue',
+        border: 'none'
+    };
+
     return (
         <Fragment>
-            
-                <Fragment>
-                    <MetaData title={'Your Profile'} />
-
-                    <h2 className="mt-5 ml-5">My Profile</h2>
-                    <div className="row justify-content-around mt-5 user-info">
-                        <div className="col-12 col-md-3">
-                            <figure className='avatar avatar-profile'>
-                                <img className="rounded-circle img-fluid" src={user.avatar && user.avatar.url} alt={user.name} />
-                            </figure>
-                            <Link to="/me/update" id="edit_profile" className="btn btn-primary btn-block my-5">
-                                Edit Profile
+            <MetaData title={'Your Profile'} />
+            <div style={profileCardStyle}>
+                <div style={profilePictureStyle}>
+                    <img src={user.avatar && user.avatar.url} alt={user.name} />
+                </div>
+                <div className="profile-details">
+                    <h2>{user.name}</h2>
+                    <p>Email: {user.email}</p>
+                    <div className="buttons">
+                        <Link to="/me/update" style={profileButtonStyle}>
+                            Update Profile
+                        </Link>
+                        <Link to="/password/update" style={profileButtonStyle}>
+                            Change Password
+                        </Link>
+                        {user.role !== 'admin' && (
+                            <Link
+                                to="/orders/me"
+                                
+                                style={profileButtonStyle}
+                            >
+                                My Orders
                             </Link>
-                        </div>
-
-                        <div className="col-12 col-md-5">
-                            <h4>Full Name</h4>
-                            <p>{user.name}</p>
-
-                            <h4>Email Address</h4>
-                            <p>{user.email}</p>
-
-                            <h4>Joined On</h4>
-                            <p>{String(user.createdAt).substring(0, 10)}</p>
-
-                            {user.role !== 'admin' && (
-                                <Link to="/orders/me" className="btn btn-danger btn-block mt-5">
-                                    My Orders
-                                </Link>
-                            )}
-
-                            <Link to="/password/update" className="btn btn-primary btn-block mt-3">
-                                Change Password
-                            </Link>
-                        </div>
+                        )}
                     </div>
-                </Fragment>
-           
+                </div>
+            </div>
         </Fragment>
-    )
-}
+    );
+};
 
-export default Profile
+export default Profile;

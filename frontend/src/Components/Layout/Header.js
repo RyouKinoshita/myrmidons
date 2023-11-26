@@ -6,7 +6,10 @@ import { getUser, logout } from "../../utils/helpers";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import IconButton from '@mui/material/IconButton';
 const Header = ({ cartItems }) => {
   const [user, setUser] = useState("");
   const navigate = useNavigate();
@@ -35,48 +38,27 @@ const Header = ({ cartItems }) => {
       <nav className="navbar row">
         <div className="col-12 col-md-3">
           <div className="navbar-brand">
-            <img
-              src="./images/MYR.png"
-              alt="Logo"
-              style={{ width: "100px", height: "auto" }}
-            />
-            <span id="cart" className="ml-3">
-              <a href="/" style={{ color: "yellow" }}>
-                Home
-              </a>
-            </span>
+          <a href="/">
+  <img
+    src="./images/MYR.png"
+    alt="Logo"
+    style={{ width: "100px", height: "auto" }}
+  />
+</a>
+             
+             <Button variant="outlined" href="/about" style={{color:"yellow", border:"2px solid", marginLeft:"20px"}}>About Us</Button>
+             <Button variant="outlined" href="/teamPage" style={{color:"yellow", border:"2px solid", marginLeft:"20px"}}>Team</Button>
+             <Button variant="outlined" href="/portfolio" style={{color:"yellow", border:"2px solid", marginLeft:"20px"}}>Portfolio</Button>
+             
           </div>
           
           </div>
-        <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-          <Link
-            to="/about"
-            id="cart"
-            className="ml-3"
-            style={{ color: "yellow" }}
-          >
-            About Us
-          </Link>
-          <Link
-            to="/portfolio"
-            id="cart"
-            className="ml-3"
-            style={{ color: "yellow" }}
-          >
-            Portfolio
-          </Link>
-          <Link
-            to="/teamPage"
-            id="cart"
-            className="ml-3"
-            style={{ color: "yellow" }}
-          >
-            Team
-          </Link>
-          <span id="cart" className="ml-3">
-            <a href="/cart" style={{ color: "yellow" }}>
-              Cart
-            </a>
+        <div className="col-12 col-md-3 mt-4 mt-md-0 text-center" >
+          
+          <span id="cart" className="ml-3" >
+          <IconButton color="primary" aria-label="add to shopping cart" href="/cart" style={{color:"yellow"}}>
+        <AddShoppingCartIcon />
+      </IconButton>
           </span>
           <span className="ml-1" id="cart_count">
             {cartItems.length}
@@ -99,7 +81,7 @@ const Header = ({ cartItems }) => {
                     className="rounded-circle"
                   />
                 </figure>
-                <span>{user && user.name}</span>
+                <span style={{color:"yellow"}}>{user && user.name}</span>
               </Link>
 
               <div
@@ -133,7 +115,7 @@ const Header = ({ cartItems }) => {
 
                 <Link
                   className="dropdown-item text-danger"
-                  style={{ color: "yellow" }}
+                  style={{ color: "yellow", fontWeight:"bold" }}
                   to="/"
                   onClick={logoutHandler}
                 >
@@ -142,9 +124,10 @@ const Header = ({ cartItems }) => {
               </div>
             </div>
           ) : (
-            <Link to="/login" className="btn ml-4" id="login_btn">
-              Login
-            </Link>
+            <Fragment>
+              <Button variant="outlined" href="/login" style={{ color: "yellow", border: "2px solid", marginLeft: "20px" }}>Login</Button>
+              <Button variant="outlined" href="/register" style={{ color: "yellow", border: "2px solid", marginLeft: "20px" }}>Register</Button>
+            </Fragment>
           )}
         </div>
       </nav>

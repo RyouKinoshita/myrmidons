@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Carousel } from 'react-bootstrap'
+import { Carousel} from 'react-bootstrap'
+import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router-dom'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -82,53 +83,65 @@ const ServiceDetails = ({ addItemToCart, cartItems }) => {
 
     return (
         <Fragment>
-           
-                <Fragment>
-                    <MetaData title={service.name} />
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <div className="row d-flex justify-content-around">
-                        <div className="col-12 col-lg-5 img-fluid" id="service_image">
-                            <Carousel pause='hover'>
-                                {service.images && service.images.map(image => (
-                                    <Carousel.Item key={image.public_id}>
-                                        <img className="d-block w-100" src={image.url} alt={service.title} />
-                                    </Carousel.Item>
-                                ))}
-                            </Carousel>
-                        </div>
+           <div className='container' style={{backgroundColor:"gray", width: "1500px", height:"900px", }}>
+           <Fragment>
+            <div className="container mt-5">
+                <div className="row d-flex justify-content-around align-items-center">
+                    <div className="col-12 col-lg-5">
+                        <Card style={{backgroundColor: "white", border:"solid 3px black"}}>
+                            <Card.Body>
+                                <Carousel pause='hover'>
+                                    {service.images && service.images.map(image => (
+                                        <Carousel.Item key={image.public_id} style={{marginLeft:"15px"}}>
+                                            <img className="d-block w-100" src={image.url} alt={service.title} />
+                                        </Carousel.Item>
+                                    ))}
+                                </Carousel>
+                            </Card.Body>
+                        </Card>
+                    </div>
 
-                        <div className="col-12 col-lg-5 mt-5">
-                            <h3>{service.name}</h3>
-                            <p id="product_id">Service # {service._id}</p>
+                    <div className="col-12 col-lg-5 mt-5">
+                        <Card style={{backgroundColor: "white", border:"solid 3px black"}}>
+                            <Card.Body>
+                                <h3 style={{
+						fontSize: "36px",
+						color:"black",
+						// textDecoration: "underline",
+                        textAlign: "center",
+                        marginLeft:"10px"
+					}}>{service.name}</h3>
+                                <p id="product_id" style={{fontWeight: "bold", fontFamily:"Arial",color:"black",textAlign: "center",marginLeft:"5px"}}>Service # {service._id}</p>
 
-                            <hr />
+                                <hr />
 
-                            <div className="rating-outer">
-                                <div className="rating-inner" style={{ width: `${(service.ratings / 5) * 100}%` }}></div>
-                            </div>
-                            
+                                
+                                <hr />
 
-                            <hr />
+                                <p id="product_price" style={{fontWeight: "bold", fontFamily:"Arial",color:"black",textAlign: "center",marginLeft:"5px"}}>${service.price}</p>
+                                <h3 style={{fontWeight: "bold", fontFamily:"Arial",color:"black",textAlign: "center",marginLeft:"2px", fontSize:"18px"}}>Please Select a Date </h3>
+                                <div style={{ textAlign: 'center' }}>
+  <DatePicker
+    selected={selectedDate}
+    onChange={handleDateChange}
+    filterDate={filterDate}
+    placeholderText="Select a date"
+  />
+</div>
+                                <button type="button" id="loginbuts" className="buttonforLogin" onClick={addToCart} style={{fontWeight: "bold", fontFamily:"Arial",color:"black",textAlign: "center",marginLeft:"20px",marginTop:"20px", border:"solid 2px black"}}>
+                                    Add to Cart
+                                </button>
 
-                            <p id="product_price">${service.price}</p>
-                            <h3>Date Selected: </h3>
-                            <DatePicker selected={selectedDate}
-                                onChange={handleDateChange}
-                                filterDate={filterDate}
-                                placeholderText="Select a date" />
-                            <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4"  onClick={addToCart}>Add to Cart</button>
-                            
-                            <h4 className="mt-2">Description:</h4>
-                            <p>{service.description}</p>
-                            <hr />
-                                      
-                          </div>    
-                          </div>              
-                </Fragment>
-           
+                                <h4 className="mt-2" style={{fontWeight: "bold", fontFamily:"Arial",color:"black",textAlign: "center",marginLeft:"2px", fontSize:"18px"}}>Description:</h4>
+                                <p style={{fontWeight: "bold", fontFamily:"Arial",color:"black",textAlign: "center",marginLeft:"2px", fontSize:"14px"}}>{service.description}</p>
+                                <hr />
+                            </Card.Body>
+                        </Card>
+                    </div>
+                </div>
+            </div>
+        </Fragment>
+           </div>
         </Fragment>
     
 

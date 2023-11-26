@@ -117,7 +117,7 @@ const Home = () => {
             </li>
           )}
         </ul>
-        <div className="container" style={{display: "relative",justifycontent: "center", width: "1000px"}}>
+        <div className="container" style={{display: "relative",justifycontent: "center", width: "975px", backgroundColor:"gray"}}>
           <Search />
         </div>
         

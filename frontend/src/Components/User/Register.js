@@ -97,11 +97,12 @@ const Register = () => {
             className="shadow-lg"
             onSubmit={submitHandler}
             encType="multipart/form-data"
+            style={{backgroundColor:"gray"}}
           >
-            <h1 className="mb-3">Register</h1>
+            <h1 className="mb-3" style={{color:"black",fontWeight: "bold"}}>Register</h1>
 
             <div className="form-group">
-              <label htmlFor="email_field">Name</label>
+              <label htmlFor="email_field" style={{color:"black",fontWeight: "bold"}}>Name</label>
               <input
                 type="name"
                 id="name_field"
@@ -113,7 +114,7 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="email_field">Email</label>
+              <label htmlFor="email_field" style={{color:"black",fontWeight: "bold"}}>Email</label>
               <input
                 type="email"
                 id="email_field"
@@ -125,7 +126,7 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password_field">Password</label>
+              <label htmlFor="password_field" style={{color:"black",fontWeight: "bold"}}>Password</label>
               <input
                 type="password"
                 id="password_field"
@@ -137,7 +138,7 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="avatar_upload">Avatar</label>
+              <label htmlFor="avatar_upload" style={{color:"black",fontWeight: "bold"}}>Avatar</label>
               <div className="d-flex align-items-center">
                 <div>
                   <figure className="avatar mr-3 item-rtl">
@@ -157,7 +158,7 @@ const Register = () => {
                     accept="images/*"
                     onChange={onChange}
                   />
-                  <label className="custom-file-label" htmlFor="customFile">
+                  <label className="custom-file-label" htmlFor="customFile" >
                     Choose Avatar
                   </label>
                 </div>
@@ -165,9 +166,9 @@ const Register = () => {
             </div>
 
             <button
-              id="register_button"
+              id="loginsbut"
               type="submit"
-              className="btn btn-block py-3"
+              className="buttonforLogin"
               // disabled={loading ? false : true}
             >
               REGISTER

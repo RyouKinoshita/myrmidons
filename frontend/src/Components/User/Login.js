@@ -75,12 +75,12 @@ const Login = () => {
     <Fragment>
       <Metadata title={"Login"} />
 
-      <div className="row wrapper">
+      <div className="row wrapper" >
         <div className="col-10 col-lg-5">
-          <form className="shadow-lg" onSubmit={formik.handleSubmit}>
-            <h1 className="mb-3">Login</h1>
+          <form className="shadow-lg" onSubmit={formik.handleSubmit} style={{backgroundColor:"gray"}}>
+            <h1 className="mb-3" style={{color:"black",fontWeight: "bold"}}>Login</h1>
             <div className="form-group">
-              <label htmlFor="email_field">Email</label>
+              <label htmlFor="email_field" style={{color:"black",fontWeight: "bold"}}>Email</label>
               <input
                 type="email"
                 id="email_field"
@@ -100,7 +100,7 @@ const Login = () => {
             <br />
 
             <div className="form-group">
-              <label htmlFor="password_field">Password</label>
+              <label htmlFor="password_field" style={{color:"black",fontWeight: "bold"}}>Password</label>
               <input
                 type="password"
                 id="password_field"
@@ -118,31 +118,29 @@ const Login = () => {
               ) : null}
             </div>
 
-            <Link to="/password/forgot" className="float-right mb-4">
+            <Link to="/password/forgot" className="float-right mb-4"  style={{color:"black",fontWeight: "bold"}}>
               Forgot Password?
             </Link>
-
+                <br/>
+                
+                <br/>
             <button
-              id="login_button"
+              id="loginsbut"
               type="submit"
-              className="btn btn-block py-3"
+              className="buttonforLogin"
+              style={{justifyContent:"center",fontWeight: "bold"}}
             >
               LOGIN
             </button>
             <OAuth />
-            <Link to="/register" className="float-right mt-3">
-              New User?
-            </Link>
+            
           </form>
         </div>
       </div>
 
       <br />
       <br />
-      <br />
-      <br />
-      <br />
-      <br />
+      
       <br />
     </Fragment>
   );

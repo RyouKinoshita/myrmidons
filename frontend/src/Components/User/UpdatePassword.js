@@ -24,7 +24,7 @@ const UpdatePassword = () => {
                 }
             }
 
-            const {data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/password/update`, formData, config)
+            const {data } = await axios.put(`http://localhost:4001/api/v1/password/update`, formData, config)
             setIsUpdated(data.success)
             setLoading(false)
             toast.success('password updated', {
@@ -57,10 +57,10 @@ const UpdatePassword = () => {
 
             <div className="row wrapper">
                 <div className="col-10 col-lg-5">
-                    <form className="shadow-lg" onSubmit={submitHandler} >
-                        <h1 className="mt-2 mb-5">Update Password</h1>
+                    <form className="shadow-lg" onSubmit={submitHandler} style={{backgroundColor:"gray"}} >
+                        <h1 className="mt-2 mb-5"  style={{color:"black",fontWeight: "bold"}}>Update Password</h1>
                         <div className="form-group">
-                            <label htmlFor="old_password_field">Old Password</label>
+                            <label htmlFor="old_password_field"  style={{color:"black",fontWeight: "bold"}}>Old Password</label>
                             <input
                                 type="password"
                                 id="old_password_field"
@@ -71,7 +71,7 @@ const UpdatePassword = () => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="new_password_field">New Password</label>
+                            <label htmlFor="new_password_field"  style={{color:"black",fontWeight: "bold"}}>New Password</label>
                             <input
                                 type="password"
                                 id="new_password_field"
@@ -81,7 +81,7 @@ const UpdatePassword = () => {
                             />
                         </div>
 
-                        <button type="submit" className="btn update-btn btn-block mt-4 mb-3" disabled={loading ? true : false} >Update Password</button>
+                        <button type="submit" className="buttonforLogin" id="loginsbut" disabled={loading ? true : false} >Update Password</button>
                     </form>
                 </div>
             </div>

@@ -35,12 +35,12 @@ const Cart = ({ cartItems, removeItemFromCart }) => {
           </h2>
 
           <div className="row d-flex justify-content-between">
-            <div className="col-12 col-lg-8">
+            <div className="col-12 col-lg-8" style={{backgroundColor:"gray"}}>
               {cartItems.map((item) => (
-                <Fragment>
+                <Fragment >
                   <hr />
 
-                  <div className="cart-item" key={item.service}>
+                  <div className="cart-item" key={item.service} >
                     <div className="row">
                       <div className="col-4 col-lg-3">
                         <img
@@ -51,8 +51,8 @@ const Cart = ({ cartItems, removeItemFromCart }) => {
                         />
                       </div>
 
-                      <div className="col-5 col-lg-3">
-                        <Link to={`/service/${item.service}`}>{item.name}</Link>
+                      <div className="col-5 col-lg-3" >
+                        <Link to={`/service/${item.service}`} style={{color:"white"}}>{item.name}</Link>
                       </div>
                       <div className="col-5 col-lg-3">
                         <p>{item.date}</p>
@@ -77,8 +77,8 @@ const Cart = ({ cartItems, removeItemFromCart }) => {
               ))}
             </div>
 
-            <div className="col-12 col-lg-3 my-4">
-              <div id="order_summary">
+            <div className="col-12 col-lg-4 my-0" >
+              <div id="order_summary" style={{backgroundColor:"gray"}}>
                 <h4>Order Summary</h4>
                 <hr />
 
@@ -94,8 +94,8 @@ const Cart = ({ cartItems, removeItemFromCart }) => {
 
                 <hr />
                 <button
-                  id="checkout_btn"
-                  className="btn btn-primary btn-block"
+                  id="loginbuts"
+                  className="buttonforLogin" style={{width:"330px"}}
                   onClick={checkoutHandler}
                 >
                   Check out
