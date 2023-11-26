@@ -25,10 +25,11 @@ import NewService from "./Components/Admin/NewService";
 import UpdateService from "./Components/Admin/UpdateService";
 import UsersList from "./Components/Admin/UsersList";
 import UpdateUser from "./Components/Admin/UpdateUser";
-import ProjectList from "./Components/Admin/ProjectList"
+import ProjectList from "./Components/Admin/ProjectList";
 import NewProject from "./Components/Admin/NewProject";
 import UpdateProject from "./Components/Admin/UpdateProject";
 import OrdersList from "./Components/Admin/OrdersList";
+import UserOrders from "./Components/User/UserOrders";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cart from "./Components/Cart/Cart";
@@ -143,6 +144,7 @@ function App() {
           <Route path="/login" element={<Login />} exact="true" />
           <Route path="/register" element={<Register />} exact="true" />
           <Route path="/me" element={<Profile />} exact="true" />
+          <Route path="/orders/me" element={<UserOrders />} exact="true" />
           <Route
             path="/cart"
             element={

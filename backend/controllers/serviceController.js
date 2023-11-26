@@ -140,17 +140,19 @@ exports.deleteService = async (req, res, next) => {
 };
 exports.getSingleService = async (req, res, next) => {
   const service = await Service.findById(req.params.id);
-  const order = await Order.find({ 'orderItems.service': req.params.id })
-  .populate('orderItems.service')
-  .exec();
-  const datesArray = order.map(orderItem => orderItem.orderItems.map(item => item.date)).flat();
+  const order = await Order.find({ "orderItems.service": req.params.id })
+    .populate("orderItems.service")
+    .exec();
+  const datesArray = order
+    .map((orderItem) => orderItem.orderItems.map((item) => item.date))
+    .flat();
   // const mappedOrders = order.map(order => {
   //   const orderItemDates = order.orderItems.map(item => item.date);
   //   return {
   //     orderItemDates: orderItemDates,
   //   };
   // });
-  
+
   // console.log(mappedOrders);
   console.log(datesArray);
   // const orderItemIds = order.orderItems.service.map(item => item._id);
@@ -164,7 +166,7 @@ exports.getSingleService = async (req, res, next) => {
   res.status(200).json({
     success: true,
     service,
-    order
+    order,
   });
 };
 // exports.getServiceOrder = async (req, res, next) => {

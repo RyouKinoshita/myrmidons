@@ -264,7 +264,7 @@ exports.getSingleOrder = async (req, res, next) => {
 };
 
 exports.myOrders = async (req, res, next) => {
-  const orders = await Order.find({ user: req.user.id });
+  const orders = await Order.find().populate("User");
 
   res.status(200).json({
     success: true,

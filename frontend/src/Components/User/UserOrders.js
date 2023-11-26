@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { MDBDataTable } from "mdbreact";
 import MetaData from "../Layout/Metadata";
 import Loader from "../Layout/Loader";
-import Sidebar from "./SideBar";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getToken } from "../../utils/helpers";
@@ -33,56 +32,12 @@ const OrdersList = () => {
         },
       };
       const { data } = await axios.get(
-        `http://localhost:4001/api/v1/admin/orders`,
+        `http://localhost:4001/api/v1/orders/me`,
         config
       );
       console.log(data); // Add this line to log the data
 
       setAllOrders(data.orders);
-      setLoading(false);
-    } catch (error) {
-      setError(error.response.data.message);
-    }
-  };
-  const updateOrderStatus = async (orderId) => {
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-      };
-
-      const { data } = await axios.put(
-        `http://localhost:4001/api/v1/admin/order/${orderId}`,
-        { orderStatus: "Finished" }, // Set the new status here
-        config
-      );
-
-      if (data.success) {
-        successMsg("Order status updated successfully");
-        listOrders(); // Refresh the orders after updating status
-      } else {
-        errMsg("Failed to update order status");
-      }
-    } catch (error) {
-      setError(error.response.data.message);
-    }
-  };
-
-  const deleteOrder = async (id) => {
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-      };
-      const { data } = await axios.delete(
-        `http://localhost:4001/api/v1/admin/order/${id}`,
-        config
-      );
-      setIsDeleted(data.success);
       setLoading(false);
     } catch (error) {
       setError(error.response.data.message);
@@ -94,25 +49,14 @@ const OrdersList = () => {
       errMsg(error);
       setError("");
     }
-    if (isDeleted) {
-      successMsg("Order deleted successfully");
-      navigate("/admin/orders");
-    }
   }, [error, isDeleted]);
-  const deleteOrderHandler = (id) => {
-    deleteOrder(id);
-  };
+
   const setOrders = () => {
     const data = {
       columns: [
         {
           label: "Order ID",
           field: "id",
-          sort: "asc",
-        },
-        {
-          label: "User Name",
-          field: "userame",
           sort: "asc",
         },
         {
@@ -150,10 +94,6 @@ const OrdersList = () => {
           field: "status",
           sort: "asc",
         },
-        {
-          label: "Actions",
-          field: "actions",
-        },
       ],
       rows: [],
     };
@@ -161,7 +101,6 @@ const OrdersList = () => {
     allOrders.forEach((order) => {
       data.rows.push({
         id: order._id,
-        userame: order.user?.name || "N/A",
         eventService: order.orderItems
           .map((service) => service.name)
           .join(", "),
@@ -180,39 +119,17 @@ const OrdersList = () => {
           ) : (
             <p style={{ color: "red" }}>{order.orderStatus}</p>
           ),
-        actions: (
-          <Fragment>
-            <Link
-              // to={`/admin/order/${order._id}`}
-              className="btn btn-primary py-1 px-2"
-            >
-              <i
-                className="fa fa-eye"
-                onClick={() => updateOrderStatus(order._id)}
-              ></i>
-            </Link>
-            <button
-              className="btn btn-danger py-1 px-2 ml-2"
-              onClick={() => deleteOrderHandler(order._id)}
-            >
-              <i className="fa fa-trash"></i>
-            </button>
-          </Fragment>
-        ),
       });
     });
     return data;
   };
   return (
     <Fragment>
-      <MetaData title={"All Orders"} />
+      <MetaData title={"My Orders"} />
       <div className="row">
-        <div className="col-12 col-md-2">
-          <Sidebar />
-        </div>
         <div className="col-12 col-md-10">
           <Fragment>
-            <h1 className="my-5">All Orders</h1>
+            <h1 className="my-5">My Orders</h1>
             {loading ? (
               <Loader />
             ) : (
