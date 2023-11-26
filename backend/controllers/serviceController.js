@@ -64,7 +64,8 @@ exports.getServices = async (req, res, next) => {
   const serviceCount = await Service.countDocuments();
   const apiFeatures = new APIFeatures(Service.find(), req.query)
     .search()
-    .filter();
+    .filter()
+    .category();
 
   apiFeatures.pagination(resPerPage);
   const services = await apiFeatures.query;

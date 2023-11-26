@@ -8,6 +8,24 @@ body {
   overflow-x: hidden;
 }
 
+.category_btn{
+  background-color: #564E58;
+  border: 1px solid black;
+  font-weight: 600;
+  position: relative;
+  outline: none;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+  height: 70px;
+  width: 180px;
+  opacity: 1;
+  color:white;
+  font-family: calibri;
+}
 /* Scroll Bar */
 
 ::-webkit-scrollbar-track {
@@ -70,6 +88,7 @@ nav {
 /* Home page */
 #products_heading {
   margin-top: 1.8rem;
+  text-align: center;
 }
 
 .card {

@@ -22,6 +22,22 @@ class APIFeatures {
         this.query = this.query.limit(resPerPage).skip(skip);
         return this;
     }
+    category() {
+        const validCategories = ['Digital Marketing',
+        'Social Media Management',
+        'Graphics & Video Production',
+        'Web Development',
+        'Customer Service & QA',
+        'Project Management',
+        'Photography',
+        'KOL',
+        'Studio Services',
+        'PC/Mobile Game Management'];
+        if (this.queryStr.category && validCategories.includes(this.queryStr.category.toLowerCase())) {
+          this.query = this.query.find({ category: this.queryStr.category.toLowerCase() });
+        }
+        return this;
+      }
     filter() {
 
         const queryCopy = { ...this.queryStr };

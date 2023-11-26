@@ -16,13 +16,13 @@ const Search = () => {
     }
 
     return (
-        <form onSubmit={searchHandler} >
+        <form onSubmit={searchHandler} style={{width: "1050px"}}>
             <div className="input-group">
                 <input
                     type="text"
                     id="search_field"
                     className="form-control"
-                    placeholder="Enter Product Name ..."
+                    placeholder="Search Services ..."
                     onChange={(e) => setKeyword(e.target.value)}
                 />
                 <div className="input-group-append">

@@ -294,25 +294,23 @@ exports.updateProfile = async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
   };
+    if (req.body.avatar !== "") {
+      const user = await User.findById(req.user.id);
 
-  // Update avatar
-  //   if (req.body.avatar !== "") {
-  //     const user = await User.findById(req.user.id);
+      const image_id = user.avatar.public_id;
+      const res = await cloudinary.v2.uploader.destroy(image_id);
 
-  //     const image_id = user.avatar.public_id;
-  //     const res = await cloudinary.v2.uploader.destroy(image_id);
+      const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        folder: "profiles",
+        width: 200,
+        crop: "scale",
+      });
 
-  //     const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-  //       folder: "avatars",
-  //       width: 150,
-  //       crop: "scale",
-  //     });
-
-  //     newUserData.avatar = {
-  //       public_id: result.public_id,
-  //       url: result.secure_url,
-  //     };
-  //   }
+      newUserData.avatar = {
+        public_id: result.public_id,
+        url: result.secure_url,
+      };
+    }
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
