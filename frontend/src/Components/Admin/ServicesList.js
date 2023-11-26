@@ -168,7 +168,7 @@ const ServicesList = () => {
 
         <div className="col-12 col-md-10">
           <Fragment>
-            <h1 className="my-5">All Services</h1>
+            <h1 className="my-5" style={{ color: "white", fontWeight: "bold", marginLeft:"15px"}}>All Services</h1>
 
             {loading ? (
               <Loader />
@@ -179,6 +179,7 @@ const ServicesList = () => {
                 bordered
                 striped
                 hover
+                style={{ color: "white", fontWeight: "bold"}}
               />
             )}
           </Fragment>

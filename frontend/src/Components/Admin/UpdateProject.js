@@ -159,6 +159,7 @@ const UpdateProject = () => {
                 className="shadow-lg"
                 onSubmit={submitHandler}
                 encType="multipart/form-data"
+                style={{border:"solid 4px white"}}
               >
                 <h1 className="mb-4">Update Project</h1>
                 <div className="form-group">
@@ -232,9 +233,10 @@ const UpdateProject = () => {
                   ))}
                 </div>
                 <button
-                  id="login_button"
+                  id="loginbut"
                   type="submit"
-                  className="btn btn-block py-3"
+                  className="buttonforLogin"
+                  style={{marginLeft:"80px"}}
                   disabled={loading ? true : false}
                 >
                   UPDATE

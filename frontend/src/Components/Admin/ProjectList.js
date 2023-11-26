@@ -159,7 +159,7 @@ const ProjectList = () => {
       
               <div className="col-12 col-md-10">
                 <Fragment>
-                  <h1 className="my-5">All Projects</h1>
+                  <h1 className="my-5" style={{ color: "white", fontWeight: "bold", marginLeft:"15px"}}>All Projects</h1>
       
                   {loading ? (
                     <Loader />
@@ -170,6 +170,7 @@ const ProjectList = () => {
                       bordered
                       striped
                       hover
+                      style={{ color: "white", fontWeight: "bold"}}
                     />
                   )}
                 </Fragment>

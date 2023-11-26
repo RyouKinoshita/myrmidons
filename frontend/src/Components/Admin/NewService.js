@@ -121,6 +121,7 @@ const NewService = () => {
                 className="shadow-lg"
                 onSubmit={submitHandler}
                 encType="multipart/form-data"
+                style={{border:"solid 4px white"}}
               >
                 <h1 className="mb-4">New Service</h1>
 
@@ -216,9 +217,10 @@ const NewService = () => {
                 </div>
 
                 <button
-                  id="login_button"
+                  id="loginsbut"
                   type="submit"
-                  className="btn btn-block py-3"
+                  className="buttonforLogin"
+                  style={{marginRight:"50px"}}
                   // disabled={loading ? true : false}
                 >
                   CREATE

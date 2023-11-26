@@ -97,6 +97,7 @@ const Register = () => {
             className="shadow-lg"
             onSubmit={submitHandler}
             encType="multipart/form-data"
+            style={{border:"solid 4px white"}}
           >
             <h1 className="mb-3">Register</h1>
 
@@ -165,9 +166,9 @@ const Register = () => {
             </div>
 
             <button
-              id="register_button"
+              id="loginbuts"
               type="submit"
-              className="btn btn-block py-3"
+              className="buttonforLogin"
               // disabled={loading ? false : true}
             >
               REGISTER
