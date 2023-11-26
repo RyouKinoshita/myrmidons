@@ -3,7 +3,7 @@ const crypto = require("crypto");
 const sendToken = require("../utils/jwtToken");
 const cloudinary = require("cloudinary");
 const sendEmail = require("../utils/sendEmail");
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 exports.google = async (req, res, next) => {
   try {
     const { email, name, avatar } = req.body;
@@ -15,20 +15,24 @@ exports.google = async (req, res, next) => {
 
     if (avatar) {
       // Upload avatar to Cloudinary
-      await cloudinary.v2.uploader.upload(avatar, {
-        folder: 'profiles',
-        width: 200,
-        crop: 'scale',
-      }, (err, result) => {
-        if (err) {
-          console.error('Error uploading avatar to Cloudinary:', err);
-          throw err;
+      await cloudinary.v2.uploader.upload(
+        avatar,
+        {
+          folder: "profiles",
+          width: 200,
+          crop: "scale",
+        },
+        (err, result) => {
+          if (err) {
+            console.error("Error uploading avatar to Cloudinary:", err);
+            throw err;
+          }
+          avatarData = {
+            public_id: result.public_id,
+            url: result.url,
+          };
         }
-        avatarData = {
-          public_id: result.public_id,
-          url: result.url,
-        };
-      });
+      );
     }
 
     if (existingUser) {
@@ -54,7 +58,7 @@ exports.google = async (req, res, next) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 exports.facebook = async (req, res, next) => {
@@ -68,20 +72,24 @@ exports.facebook = async (req, res, next) => {
 
     if (avatar) {
       // Upload avatar to Cloudinary
-      await cloudinary.v2.uploader.upload(avatar, {
-        folder: 'profiles',
-        width: 200,
-        crop: 'scale',
-      }, (err, result) => {
-        if (err) {
-          console.error('Error uploading avatar to Cloudinary:', err);
-          throw err;
+      await cloudinary.v2.uploader.upload(
+        avatar,
+        {
+          folder: "profiles",
+          width: 200,
+          crop: "scale",
+        },
+        (err, result) => {
+          if (err) {
+            console.error("Error uploading avatar to Cloudinary:", err);
+            throw err;
+          }
+          avatarData = {
+            public_id: result.public_id,
+            url: result.url,
+          };
         }
-        avatarData = {
-          public_id: result.public_id,
-          url: result.url,
-        };
-      });
+      );
     }
 
     if (existingUser) {
@@ -107,7 +115,7 @@ exports.facebook = async (req, res, next) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 exports.registerUser = async (req, res, next) => {
@@ -189,9 +197,8 @@ exports.logout = async (req, res, next) => {
   });
 };
 exports.forgotPassword = async (req, res, next) => {
-  
   const user = await User.findOne({ email: req.body.email });
-  console.log(req.body.email)
+  console.log(req.body.email);
   if (!user) {
     return res.status(404).json({ error: "User not found with this email" });
     // return next(new ErrorHandler('User not found with this email', 404));

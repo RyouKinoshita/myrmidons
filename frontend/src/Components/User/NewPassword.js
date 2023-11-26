@@ -1,99 +1,125 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useEffect } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
-import MetaData from '../Layout/Metadata'
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios';
+import MetaData from "../Layout/Metadata";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const NewPassword = () => {
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
+  const navigate = useNavigate();
+  const { token } = useParams();
 
-    let navigate = useNavigate();
-    const [error, setError] = useState('')
-    const [success, setSuccess] = useState('')
+  const validationSchema = Yup.object().shape({
+    password: Yup.string().required("Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Confirm Password is required"),
+  });
 
-    let { token } = useParams();
+  const formik = useFormik({
+    initialValues: {
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        const { data } = await axios.put(
+          `http://localhost:4001/api/v1/password/reset/${token}`,
+          values,
+          config
+        );
+        toast.success("Password updated", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        navigate("/login");
+      } catch (error) {
+        toast.error(error.response.data.message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      }
+    },
+  });
 
-    const resetPassword = async (token, passwords) => {
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-            const { data } = await axios.put(`http://localhost:4001/api/v1/password/reset/${token}`, passwords, config)
-            setSuccess(data.success)
-        } catch (error) {
-            setError(error)
-        }
+  useEffect(() => {
+    if (formik.errors.password || formik.errors.confirmPassword) {
+      toast.error("Invalid input. Please check your password and try again.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     }
-    useEffect(() => {
-        if (error) {
-            toast.error(error, {
-                position: toast.POSITION.BOTTOM_RIGHT
-            });
-        }
-        if (success) {
-            toast.success('password updated', {
-                position: toast.POSITION.BOTTOM_RIGHT
-            });
-            navigate('/login')
-        }
+  }, [formik.errors.password, formik.errors.confirmPassword]);
 
-    }, [error, success,])
+  return (
+    <Fragment>
+      <MetaData title={"New Password Reset"} />
+      <div className="row wrapper">
+        <div className="col-10 col-lg-5">
+          <form className="shadow-lg" onSubmit={formik.handleSubmit}>
+            <h1 className="mb-3">New Password</h1>
 
-    const submitHandler = (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.set('password', password);
-        formData.set('confirmPassword', confirmPassword);
-        resetPassword(token, formData)
-    }
-
-    return (
-        <Fragment>
-            <MetaData title={'New Password Reset'} />
-            <div className="row wrapper">
-                <div className="col-10 col-lg-5">
-                    <form className="shadow-lg" onSubmit={submitHandler}>
-                        <h1 className="mb-3">New Password</h1>
-
-                        <div className="form-group">
-                            <label htmlFor="password_field">Password</label>
-                            <input
-                                type="password"
-                                id="password_field"
-                                className="form-control"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="confirm_password_field">Confirm Password</label>
-                            <input
-                                type="password"
-                                id="confirm_password_field"
-                                className="form-control"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                            />
-                        </div>
-
-                        <button
-                            id="new_password_button"
-                            type="submit"
-                            className="btn btn-block py-3">
-                            Set Password
-                        </button>
-
-                    </form>
-                </div>
+            <div className="form-group">
+              <label htmlFor="password_field">Password</label>
+              <input
+                type="password"
+                id="password_field"
+                name="password"
+                className={`form-control ${
+                  formik.touched.password && formik.errors.password
+                    ? "is-invalid"
+                    : ""
+                }`}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.password && formik.errors.password ? (
+                <div className="invalid-feedback">{formik.errors.password}</div>
+              ) : null}
             </div>
 
-        </Fragment>
-    )
-}
+            <div className="form-group">
+              <label htmlFor="confirm_password_field">Confirm Password</label>
+              <input
+                type="password"
+                id="confirm_password_field"
+                name="confirmPassword"
+                className={`form-control ${
+                  formik.touched.confirmPassword &&
+                  formik.errors.confirmPassword
+                    ? "is-invalid"
+                    : ""
+                }`}
+                value={formik.values.confirmPassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword ? (
+                <div className="invalid-feedback">
+                  {formik.errors.confirmPassword}
+                </div>
+              ) : null}
+            </div>
 
-export default NewPassword
+            <button
+              id="new_password_button"
+              type="submit"
+              className="btn btn-block py-3"
+            >
+              Set Password
+            </button>
+          </form>
+        </div>
+      </div>
+    </Fragment>
+  );
+};
+
+export default NewPassword;

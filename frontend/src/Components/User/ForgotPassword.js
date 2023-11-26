@@ -1,80 +1,92 @@
-import React, { Fragment, useState,} from 'react'
-
-import MetaData from '../Layout/Metadata'
-import axios from 'axios'
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { Fragment } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import MetaData from "../Layout/Metadata";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
-    const [email, setEmail] = useState('')
-    const [loading, setLoading] = useState('')
-    
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    const forgotPassword = async (formData) => {
-        const config = {
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const { data } = await axios.post(
+          `http://localhost:4001/api/v1/password/forgot`,
+          values,
+          {
             headers: {
-                'Content-Type': 'application/json'
-            }
-        }
-        try {
-            const { data } = await axios.post(`http://localhost:4001/api/v1/password/forgot`, formData, config)
-            console.log(data.message)
-            
-            setLoading(false)
-            toast.success(data.message, {
-                position: toast.POSITION.BOTTOM_RIGHT
-            });
-            navigate('/login')
-        } catch (error) {
-            console.log(error)
-            toast.error(error.response.data.message, {
-                position: toast.POSITION.BOTTOM_RIGHT
-            });
-        }
-    }
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
+        console.log(data.message);
+        toast.success(data.message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        navigate("/login");
+      } catch (error) {
+        console.log(error);
+        toast.error(error.response.data.message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      }
+    },
+  });
 
-    const submitHandler = (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.set('email', email);
-        forgotPassword(formData)
-    }
-
-    return (
-        <Fragment>
-            <MetaData title={'Forgot Password'} />
-            <div className="row wrapper">
-                <div className="col-10 col-lg-5">
-                    <form className="shadow-lg" onSubmit={submitHandler}>
-                        <h1 className="mb-3">Forgot Password</h1>
-                        <div className="form-group">
-                            <label htmlFor="email_field">Enter Email</label>
-                            <input
-                                type="email"
-                                id="email_field"
-                                className="form-control"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
-
-                        <button
-                            id="forgot_password_button"
-                            type="submit"
-                            className="btn btn-block py-3"
-                            disabled={loading ? true : false} >
-                            Send Email
-                        </button>
-
-                    </form>
-                </div>
+  return (
+    <Fragment>
+      <MetaData title={"Forgot Password"} />
+      <div className="row wrapper">
+        <div className="col-10 col-lg-5">
+          <form className="shadow-lg" onSubmit={formik.handleSubmit}>
+            <h1 className="mb-3">Forgot Password</h1>
+            <div className="form-group">
+              <label htmlFor="email_field">Enter Email</label>
+              <input
+                type="email"
+                id="email_field"
+                name="email"
+                className={`form-control ${
+                  formik.touched.email && formik.errors.email
+                    ? "is-invalid"
+                    : ""
+                }`}
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.email && formik.errors.email ? (
+                <div className="invalid-feedback">{formik.errors.email}</div>
+              ) : null}
             </div>
 
-        </Fragment>
-    )
-}
+            <button
+              id="forgot_password_button"
+              type="submit"
+              className="btn btn-block py-3"
+              disabled={formik.isSubmitting}
+            >
+              Send Email
+            </button>
+          </form>
+        </div>
+      </div>
+    </Fragment>
+  );
+};
 
-export default ForgotPassword
+export default ForgotPassword;
