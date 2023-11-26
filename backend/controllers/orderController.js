@@ -301,7 +301,7 @@ exports.updateOrder = async (req, res, next) => {
     }
 
     // Update order status to 'Confirmed'
-    order.orderStatus = "Confirmed";
+    order.orderStatus = "Finished";
     order.deliveredAt = Date.now();
     await order.save();
 

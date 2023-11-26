@@ -55,7 +55,7 @@ const OrdersList = () => {
 
       const { data } = await axios.put(
         `http://localhost:4001/api/v1/admin/order/${orderId}`,
-        { orderStatus: "Confirmed" }, // Set the new status here
+        { orderStatus: "Finished" }, // Set the new status here
         config
       );
 
@@ -166,8 +166,11 @@ const OrdersList = () => {
         amount: `$${order.totalPrice}`,
         status:
           order.orderStatus &&
-          String(order.orderStatus).includes("Confirmed") ? (
+          String(order.orderStatus).includes("Finished") ? (
             <p style={{ color: "green" }}>{order.orderStatus}</p>
+          ) : order.orderStatus &&
+            String(order.orderStatus).includes("Confirmed") ? (
+            <p style={{ color: "blue" }}>{order.orderStatus}</p>
           ) : (
             <p style={{ color: "red" }}>{order.orderStatus}</p>
           ),

@@ -38,14 +38,14 @@ const Sidebar = () => {
 
           <li>
             <a
-              href="#serviceSubmenu"
+              href="#projectSubmenu"
               data-toggle="collapse"
               aria-expanded="false"
               className="dropdown-toggle"
             >
-              <i className="fa fa-cogs"></i> Projects
+              <i className="fa fa-tasks"></i> Projects
             </a>
-            <ul className="collapse list-unstyled" id="serviceSubmenu">
+            <ul className="collapse list-unstyled" id="projectSubmenu">
               <li>
                 <Link to="/admin/portfolio">
                   <i className="fa fa-clipboard"></i> All
@@ -85,7 +85,7 @@ const Sidebar = () => {
               aria-expanded="false"
               className="dropdown-toggle"
             >
-              <i className="fa fa-cogs"></i> Team
+              <i className="fa fa-users"></i> Team
             </a>
             <ul className="collapse list-unstyled" id="memberSubmenu">
               <li>
