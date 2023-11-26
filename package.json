@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/RyouKinoshita/myrmidons/issues"
   },
-  "homepage": "https://github.com/RyouKinoshita/myrmidons#readme"
+  "homepage": "https://github.com/RyouKinoshita/myrmidons#readme",
+  "dependencies": {
+    "nodemailer": "^6.9.7"
+  }
 }
