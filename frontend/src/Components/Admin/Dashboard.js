@@ -130,7 +130,6 @@ const Dashboard = () => {
                         <i className="fa fa-angle-right"></i>
                       </span>
                     </Link>
-
                   </div>
                 </div>
                 {/* <div className="col-xl-3 col-sm-6 mb-3">
@@ -152,7 +151,7 @@ const Dashboard = () => {
                       </span>
                     </Link>
                     </div> */}
-                    {/* </div> */}
+                {/* </div> */}
                 <div className="col-xl-3 col-sm-6 mb-3">
                   <div className="card text-white bg-info o-hidden h-100">
                     <div className="card-body">

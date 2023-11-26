@@ -39,8 +39,8 @@ const UpdateProject = () => {
       const { data } = await axios.get(
         `http://localhost:4001/api/v1/portfolio/${id}`
       );
-      setProject(data.project);
-      console.log(data.project);
+      setProject(data.portfolios);
+      setImagesPreview(data.portfolios.images.map((img) => img.url));
       setLoading(false);
     } catch (error) {
       setError(error.response.data.message);
@@ -67,31 +67,42 @@ const UpdateProject = () => {
   };
 
   useEffect(() => {
-    if (project && project._id !== id) {
-      getPortfolio(id);
-    } else {
-      setName(project.name);
-      setLocation(project.location);
-      setDate(project.date);
-      setOldImages(project.images);
-    }
+    const fetchData = async () => {
+      try {
+        console.log("Fetching project data...");
+        const response = await axios.get(
+          `http://localhost:4001/api/v1/portfolio/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${getToken()}`,
+            },
+          }
+        );
+        console.log("API Response:", response.data);
 
-    // const fetchData = async () => {
-    //   try {
-    //     if (!project || project._id !== id) {
-    //       await getPortfolio(id);
-    //     } else {
-    //       setName(project.name);
-    //       setLocation(project.location);
-    //       setDate(project.date);
-    //       setOldImages(project.images);
-    //     }
-    //   } catch (error) {
-    //     setError(error.response.data.message);
-    //   }
-    // };
+        const projectData = response.data.portfolios;
 
-    // fetchData();
+        // Initialize state with fetched data
+        setName(projectData.name);
+        setLocation(projectData.location);
+        setDate(projectData.date);
+        setImagesPreview(projectData.images.map((img) => img.url));
+        setOldImages(projectData.images);
+        setProject(projectData); // Set the project state
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching project data:", error);
+
+        if (error.response && error.response.data) {
+          setError(error.response.data.message);
+        } else {
+          setError("An error occurred while fetching project data");
+        }
+      }
+    };
+
+    fetchData();
 
     if (error) {
       errMsg(error);
@@ -103,14 +114,14 @@ const UpdateProject = () => {
       navigate("/admin/portfolio");
       successMsg("Project updated successfully");
     }
-  }, [error, isUpdated, updateError, project, id]);
+  }, [error, isUpdated, updateError, id]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("name", name);
-    formData.append("location", location);
-    formData.append("date", date);
+    formData.set("name", name);
+    formData.set("location", location);
+    formData.set("date", date);
     images.forEach((image) => {
       formData.append("images", image);
     });
@@ -160,6 +171,7 @@ const UpdateProject = () => {
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
+
                 <div className="form-group">
                   <label htmlFor="location_field">Location</label>
                   <input
@@ -170,6 +182,7 @@ const UpdateProject = () => {
                     onChange={(e) => setLocation(e.target.value)}
                   />
                 </div>
+
                 <div className="form-group">
                   <label htmlFor="date_field">Date</label>
                   <input
@@ -180,6 +193,7 @@ const UpdateProject = () => {
                     onChange={(e) => setDate(e.target.value)}
                   />
                 </div>
+
                 <div className="form-group">
                   <label>Images</label>
                   <div className="custom-file">
