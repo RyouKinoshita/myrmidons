@@ -137,7 +137,9 @@ function App() {
       <Router>
         <Header cartItems={state.cartItems} />
         <Routes>
-          <Route path="/" element={<Home />} exact="true" />
+        <Route path="/" element={<Home />} exact="true" />
+        <Route path="/search/:keyword" element={<Home />} exact={true} />
+
           <Route path="/about" element={<AboutUs />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/teampage" element={<TeamPage />} />

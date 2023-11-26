@@ -42,9 +42,7 @@ const Header = ({cartItems}) => {
               <span id="cart" className="ml-3" ><a href="/" style={{ color: 'yellow' }}>Home</a></span>
             </div>
           </div>
-        <div className="col-12 col-md-6 mt-2 mt-md-0">
-          {/* <Search /> */}
-        </div>
+          
         <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
         <Link to="/about" id="cart"className="ml-3" style={{ color: 'yellow' }}>About Us</Link>
         <Link to="/portfolio" id="cart"className="ml-3" style={{ color: 'yellow' }}>Portfolio</Link>
