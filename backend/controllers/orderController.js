@@ -296,12 +296,12 @@ exports.updateOrder = async (req, res, next) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    if (order.orderStatus === "Delivered") {
-      return res.status(400).json({ message: "Order already delivered" });
+    if (order.orderStatus === "Finished") {
+      return res.status(400).json({ message: "Order already finished" });
     }
 
     // Update order status to 'Confirmed'
-    order.orderStatus = "Confirmed";
+    order.orderStatus = "Finished";
     order.deliveredAt = Date.now();
     await order.save();
 

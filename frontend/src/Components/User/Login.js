@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import {authenticate} from '../../utils/helpers'
 import { getUser } from '../../utils/helpers';
+import OAuth from "./OAuth";
 
 const Login = () => {
 
@@ -102,7 +103,7 @@ const Login = () => {
                                 >
                                     LOGIN
                                 </button>
-
+                                <OAuth/>
                                 <Link to="/register" className="float-right mt-3">New User?</Link>
                             </form>
                         </div>
