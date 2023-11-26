@@ -9,7 +9,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const MemberList = () => {
     const [members, setMembers] = useState([]);
     const [error, setError] = useState("");
