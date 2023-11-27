@@ -142,7 +142,7 @@ const NewService = () => {
                 }}
               >
                 {({ setFieldValue, errors, touched }) => (
-                  <Form className="shadow-lg" encType="multipart/form-data">
+                  <Form className="shadow-lg" encType="multipart/form-data" style={{border:"solid 4px white"}}>
                     <h1 className="mb-4">New Service</h1>
 
                     <div className="form-group">
@@ -272,9 +272,10 @@ const NewService = () => {
                     </div>
 
                     <button
-                      id="login_button"
+                      id="loginsbut"
                       type="submit"
-                      className="btn btn-block py-3"
+                      className="buttonforLogin"
+                      style={{marginLeft:"15px", width:"340px"}}
                     >
                       CREATE
                     </button>

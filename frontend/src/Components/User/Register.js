@@ -97,7 +97,7 @@ const Register = () => {
             }}
           >
             {({ setFieldValue, errors, touched }) => (
-              <Form className="shadow-lg" encType="multipart/form-data">
+              <Form className="shadow-lg" encType="multipart/form-data" style={{border:"solid 4px white"}}>
                 <h1 className="mb-3">Register</h1>
 
                 <div className="form-group">
@@ -182,9 +182,9 @@ const Register = () => {
                 </div>
 
                 <button
-                  id="register_button"
+                  id="loginsbut"
                   type="submit"
-                  className="btn btn-block py-3"
+                  className="buttonforLogin"
                 >
                   REGISTER
                 </button>

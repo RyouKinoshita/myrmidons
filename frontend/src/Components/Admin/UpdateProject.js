@@ -236,7 +236,7 @@ const UpdateProject = () => {
                   id="loginbut"
                   type="submit"
                   className="buttonforLogin"
-                  style={{marginLeft:"80px"}}
+                  style={{marginLeft:"3px", width:"800px"}}
                   disabled={loading ? true : false}
                 >
                   UPDATE
