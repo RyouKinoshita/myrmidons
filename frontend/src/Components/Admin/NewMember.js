@@ -6,60 +6,41 @@ import { getToken } from "../../utils/helpers";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 const NewMember = () => {
-    const [name, setName] = useState("");
-    const [position, setPosition] = useState(0);
-    const [description, setDescription] = useState("");
-    const [images, setImages] = useState([]);
-    const [imagesPreview, setImagesPreview] = useState([]);
-  
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(true);
-    const [success, setSuccess] = useState("");
-    const [member, setMember] = useState({});
+  const [images, setImages] = useState([]);
+  const [imagesPreview, setImagesPreview] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState("");
+  const [member, setMember] = useState({});
 
-    let navigate = useNavigate();
+  let navigate = useNavigate();
 
-    const submitHandler = (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.set("name", name);
-    formData.set("position", position);
-    formData.set("description", description);
-
-    images.forEach((image) => {
-      formData.append("images", image);
-    });
-
-    newMember(formData);
-    };
-
-    const onChange = (e) => {
-
+  const onChange = (e, setFieldValue) => {
     const files = Array.from(e.target.files);
     setImagesPreview([]);
     setImages([]);
+    setFieldValue("images", files);
     files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
         if (reader.readyState === 2) {
           setImagesPreview((oldArray) => [...oldArray, reader.result]);
-          setImages((oldArray) => [...oldArray, reader.result]);
+          setImages((oldArray) => [...oldArray, file]);
         }
       };
-
       reader.readAsDataURL(file);
-      // console.log(reader)
     });
-    };
+  };
 
-    const newMember = async (formData) => {
+  const newMember = async (formData) => {
     try {
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${getToken()}`,
         },
       };
@@ -76,7 +57,8 @@ const NewMember = () => {
       setError(error.response.data.message);
     }
   };
-    useEffect(() => {
+
+  useEffect(() => {
     if (error) {
       toast.error(error, {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -91,7 +73,18 @@ const NewMember = () => {
     }
   }, [error, success]);
 
-return (
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    position: Yup.string().required("Position is required"),
+    description: Yup.string().required("Description is required"),
+    images: Yup.array()
+      .required("At least one image is required")
+      .test("fileSize", "Each file must be no more than 10mb", (value) =>
+        value.every((file) => file.size <= 1024 * 1024 * 10)
+      ),
+  });
+
+  return (
     <Fragment>
       <MetaData title={"New Member"} />
       <div className="row">
@@ -102,90 +95,131 @@ return (
         <div className="col-12 col-md-10">
           <Fragment>
             <div className="wrapper my-5">
-              <form
-                className="shadow-lg"
-                onSubmit={submitHandler}
-                encType="multipart/form-data"
+              <Formik
+                initialValues={{
+                  name: "",
+                  position: "",
+                  description: "",
+                  images: [],
+                }}
+                validationSchema={validationSchema}
+                onSubmit={(values, { setSubmitting }) => {
+                  setSubmitting(true);
+
+                  const formData = new FormData();
+                  formData.set("name", values.name);
+                  formData.set("position", values.position);
+                  formData.set("description", values.description);
+                  values.images.forEach((image) => {
+                    formData.append("images", image);
+                  });
+
+                  newMember(formData);
+                }}
               >
-                <h1 className="mb-4">New Member</h1>
+                {({ setFieldValue }) => (
+                  <Form className="shadow-lg" encType="multipart/form-data">
+                    <h1 className="mb-4">New Member</h1>
 
-                <div className="form-group">
-                  <label htmlFor="name_field">Name</label>
-                  <input
-                    type="text"
-                    id="name_field"
-                    className="form-control"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
+                    <div className="form-group">
+                      <label htmlFor="name_field">Name</label>
+                      <Field
+                        type="text"
+                        id="name_field"
+                        className="form-control"
+                        name="name"
+                      />
+                      <ErrorMessage
+                        name="name"
+                        component="div"
+                        className="invalid-feedback d-block"
+                      />
+                    </div>
 
-                <div className="form-group">
-                  <label htmlFor="position_field">Position</label>
-                  <input
-                    type="text"
-                    id="position_field"
-                    className="form-control"
-                    value={position}
-                    onChange={(e) => setPosition(e.target.value)}
-                  />
-                </div>
+                    <div className="form-group">
+                      <label htmlFor="position_field">Position</label>
+                      <Field
+                        type="text"
+                        id="position_field"
+                        className="form-control"
+                        name="position"
+                      />
+                      <ErrorMessage
+                        name="position"
+                        component="div"
+                        className="invalid-feedback d-block"
+                      />
+                    </div>
 
-                <div className="form-group">
-                  <label htmlFor="description_field">Description</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="description_field"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                </div>
+                    <div className="form-group">
+                      <label htmlFor="description_field">Description</label>
+                      <Field
+                        type="text"
+                        className="form-control"
+                        id="description_field"
+                        name="description"
+                      />
+                      <ErrorMessage
+                        name="description"
+                        component="div"
+                        className="invalid-feedback d-block"
+                      />
+                    </div>
 
-                <div className="form-group">
-                  <label>Images</label>
+                    <div className="form-group">
+                      <label>Images</label>
 
-                  <div className="custom-file">
-                    <input
-                      type="file"
-                      name="images"
-                      className="custom-file-input"
-                      id="customFile"
-                      onChange={onChange}
-                      multiple
-                    />
-                    <label className="custom-file-label" htmlFor="customFile">
-                      Choose Images
-                    </label>
-                  </div>
+                      <div className="custom-file">
+                        <input
+                          type="file"
+                          name="images"
+                          className="custom-file-input"
+                          id="customFile"
+                          onChange={(e) => onChange(e, setFieldValue)}
+                          multiple
+                        />
+                        <label
+                          className="custom-file-label"
+                          htmlFor="customFile"
+                        >
+                          Choose Images
+                        </label>
+                      </div>
 
-                  {imagesPreview.map((img) => (
-                    <img
-                      src={img}
-                      key={img}
-                      alt="Images Preview"
-                      className="mt-3 mr-2"
-                      width="55"
-                      height="52"
-                    />
-                  ))}
-                </div>
+                      {imagesPreview.map((img) => (
+                        <img
+                          src={img}
+                          key={img}
+                          alt="Images Preview"
+                          className="mt-3 mr-2"
+                          width="55"
+                          height="52"
+                        />
+                      ))}
+                      <ErrorMessage
+                        name="images"
+                        component="div"
+                        className="invalid-feedback d-block"
+                      />
+                    </div>
 
-                <button
-                  id="login_button"
-                  type="submit"
-                  className="buttonforLogin"
-                  style={{marginRight:"60px"}}
-                  // disabled={loading ? true : false}
-                >
-                  CREATE
-                </button>
-              </form>
+                    <button
+                      id="login_button"
+                      type="submit"
+                      className="buttonforLogin"
+                      style={{ marginRight: "60px" }}
+                    >
+                      CREATE
+                    </button>
+                  </Form>
+                )}
+              </Formik>
             </div>
           </Fragment>
         </div>
       </div>
     </Fragment>
   );
-}
+};
+
 export default NewMember;
