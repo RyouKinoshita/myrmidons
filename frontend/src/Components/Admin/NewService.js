@@ -6,7 +6,8 @@ import { getToken } from "../../utils/helpers";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
 const NewService = () => {
@@ -32,11 +33,39 @@ const NewService = () => {
 
   let navigate = useNavigate();
 
-  const onChange = (e, setFieldValue) => {
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    price: Yup.number()
+      .required("Price is required")
+      .positive("Price must be a positive number"),
+    description: Yup.string().required("Description is required"),
+    ratings: Yup.number()
+      .required("Ratings is required")
+      .positive("Ratings must be a positive number")
+      .integer("Ratings must be an integer"),
+    category: Yup.string().required("Category is required"),
+    images: Yup.array()
+      .required("At least one image is required")
+      .test("fileSize", "Each file must be no more than 10mb", (value) =>
+        value.every((file) => file.size <= 1024 * 1024 * 10)
+      ),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
+  const onChange = (e) => {
     const files = Array.from(e.target.files);
+    console.log(files); // Log the selected files
     setImagesPreview([]);
     setImages([]);
-    setFieldValue("images", files);
+    setValue("images", files);
     files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
@@ -86,23 +115,30 @@ const NewService = () => {
     }
   }, [error, success]);
 
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    price: Yup.number()
-      .required("Price is required")
-      .positive("Price must be a positive number"),
-    description: Yup.string().required("Description is required"),
-    ratings: Yup.number()
-      .required("Ratings is required")
-      .positive("Ratings must be a positive number")
-      .integer("Ratings must be an integer"),
-    category: Yup.string().required("Category is required"),
-    images: Yup.array()
-      .required("At least one image is required")
-      .test("fileSize", "Each file must be no more than 10mb", (value) =>
-        value.every((file) => file.size <= 1024 * 1024 * 10)
-      ),
-  });
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.set("name", data.name);
+    formData.set("price", data.price);
+    formData.set("description", data.description);
+    formData.set("ratings", data.ratings);
+    formData.set("category", data.category);
+    for (let i = 0; i < data.images.length; i++) {
+      const file = data.images[i];
+      const base64 = await convertFileToBase64(file);
+      formData.append("images", base64);
+    }
+
+    newService(formData);
+  };
+
+  function convertFileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
 
   return (
     <Fragment>
@@ -115,177 +151,145 @@ const NewService = () => {
         <div className="col-12 col-md-10">
           <Fragment>
             <div className="wrapper my-5">
-              <Formik
-                initialValues={{
-                  name: "",
-                  price: "",
-                  description: "",
-                  ratings: "",
-                  category: "",
-                  images: [],
-                }}
-                validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting }) => {
-                  setSubmitting(true);
-
-                  const formData = new FormData();
-                  formData.set("name", values.name);
-                  formData.set("price", values.price);
-                  formData.set("description", values.description);
-                  formData.set("ratings", values.ratings);
-                  formData.set("category", values.category);
-                  values.images.forEach((image, index) => {
-                    formData.append(`images`, image);
-                  });
-
-                  newService(formData);
-                }}
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="shadow-lg"
+                encType="multipart/form-data"
+                style={{ border: "solid 4px white" }}
               >
-                {({ setFieldValue, errors, touched }) => (
-                  <Form
-                    className="shadow-lg"
-                    encType="multipart/form-data"
-                    style={{ border: "solid 4px white" }}
+                <h1 className="mb-4">New Service</h1>
+
+                <div className="form-group">
+                  <label htmlFor="name_field">Name</label>
+                  <input
+                    type="text"
+                    id="name_field"
+                    className={`form-control ${
+                      errors.name ? "is-invalid" : ""
+                    }`}
+                    {...register("name")}
+                  />
+                  {errors.name && (
+                    <p className="invalid-feedback">{errors.name.message}</p>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="price_field">Price</label>
+                  <input
+                    type="text"
+                    id="price_field"
+                    className={`form-control ${
+                      errors.price ? "is-invalid" : ""
+                    }`}
+                    {...register("price")}
+                  />
+                  {errors.price && (
+                    <p className="invalid-feedback">{errors.price.message}</p>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="description_field">Description</label>
+                  <textarea
+                    id="description_field"
+                    className={`form-control ${
+                      errors.description ? "is-invalid" : ""
+                    }`}
+                    {...register("description")}
+                  />
+                  {errors.description && (
+                    <p className="invalid-feedback">
+                      {errors.description.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="ratings_field">Ratings</label>
+                  <select
+                    id="ratings_field"
+                    className={`form-control ${
+                      errors.ratings ? "is-invalid" : ""
+                    }`}
+                    {...register("ratings")}
                   >
-                    <h1 className="mb-4">New Service</h1>
+                    <option value="">Select a rating</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                  {errors.ratings && (
+                    <p className="invalid-feedback">{errors.ratings.message}</p>
+                  )}
+                </div>
 
-                    <div className="form-group">
-                      <label htmlFor="name_field">Name</label>
-                      <Field
-                        type="text"
-                        id="name_field"
-                        className="form-control"
-                        name="name"
-                      />
-                      <ErrorMessage
-                        name="name"
-                        component="div"
-                        className="invalid-feedback d-block"
-                      />
-                    </div>
+                <div className="form-group">
+                  <label htmlFor="category_field">Category</label>
+                  <select
+                    id="category_field"
+                    className={`form-control ${
+                      errors.category ? "is-invalid" : ""
+                    }`}
+                    {...register("category")}
+                  >
+                    {categories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.category && (
+                    <p className="invalid-feedback">
+                      {errors.category.message}
+                    </p>
+                  )}
+                </div>
 
-                    <div className="form-group">
-                      <label htmlFor="price_field">Price</label>
-                      <Field
-                        type="text"
-                        id="price_field"
-                        className="form-control"
-                        name="price"
-                      />
-                      <ErrorMessage
-                        name="price"
-                        component="div"
-                        className="invalid-feedback d-block"
-                      />
-                    </div>
+                <div className="form-group">
+                  <label>Images</label>
+                  <div className="custom-file">
+                    <input
+                      type="file"
+                      name="images"
+                      className={`custom-file-input ${
+                        errors.images ? "is-invalid" : ""
+                      }`}
+                      onChange={onChange}
+                      multiple
+                    />
+                    <label className="custom-file-label" htmlFor="customFile">
+                      Choose images
+                    </label>
+                    {errors.images && (
+                      <p className="invalid-feedback">
+                        {errors.images.message}
+                      </p>
+                    )}
+                  </div>
+                  {imagesPreview.map((img) => (
+                    <img
+                      src={img}
+                      key={img}
+                      alt="Images Preview"
+                      className="mt-3 mr-2"
+                      width="55"
+                      height="52"
+                    />
+                  ))}
+                </div>
 
-                    <div className="form-group">
-                      <label htmlFor="description_field">Description</label>
-                      <Field
-                        as="textarea"
-                        className="form-control"
-                        id="description_field"
-                        rows="8"
-                        name="description"
-                      />
-                      <ErrorMessage
-                        name="description"
-                        component="div"
-                        className="invalid-feedback d-block"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="ratings_field">Ratings</label>
-                      <Field
-                        as="select"
-                        id="ratings_field"
-                        className="form-control"
-                        name="ratings"
-                      >
-                        <option value="">Select a rating</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                      </Field>
-                      <ErrorMessage
-                        name="ratings"
-                        component="div"
-                        className="invalid-feedback d-block"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="category_field">Category</label>
-                      <Field
-                        as="select"
-                        className="form-control"
-                        id="category_field"
-                        name="category"
-                      >
-                        {categories.map((category) => (
-                          <option key={category} value={category}>
-                            {category}
-                          </option>
-                        ))}
-                      </Field>
-                      <ErrorMessage
-                        name="category"
-                        component="div"
-                        className="invalid-feedback d-block"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>Images</label>
-
-                      <div className="custom-file">
-                        <input
-                          type="file"
-                          name="images"
-                          className="custom-file-input"
-                          id="customFile"
-                          onChange={(e) => onChange(e, setFieldValue)}
-                          multiple
-                        />
-                        <label
-                          className="custom-file-label"
-                          htmlFor="customFile"
-                        >
-                          Choose Images
-                        </label>
-                      </div>
-
-                      {imagesPreview.map((img) => (
-                        <img
-                          src={img}
-                          key={img}
-                          alt="Images Preview"
-                          className="mt-3 mr-2"
-                          width="55"
-                          height="52"
-                        />
-                      ))}
-                      <ErrorMessage
-                        name="images"
-                        component="div"
-                        className="invalid-feedback d-block"
-                      />
-                    </div>
-
-                    <button
-                      id="loginsbut"
-                      type="submit"
-                      className="buttonforLogin"
-                      
-                    >
-                      CREATE
-                    </button>
-                  </Form>
-                )}
-              </Formik>
+                <button
+                  id="loginsbut"
+                  type="submit"
+                  className="buttonforLogin"
+                  style={{ marginLeft: "15px", width: "340px" }}
+                >
+                  CREATE
+                </button>
+              </form>
             </div>
           </Fragment>
         </div>

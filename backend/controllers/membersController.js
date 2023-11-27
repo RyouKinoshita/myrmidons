@@ -12,12 +12,11 @@ exports.getmembers = async (req, res, next) => {
 };
 exports.newMember = async (req, res, next) => {
   let images = [];
-  if (typeof req.body.images === "string") {
-    images.push(req.body.images);
-  } else {
+ if (typeof req.body.images === "string") {
+    req.body.images = [];
+    req.body.images.push(images);
     images = req.body.images;
   }
-
   let imagesLinks = [];
 
   for (let i = 0; i < images.length; i++) {

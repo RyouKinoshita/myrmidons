@@ -47,22 +47,40 @@ exports.newPortfolio = async (req, res, next) => {
   });
 };
 exports.getPortfolio = async (req, res, next) => {
-  try {
-    const portfolios = await Portfolio.find({});
+  // try {
+  //   const portfolios = await Portfolio.find({});
 
-    res.status(200).json({
-      success: true,
-      count: portfolios.length,
-      portfolios,
-    });
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-    });
-  }
+  //   res.status(200).json({
+  //     success: true,
+  //     count: portfolios.length,
+  //     portfolios,
+  //   });
+  // } catch (error) {
+
+  const portfolios = await Portfolio.find({});
+
+  res.status(200).json({
+    success: true,
+    count: portfolios.length,
+    portfolios,
+  });
+
+  // console.error("Error fetching data:", error);
+  // res.status(500).json({
+  //   success: false,
+  //   message: "Internal Server Error",
+  // });
 };
+
+exports.getAdminProject = async (req, res, next) => {
+  const portfolios = await Portfolio.find({});
+  res.status(200).json({
+    success: true,
+    count: portfolios.length,
+    portfolios,
+  });
+};
+// };
 // exports.getPortfolio = async (req, res, next) => {
 //   const portfolios = await Portfolio.find({});
 //   res.status(200).json({
@@ -73,15 +91,16 @@ exports.getPortfolio = async (req, res, next) => {
 // };
 
 exports.updatePortfolio = async (req, res, next) => {
-  let portfolios = await Portfolio.findById(req.params.id);
   console.log(req.body);
-  console.log(req.params.id);
-  //   if (!portfolios) {
-  //     return res.status(404).json({
-  //       success: false,
-  //       message: "Project not found",
-  //     });
-  //   }
+  let portfolios = await Portfolio.findById(req.params.id);
+
+  console.log(portfolios);
+  if (!portfolios) {
+    return res.status(404).json({
+      success: false,
+      message: "Project not found",
+    });
+  }
   let images = req.body.images;
 
   if (typeof req.body.images === "string") {
@@ -116,12 +135,12 @@ exports.updatePortfolio = async (req, res, next) => {
     useFindandModify: false,
   });
   //   if (!portfolios) {
-  //     return res.status(404).json({
-  //       success: false,
-  //       message: "project not updated",
-  //     });
-  //   }
-  res.status(200).json({
+  //   return res.status(404).json({
+  //     success: false,
+  //     message: "project not updated",
+  //   });
+  // }
+  return res.status(200).json({
     success: true,
     portfolios,
   });
@@ -174,15 +193,16 @@ exports.deletePortfolio = async (req, res, next) => {
   const portfolios = await Portfolio.findByIdAndDelete(req.params.id);
   if (!portfolios) {
     return res.status(404).json({
+      portfolios,
       success: false,
       message: "Service not found",
     });
   }
   // await product.remove();
-  res.status(200).json({
-    success: true,
-    message: "Service deleted",
-  });
+  // res.status(200).json({
+  //   success: true,
+  //   message: "Service deleted",
+  // });
 };
 exports.getSinglePortfolio = async (req, res, next) => {
   const portfolios = await Portfolio.findById(req.params.id);
@@ -198,11 +218,11 @@ exports.getSinglePortfolio = async (req, res, next) => {
   });
 };
 
-exports.getAdminProject = async (req, res, next) => {
-  const portfolios = await Portfolio.find({});
-  res.status(200).json({
-    success: true,
-    count: portfolios.length,
-    portfolios,
-  });
-};
+// exports.getAdminProject = async (req, res, next) => {
+//   const portfolios = await Portfolio.find({});
+//   res.status(200).json({
+//     success: true,
+//     count: portfolios.length,
+//     portfolios,
+//   });
+// };
