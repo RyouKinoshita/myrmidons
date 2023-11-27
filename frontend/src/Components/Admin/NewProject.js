@@ -6,6 +6,7 @@ import { getToken } from "../../utils/helpers";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "../Layout/Loader";
 
 const NewProject = () => {
     const [name, setName] = useState("");
@@ -32,10 +33,12 @@ const NewProject = () => {
     images.forEach((image) => {
       formData.append("images", image);
     });
-
+   
     newProject(formData);
     };
-
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
     const onChange = (e) => {
 
     const files = Array.from(e.target.files);
@@ -69,7 +72,7 @@ const NewProject = () => {
         formData,
         config
       );
-      setLoading(false);
+      setLoading(false)
       setSuccess(data.success);
       setProject(data.project);
     } catch (error) {
@@ -92,13 +95,17 @@ const NewProject = () => {
   }, [error, success]);
 
 return (
+ <>
+    {loading ? (
+            <Loader />
+          ) : (
     <Fragment>
       <MetaData title={"New Project"} />
       <div className="row">
         <div className="col-12 col-md-2">
           <Sidebar />
         </div>
-
+           
         <div className="col-12 col-md-10">
           <Fragment>
             <div className="wrapper my-5">
@@ -183,10 +190,12 @@ return (
                 </button>
               </form>
             </div>
-          </Fragment>
+          </Fragment> 
         </div>
       </div>
     </Fragment>
+     )}
+     </>
   );
 }
 export default NewProject;

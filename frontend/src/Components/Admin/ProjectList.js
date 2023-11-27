@@ -34,7 +34,9 @@ const ProjectList = () => {
       );
       console.log(data.portfolios);
       setProjects(data.portfolios);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -86,7 +88,9 @@ const ProjectList = () => {
 
       if (data.success) {
         setIsDeleted(true); // Set isDeleted to trigger the useEffect
-        setLoading(false);
+        const timeoutId = setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       }
     } catch (error) {
       setDeleteError(error.response.data.message);

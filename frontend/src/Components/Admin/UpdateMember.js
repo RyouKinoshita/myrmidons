@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios';
 import { getToken } from '../../utils/helpers';
+import Loader from "../Layout/Loader";
 
 const UpdateMember = () => {
     const [name, setName] = useState('');
@@ -43,7 +44,9 @@ const UpdateMember = () => {
            const { data } = await axios.get(`http://localhost:4001/api/v1/admin/MemberList/${id}`, config)
           // console .log(data)
            setMember(data.team)
-           setLoading(false)
+           const timeoutId = setTimeout(() => {
+            setLoading(false);
+          }, 1000);
            
         } catch (error) {
             setError(error.response.data.message)
@@ -122,6 +125,11 @@ const UpdateMember = () => {
         })
     }
     return (
+        <>
+        {loading ? (
+                <Loader />
+              ) : (
+        
         <Fragment>
             <MetaData title={'Update Member'} />
             <div className="row">
@@ -196,6 +204,8 @@ const UpdateMember = () => {
                 </div>
             </div>
         </Fragment>
+         )}
+         </>
     )
 }
 

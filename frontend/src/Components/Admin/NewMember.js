@@ -19,7 +19,9 @@ const NewMember = () => {
   const [member, setMember] = useState({});
 
   let navigate = useNavigate();
-
+  const timeoutId = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
   const onChange = (e, setFieldValue) => {
     const files = Array.from(e.target.files);
     setImagesPreview([]);
@@ -86,6 +88,10 @@ const NewMember = () => {
   });
 
   return (
+    <>
+    {loading ? (
+            <Loader />
+          ) : (
     <Fragment>
       <MetaData title={"New Member"} />
       <div className="row">
@@ -223,6 +229,8 @@ const NewMember = () => {
         </div>
       </div>
     </Fragment>
+     )}
+     </>
   );
 };
 

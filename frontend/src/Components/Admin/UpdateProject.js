@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { getToken } from "../../utils/helpers";
+import Loader from "../Layout/Loader";
 // import { get } from "mongoose";
 
 const UpdateProject = () => {
@@ -41,7 +42,9 @@ const UpdateProject = () => {
         `http://localhost:4001/api/v1/portfolio/${id}`
       );
       setProject(data.portfolios);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -119,6 +122,10 @@ const UpdateProject = () => {
   };
 
   return (
+    <>
+    {loading ? (
+            <Loader />
+          ) : (
     <Fragment>
       <MetaData title={"Update Project"} />
       <div className="row">
@@ -220,6 +227,8 @@ const UpdateProject = () => {
         </div>
       </div>
     </Fragment>
+      )}
+      </>
   );
 };
 
