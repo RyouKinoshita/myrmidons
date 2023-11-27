@@ -144,7 +144,7 @@ const UpdateService = () => {
                 className="shadow-lg"
                 onSubmit={submitHandler}
                 encType="multipart/form-data"
-                style={{border:"solid 4px white"}}
+                style={{ border: "solid 4px white" }}
               >
                 <h1 className="mb-4">Update Service</h1>
                 <div className="form-group">
