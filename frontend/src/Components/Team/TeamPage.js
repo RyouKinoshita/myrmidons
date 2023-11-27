@@ -5,15 +5,17 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import Loader from "../Layout/Loader";
 const Team = () => {
   const [team, setTeam] = useState([]);
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
       .get("http://localhost:4001/api/v1/members")
       .then((response) => {
         setTeam(response.data.team);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -72,9 +74,10 @@ const Team = () => {
           Team Members
         </h1>
       </div>
-
-      {/* Team Members Section */}
-      <Slider {...settings}>
+      {loading ? (
+            <Loader />
+          ) : (
+<Slider {...settings}>
       {team.map((teams) => (
         <div key={teams._id}>
           <div className="card" style={{height:"950px"}}>
@@ -107,11 +110,15 @@ const Team = () => {
               <p>{teams.email}</p>
             </div>
           </div>
+          
         </div>
-      ))}
+      ))}      
     </Slider>
+          )}
+   
     </div>
-  );
-};
+ );
+}; 
+
 
 export default Team;
