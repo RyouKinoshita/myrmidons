@@ -44,7 +44,17 @@ const OrdersList = () => {
       setError(error.response.data.message);
     }
   };
-  const updateOrderStatus = async (orderId) => {
+  const updateOrderStatus = async (orderId, orderStatus) => {
+    if (orderStatus === "Processing") {
+      toast.error("Confirm order first");
+      return;
+    }
+
+    if (orderStatus === "Finished") {
+      toast.error("Order already finished");
+      return;
+    }
+
     try {
       const config = {
         headers: {
@@ -60,10 +70,10 @@ const OrdersList = () => {
       );
 
       if (data.success) {
-        successMsg("Order status updated successfully");
+        toast.success("Order status updated successfully");
         listOrders(); // Refresh the orders after updating status
       } else {
-        errMsg("Failed to update order status");
+        toast.error("Failed to update order status");
       }
     } catch (error) {
       setError(error.response.data.message);
@@ -182,21 +192,27 @@ const OrdersList = () => {
           ),
         actions: (
           <Fragment>
-            <Link
-              // to={`/admin/order/${order._id}`}
-              className="btn btn-primary py-1 px-2"
-            >
-              <i
-                className="fa fa-eye"
-                onClick={() => updateOrderStatus(order._id)}
-              ></i>
-            </Link>
-            <button
-              className="btn btn-danger py-1 px-2 ml-2"
-              onClick={() => deleteOrderHandler(order._id)}
-            >
-              <i className="fa fa-trash"></i>
-            </button>
+            <div className="button-container">
+              <Link
+                // to={`/admin/order/${order._id}`}
+                className="btn btn-primary py-1 px-2"
+                title="Update Status"
+              >
+                <i
+                  className="fa fa-refresh"
+                  onClick={() =>
+                    updateOrderStatus(order._id, order.orderStatus)
+                  }
+                ></i>
+              </Link>
+              <button
+                className="btn btn-danger py-1 px-2 ml-2"
+                title="Delete Order"
+                onClick={() => deleteOrderHandler(order._id)}
+              >
+                <i className="fa fa-trash"></i>
+              </button>
+            </div>
           </Fragment>
         ),
       });
@@ -222,7 +238,7 @@ const OrdersList = () => {
                 bordered
                 striped
                 hover
-                style={{ color: "white", fontWeight: "bold"}}
+                style={{ color: "white", fontWeight: "bold" }}
               />
             )}
           </Fragment>

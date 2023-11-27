@@ -211,6 +211,11 @@ nav {
   
   
 }
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .buttonforLogin{
   border-radius: 2rem;
   margin-bottom: 10px;

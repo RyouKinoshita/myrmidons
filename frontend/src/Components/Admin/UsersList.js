@@ -105,11 +105,13 @@ const UsersList = () => {
             <Link
               to={`/admin/user/${user._id}`}
               className="btn btn-primary py-1 px-2"
+              title="Edit User"
             >
               <i className="fa fa-pencil"></i>
             </Link>
             <button
               className="btn btn-danger py-1 px-2 ml-2"
+              title="Delete User"
               onClick={() => deleteUserHandler(user._id)}
             >
               <i className="fa fa-trash"></i>
@@ -139,7 +141,7 @@ const UsersList = () => {
                 bordered
                 striped
                 hover
-                style={{ color: "white", fontWeight: "bold"}}
+                style={{ color: "white", fontWeight: "bold" }}
               />
             )}
           </Fragment>

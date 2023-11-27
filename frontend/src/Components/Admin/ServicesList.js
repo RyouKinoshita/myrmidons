@@ -134,18 +134,22 @@ const ServicesList = () => {
         category: service.category,
         actions: (
           <Fragment>
-            <Link
-              to={`/admin/service/${service._id}`}
-              className="btn btn-primary py-1 px-2"
-            >
-              <i className="fa fa-pencil"></i>
-            </Link>
-            <button
-              className="btn btn-danger py-1 px-2 ml-2"
-              onClick={() => deleteServiceHandler(service._id)}
-            >
-              <i className="fa fa-trash"></i>
-            </button>
+            <div className="button-container">
+              <Link
+                to={`/admin/service/${service._id}`}
+                className="btn btn-primary py-1 px-2"
+                title="Edit Service"
+              >
+                <i className="fa fa-pencil"></i>
+              </Link>
+              <button
+                className="btn btn-danger py-1 px-2 ml-2"
+                title="Delete Service"
+                onClick={() => deleteServiceHandler(service._id)}
+              >
+                <i className="fa fa-trash"></i>
+              </button>
+            </div>
           </Fragment>
         ),
       });
@@ -168,7 +172,12 @@ const ServicesList = () => {
 
         <div className="col-12 col-md-10">
           <Fragment>
-            <h1 className="my-5" style={{ color: "white", fontWeight: "bold", marginLeft:"15px"}}>All Services</h1>
+            <h1
+              className="my-5"
+              style={{ color: "white", fontWeight: "bold", marginLeft: "15px" }}
+            >
+              All Services
+            </h1>
 
             {loading ? (
               <Loader />
@@ -179,7 +188,7 @@ const ServicesList = () => {
                 bordered
                 striped
                 hover
-                style={{ color: "white", fontWeight: "bold"}}
+                style={{ color: "white", fontWeight: "bold" }}
               />
             )}
           </Fragment>

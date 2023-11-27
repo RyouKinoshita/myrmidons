@@ -16,6 +16,7 @@ import ServiceSalesChart from "./ServiceSalesChart";
 const Dashboard = () => {
   const [services, setServices] = useState([]);
   const [portfolios, setPortfolios] = useState([]);
+  const [team, setTeam] = useState([]);
   const [error, setError] = useState("");
   const [users, setUsers] = useState([]);
 
@@ -90,9 +91,31 @@ const Dashboard = () => {
     }
   };
 
+  const getAdminMembers = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      };
+
+      const { data } = await axios.get(
+        `http://localhost:4001/api/v1/admin/MemberList`,
+        config
+      );
+      console.log(data);
+      setTeam(data.team);
+      setLoading(false);
+    } catch (error) {
+      setError(error.response.data.message);
+    }
+  };
+
   useEffect(() => {
     getAdminServices();
     getAdminProjects();
+    getAdminMembers();
     // allOrders()
     allUsers();
   }, []);
@@ -193,6 +216,27 @@ const Dashboard = () => {
                     </Link>
                   </div>
                 </div>
+
+                <div className="col-xl-3 col-sm-6 mb-3">
+                  <div className="card text-white bg-info o-hidden h-100">
+                    <div className="card-body">
+                      <div className="text-center card-font-size">
+                        Members
+                        <br /> <b>{team && team.length}</b>
+                      </div>
+                    </div>
+
+                    <Link
+                      className="card-footer text-white clearfix small z-1"
+                      to="/admin/MemberList"
+                    >
+                      <span className="float-left">View Details</span>
+                      <span className="float-right">
+                        <i className="fa fa-angle-right"></i>
+                      </span>
+                    </Link>
+                  </div>
+                </div>
               </div>
               <div className="row pr-4">
                 <Fragment>
@@ -205,10 +249,15 @@ const Dashboard = () => {
                   <ServiceSalesChart />
                 </Fragment>
                 <Fragment>
-                  <div style={{justifyContent:"center", width:"1250px", height:"1500"}}>
-                  <Calendar />
+                  <div
+                    style={{
+                      justifyContent: "center",
+                      width: "1250px",
+                      height: "1500",
+                    }}
+                  >
+                    <Calendar />
                   </div>
-                  
                 </Fragment>
               </div>
             </Fragment>
