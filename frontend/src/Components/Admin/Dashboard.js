@@ -128,7 +128,7 @@ const Dashboard = () => {
         </div>
 
         <div className="col-12 col-md-10">
-          <h1 className="my-4">Dashboard</h1>
+          <h1 className="my-4" style={{color:"yellow" ,marginLeft:"-10px"}}>Dashboard</h1>
 
           {loading ? (
             <Loader />
@@ -156,30 +156,11 @@ const Dashboard = () => {
                     </Link>
                   </div>
                 </div>
-                {/* <div className="col-xl-3 col-sm-6 mb-3">
-                    <div className="card text-white bg-success o-hidden h-100"></div>
-                    <div className="card-body">
-                      <div className="text-center card-font-size">
-                        Projects
-                        <br /> <b>{projects && projects.length}</b>
-                      </div>
-                    </div>
-
-                    <Link
-                      className="card-footer text-white clearfix small z-1"
-                      to="/admin/portfolio"
-                    >
-                      <span className="float-left">View Details</span>
-                      <span className="float-right">
-                        <i className="fa fa-angle-right"></i>
-                      </span>
-                    </Link>
-                    </div> */}
-                {/* </div> */}
-                <div className="col-xl-3 col-sm-6 mb-3">
-                  <div className="card text-white bg-info o-hidden h-100">
-                    <div className="card-body">
-                      <div className="text-center card-font-size">
+                
+                <div className="col-xl-3 col-sm-6 mb-3" >
+                  <div className="card text-white  o-hidden h-100"  style={{backgroundColor:"red"}}>
+                    <div className="card-body" style={{backgroundColor:"red"}}>
+                      <div className="text-center card-font-size" >
                         Users
                         <br /> <b>{users && users.length}</b>
                       </div>
@@ -187,7 +168,7 @@ const Dashboard = () => {
 
                     <Link
                       className="card-footer text-white clearfix small z-1"
-                      to="/admin/users"
+                      to="/admin/users" style={{backgroundColor:"red"}}
                     >
                       <span className="float-left">View Details</span>
                       <span className="float-right">
@@ -197,8 +178,8 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="col-xl-3 col-sm-6 mb-3">
-                  <div className="card text-white bg-info o-hidden h-100">
-                    <div className="card-body">
+                  <div className="card text-white  o-hidden h-100" style={{backgroundColor:"orange"}}>
+                    <div className="card-body" style={{backgroundColor:"orange"}}>
                       <div className="text-center card-font-size">
                         Portfolio
                         <br /> <b>{portfolios && portfolios.length}</b>
@@ -207,7 +188,7 @@ const Dashboard = () => {
 
                     <Link
                       className="card-footer text-white clearfix small z-1"
-                      to="/admin/portfolio"
+                      to="/admin/portfolio" style={{backgroundColor:"orange"}}
                     >
                       <span className="float-left">View Details</span>
                       <span className="float-right">
@@ -239,26 +220,35 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="row pr-4">
-                <Fragment>
-                  <UserSalesChart />
-                </Fragment>
-                <Fragment>
-                  <MonthlySalesChart />
-                </Fragment>
-                <Fragment>
-                  <ServiceSalesChart />
-                </Fragment>
-                <Fragment>
+              <Fragment>
                   <div
                     style={{
                       justifyContent: "center",
                       width: "1250px",
                       height: "1500",
+                      marginBottom:"40px"
                     }}
                   >
                     <Calendar />
                   </div>
+                  
                 </Fragment>
+                
+                <Fragment>
+  <div className="chart-container">
+    <h2>User Sales Chart</h2>
+    <UserSalesChart />
+  </div>
+  <div className="chart-container">
+    <h2>Monthly Sales Chart</h2>
+    <MonthlySalesChart />
+  </div>
+  <div className="chart-container" style={{backgroundColor:"black", color:"yellow"}}>
+    <h2 style={{color:"yellow"}}>Service Sales Chart</h2>
+    <ServiceSalesChart />
+  </div>
+</Fragment>
+                
               </div>
             </Fragment>
           )}

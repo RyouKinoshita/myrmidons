@@ -40,7 +40,7 @@ export default function MonthlySalesChart() {
   }, []);
 
   return (
-    <ResponsiveContainer width="50%" height={600}>
+    <ResponsiveContainer width="100%" height={250}>
       <LineChart
         width={600}
         height={300}

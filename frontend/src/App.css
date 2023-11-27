@@ -618,6 +618,19 @@ footer {
   margin-right: -1px;
 }
 
+.chart-container {
+  margin-bottom: 20px;
+  width:1250px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: yellow;
+}
+.chart-container h2 {
+  margin-top: 0;
+  color: black;
+}
 /* User Profile */
 
 .avatar-profile {

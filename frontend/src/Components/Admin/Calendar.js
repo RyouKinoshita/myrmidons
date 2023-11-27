@@ -54,14 +54,14 @@ const DashboardCalendar = () => {
 
   return (
     <div>
-      <h2>Dashboard Calendar</h2>
+      <h2 style={{color:"yellow"}}>Calendar of Services</h2>
       <Calendar
         localizer={localizer}
         events={formattedEvents}
         startAccessor="start"
         endAccessor="end"
         // Other props and event handlers as needed
-        style={{ height: 800 }} // Adjust height as per your layout
+        style={{ height: 800, color:"yellow", backgroundColor:"black", fontWeight:"bold" }} // Adjust height as per your layout
       />
     </div>
   );

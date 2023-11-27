@@ -64,8 +64,8 @@ const ServiceSalesChart = () => {
   }, []);
 
   return (
-    <ResponsiveContainer width="90%" height={1000}>
-      <PieChart width={1000} height={1000}>
+    <ResponsiveContainer width="90%" height={600}>
+      <PieChart width={1000} height={400}>
         <Pie
           dataKey="totalSales"
           nameKey="_id"

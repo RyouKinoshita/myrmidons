@@ -44,7 +44,7 @@ const UserSalesChart = ({ data }) => {
   }, []);
 
   return (
-    <ResponsiveContainer width="50%" height={600}>
+    <ResponsiveContainer width="100%" height={250}>
       {loading ? (
         <Loader />
       ) : (
