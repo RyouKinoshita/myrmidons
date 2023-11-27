@@ -40,14 +40,14 @@ const UpdateProject = () => {
         `http://localhost:4001/api/v1/portfolio/${id}`
       );
       setProject(data.portfolios);
-      setImagesPreview(data.portfolios.images.map((img) => img.url));
+      
       setLoading(false);
     } catch (error) {
       setError(error.response.data.message);
     }
   };
 
-  const updateProject = async (id, projectData) => {
+  const updateProject = async (id, userData) => {
     try {
       const config = {
         headers: {
@@ -57,7 +57,7 @@ const UpdateProject = () => {
       };
       const { data } = await axios.put(
         `http://localhost:4001/api/v1/admin/portfolio/${id}`,
-        projectData,
+        userData,
         config
       );
       setIsUpdated(data.success);

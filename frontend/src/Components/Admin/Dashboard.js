@@ -8,7 +8,7 @@ import { getToken } from "../../utils/helpers";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Calendar from "./Calendar";
 import UserSalesChart from "./UserSalesChart";
 import MonthlySalesChart from "./MonthlySalesChart";
 import ServiceSalesChart from "./ServiceSalesChart";
@@ -203,6 +203,12 @@ const Dashboard = () => {
                 </Fragment>
                 <Fragment>
                   <ServiceSalesChart />
+                </Fragment>
+                <Fragment>
+                  <div style={{justifyContent:"center", width:"1250px", height:"1500"}}>
+                  <Calendar />
+                  </div>
+                  
                 </Fragment>
               </div>
             </Fragment>
