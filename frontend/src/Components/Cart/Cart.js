@@ -35,7 +35,7 @@ const Cart = ({ cartItems, removeItemFromCart }) => {
           </h2>
 
           <div className="row d-flex justify-content-between">
-            <div className="col-12 col-lg-8" style={{backgroundColor:"gray"}}>
+            <div className="col-12 col-lg-8" style={{backgroundColor:"#DCDCDC"}}>
               {cartItems.map((item) => (
                 <Fragment >
                   <hr />
@@ -47,19 +47,20 @@ const Cart = ({ cartItems, removeItemFromCart }) => {
                           src={item.image}
                           alt="Laptop"
                           height="90"
-                          width="115"
+                          width="150"
+                          style={{border:"solid 2px black"}}
                         />
                       </div>
 
                       <div className="col-5 col-lg-3" >
-                        <Link to={`/service/${item.service}`} style={{color:"white"}}>{item.name}</Link>
+                        <Link to={`/service/${item.service}`} style={{color:"black"}}>{item.name}</Link>
                       </div>
                       <div className="col-5 col-lg-3">
-                        <p>{item.date}</p>
+                        <p style={{color:"black"}}>{item.date}</p>
                       </div>
 
                       <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                        <p id="card_item_price">${item.price}</p>
+                        <p id="card_item_price" style={{color:"black"}}>${item.price}</p>
                       </div>
 
                       <div className="col-4 col-lg-1 mt-4 mt-lg-0">
@@ -78,11 +79,11 @@ const Cart = ({ cartItems, removeItemFromCart }) => {
             </div>
 
             <div className="col-12 col-lg-4 my-0" >
-              <div id="order_summary" style={{backgroundColor:"gray"}}>
-                <h4>Order Summary</h4>
+              <div id="order_summary" style={{backgroundColor:"#DCDCDC", marginRight:"20px", justifyContent:"center"}}>
+                <h4 style={{color:"black"}}>Order Summary</h4>
                 <hr />
 
-                <p>
+                <p style={{color:"black"}}>
                   Est. total:{" "}
                   <span className="order-summary-values">
                     $
@@ -95,8 +96,9 @@ const Cart = ({ cartItems, removeItemFromCart }) => {
                 <hr />
                 <button
                   id="loginbuts"
-                  className="buttonforLogin" style={{width:"330px"}}
+                  className="buttonforLogin" style={{width:"330px",fontWeight:"bold",alignItems: "center", marginLeft:"130px"}}
                   onClick={checkoutHandler}
+                  
                 >
                   Check out
                 </button>

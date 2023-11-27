@@ -219,14 +219,20 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="row pr-4">
+              <div className="row pr-4" style={{
+                      justifyContent: "center",
+                
+                      marginBottom:"40px",
+                      alignItems:"center",
+                    }}>
               <Fragment>
                   <div
                     style={{
                       justifyContent: "center",
                       width: "1250px",
                       height: "1500",
-                      marginBottom:"40px"
+                      marginBottom:"40px",
+                      alignItems:"center",
                     }}
                   >
                     <Calendar />

@@ -46,21 +46,21 @@ const Portfolio = () => {
                 onMouseLeave={handleMouseLeave}
                 style={{ position: 'relative', marginBottom: '1cm' }}
               >
-                 <div className="pd" style={{ position: 'relative' }}>
+                 {/* <div className="pd" style={{ position: 'relative' }}>
                   <img
                     src={portfolio.images[0].url}
                     alt={portfolio.name}
                     style={{ width: '100%', height: '100%' }}
-                  />
-                {/* <div className="col-12 col-lg-5 img-fluid" id="portfolios_image">
+                  /> */}
+                <div className="col-12 col-lg-5 img-fluid" id="portfolios_image">
                             <Carousel pause='hover'>
-                                {portfolios.images && portfolios.images.map(images => (
+                                {portfolio.images && portfolio.images.map(images => (
                                     <Carousel.Item key={images.public_id}>
-                                        <img src={images.} alt={portfolios.name} />
+                                        <img src={portfolio.images[0].url} alt={portfolio.name} />
                                     </Carousel.Item>
                                 ))}
                             </Carousel>
-                        </div> */}
+                        
 
                   {hoveredPortfolio && hoveredPortfolio._id === portfolio._id && (
                     <div

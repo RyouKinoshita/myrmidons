@@ -22,7 +22,7 @@ const Event = ({ event, saveEventInfo }) => {
 
     return (
         <Fragment>
-            <MetaData title={'Shipping Info'} />
+            <MetaData title={'Event Info'} />
             <CheckoutSteps shipping />
             <div className="row wrapper">
                 <div className="col-10 col-lg-5">
@@ -31,7 +31,7 @@ const Event = ({ event, saveEventInfo }) => {
                         onSubmit={submitHandler}
                         style={{border:"solid 3px white"}}
                     >
-                        <h1 className="mb-4">Shipping Info</h1>
+                        <h1 className="mb-4">Event Info</h1>
                         <div className="form-group">
                             <label htmlFor="address_field">Address</label>
                             <input

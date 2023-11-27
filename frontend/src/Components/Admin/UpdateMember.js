@@ -185,7 +185,7 @@ const UpdateMember = () => {
                                     id="loginsbut"
                                     type="submit"
                                     className="buttonforLogin"
-                                    style={{marginLeft:"20px"}}
+                                
                                     disabled={loading ? true : false}
                                 >
                                     UPDATE

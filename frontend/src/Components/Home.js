@@ -92,7 +92,7 @@ const Home = () => {
                     </div>
                     <ul
           className="pl-0" 
-          style={{ display: "flex", listStyle: "none", padding: 0 }}
+          style={{ display: "flex", listStyle: "none", padding: 0,justifyContent: "center",alignItems: "center"}}
         >
             
           {categories.map((cat) => (
@@ -102,6 +102,9 @@ const Home = () => {
               style={{
                 cursor: "pointer",
                 marginRight: "10px",
+                backgroundColor:"yellow",
+                color:"black",
+                border:"solid 2px black"
               }}
               onClick={() => setCategory(cat)}
             >
@@ -117,7 +120,7 @@ const Home = () => {
             </li>
           )}
         </ul>
-        <div className="container" style={{display: "relative",justifycontent: "center", width: "975px", backgroundColor:"gray"}}>
+        <div className="container" style={{display: "relative",justifycontent: "center", width: "975px", backgroundColor:"yellow"}}>
           <Search />
         </div>
         
