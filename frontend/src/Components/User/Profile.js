@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getToken } from '../../utils/helpers';
 import { fontFamily, textAlign } from '@mui/system';
-
+import Button from '@mui/material/Button';
 const Profile = () => {
     const [user, setUser] = useState('');
 
@@ -32,66 +32,43 @@ const Profile = () => {
         getProfile();
     }, []);
 
-    const profileCardStyle = {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        border: '1px solid #ccc',
-        borderRadius: '5px',
-        padding: '20px',
-        maxWidth: '700px',
-        margin: 'auto',
-        marginTop: '50px',
-        backgroundColor: 'gray',
-        textAlign: "center",
-        fontWeight: "bold",
-        fontFamily: "Georgia, serif"
-    };
-
-    const profilePictureStyle = {
-        marginBottom: '20px',
-        border:"5px solid black"
-    };
-
+   
     const profileButtonStyle = {
         padding: '10px 20px',
         margin: '5px',
         textDecoration: 'none',
-        color: '#fff',
+        color: 'black',
         borderRadius: '5px',
-        backgroundColor: 'blue',
+        backgroundColor: 'yellow',
         border: 'none'
     };
 
     return (
         <Fragment>
             <MetaData title={'Your Profile'} />
-            <div style={profileCardStyle}>
-                <div style={profilePictureStyle}>
-                    <img src={user.avatar && user.avatar.url} alt={user.name} />
-                </div>
-                <div className="profile-details">
-                    <h2 style={{color:"black"}}>{user.name}</h2>
-                    <p style={{color:"black"}}>Email: {user.email}</p>
-                    <div className="buttons">
-                        <Link to="/me/update" style={profileButtonStyle}>
-                            Update Profile
-                        </Link>
-                        <Link to="/password/update" style={profileButtonStyle}>
-                            Change Password
-                        </Link>
-                        {user.role !== 'admin' && (
-                            <Link
-                                to="/orders/me"
-                                
-                                style={profileButtonStyle}
-                            >
-                                My Orders
-                            </Link>
-                        )}
-                    </div>
-                </div>
+            <br/>
+            <br/>
+            <br/>
+           <br/>
+<div className='container' style={{justifyContent:"center",textAlign:"center"}}>
+    <div class="cardlang" style={{marginLeft:"350px", backgroundColor:"gray"}}>
+        <div class="firstinfo"><img src={user.avatar && user.avatar.url} alt={user.name} />
+            <div class="profileinfo">
+                <h1 >{user.name}</h1>
+                <h3 style={{color:"#00bcd4",fontWeight:"bold"}}>{user.email}</h3>
+                
             </div>
+            
+        </div>
+        <Button color="secondary" href="/me/update" style={{color:"yellow"}}>Update Profile</Button><br></br>
+        <Button color="secondary" href="/password/update" style={{color:"yellow"}}>Change Password</Button><br></br>
+        {user.role !== 'admin' && (
+                                <Button color="secondary" href="/orders/me" style={{color:"yellow"}}>My Orders</Button>
+                            )}
+        
+    </div>
+    
+    </div>
         </Fragment>
     );
 };
