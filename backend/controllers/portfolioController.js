@@ -47,6 +47,9 @@ exports.newPortfolio = async (req, res, next) => {
   });
 };
 exports.getPortfolio = async (req, res, next) => {
+  console.log(req.query);
+
+  const { page } = req.query;
   // try {
   //   const portfolios = await Portfolio.find({});
 
@@ -57,7 +60,7 @@ exports.getPortfolio = async (req, res, next) => {
   //   });
   // } catch (error) {
 
-  const portfolios = await Portfolio.find({});
+  const portfolios = await Portfolio.find({}).limit(page);
 
   res.status(200).json({
     success: true,
