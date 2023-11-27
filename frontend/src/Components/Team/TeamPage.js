@@ -26,63 +26,38 @@ const Team = () => {
 
   return (
     <div>
-      <div className="navbar">
-      </div>
-
-      <div className="recent-projects-section" style={{ backgroundColor: 'gray', color: 'white', padding: '15px', marginTop: '-15px', marginBottom: '1cm' }}>
-        <h1 style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '40px', fontFamily: 'Georgia, serif' }}>Team Members</h1>
-      </div>
-
-      <div className="portfolio-section">
-        <div className="container">
-          <div className="row portfolio-container">
-            {team.map(teams => (
-              <div
-                key={teams._id}
-                className="col-lg-4 col-md-4 col-sm-4 portfolio-item mix"
-                onMouseEnter={() => handleMouseEnter(teams)}
-                onMouseLeave={handleMouseLeave}
-                style={{ position: 'relative', marginBottom: '1cm' }}
-              >
-                <div className="pd" style={{ position: 'relative' }}>
-                  <img
-                    src={teams.images[0].url}
-                    alt={teams.name}
-                    style={{ width: '100%', height: '100%' }}
-                  />
-
-                  {hoverTeam && hoverTeam._id === teams._id && (
-                    <div
-                      className="hovered-content"
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        backgroundColor: 'rgba(150, 100, 150, 0.8)',
-                        borderRadius: '4px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'left',
-                        color: 'white',
-                        fontWeight: 'bold',
-                        fontFamily: 'Georgia, serif'
-                      }}
-                    >
-                      <p>Name: {teams.name}</p>
-                      <p>Position: {teams.position}</p>
-                      <p>Description: {teams.description}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
+    {/* Navbar */}
+    <div className="navbar">
+      {/* Navbar content */}
+    </div>
+  
+    {/* Recent Projects Section */}
+    <div className="recent-projects-section" style={{ backgroundColor: 'gray', color: 'white', padding: '15px', marginTop: '-15px', marginBottom: '1cm' }}>
+      <h1 style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '40px', fontFamily: 'Georgia, serif' }}>Team Members</h1>
+    </div>
+  
+    {/* Team Members Section */}
+    <div className="row">
+      {/* Mapping through 'team' array */}
+      {team.map(teams => (
+        <div className="column" key={teams._id} style={{ float: 'left', width: '33.3%', marginBottom: '16px', padding: '0 8px' }}>
+          <div className="card" style={{ boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)' }}>
+            <img src={teams.images[0].url} alt={teams.name} style={{ width: '100%', height: '500px' }} />
+            <div className="container" style={{ padding: '0 25px' }}>
+              <h2 style={{ fontFamily: 'Arial, sans-serif', fontSize: '30px', fontWeight:"bold", color:"cyan" }}>{teams.name}</h2> {/* Changing font here */}
+              <p className="title" style={{color:"yellow"}}>{teams.position}</p>
+              <p style={{color:"black"}}>{teams.description}</p>
+              <p>{teams.email}</p>
+              
+            </div>
           </div>
         </div>
-      </div>
+      ))}
+      {/* End of mapping through 'team' array */}
     </div>
+  </div>
+  
+  
   );
 };
 
