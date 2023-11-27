@@ -7,8 +7,9 @@ const Sidebar = () => {
       <nav id="sidebar">
         <ul className="list-unstyled components">
           <li>
-            <Link to="/dashboard" style={{color:"black"}}>
-              <i className="fa fa-tachometer" style={{color:"black"}}></i> Dashboard
+            <Link to="/dashboard" style={{ color: "black" }}>
+              <i className="fa fa-tachometer" style={{ color: "black" }}></i>{" "}
+              Dashboard
             </Link>
           </li>
 
@@ -18,20 +19,22 @@ const Sidebar = () => {
               data-toggle="collapse"
               aria-expanded="false"
               className="dropdown-toggle"
-              style={{color:"black"}}
+              style={{ color: "black" }}
             >
-              <i className="fa fa-cogs"style={{color:"black"}}></i> Services
+              <i className="fa fa-cogs" style={{ color: "black" }}></i> Services
             </a>
             <ul className="collapse list-unstyled" id="serviceSubmenu">
               <li>
-                <Link to="/admin/service" style={{color:"black"}}>
-                  <i className="fa fa-clipboard" style={{color:"black"}}></i> All
+                <Link to="/admin/service" style={{ color: "black" }}>
+                  <i className="fa fa-clipboard" style={{ color: "black" }}></i>{" "}
+                  All
                 </Link>
               </li>
 
               <li>
-                <Link to="/admin/service/new" style={{color:"black"}}>
-                  <i className="fa fa-plus" style={{color:"black"}}></i> Create
+                <Link to="/admin/service/new" style={{ color: "black" }}>
+                  <i className="fa fa-plus" style={{ color: "black" }}></i>{" "}
+                  Create
                 </Link>
               </li>
             </ul>
@@ -39,44 +42,49 @@ const Sidebar = () => {
 
           <li>
             <a
-              href="#serviceSubmenu"
+              href="#projectSubmenu"
               data-toggle="collapse"
               aria-expanded="false"
               className="dropdown-toggle"
-              style={{color:"black"}}
+              style={{ color: "black" }}
             >
-              <i className="fa fa-cogs" style={{color:"black"}}></i> Projects
+              <i className="fa fa-folder-open " style={{ color: "black" }}></i>{" "}
+              Projects
             </a>
-            <ul className="collapse list-unstyled" id="serviceSubmenu">
+            <ul className="collapse list-unstyled" id="projectSubmenu">
               <li>
-                <Link to="/admin/portfolio" style={{color:"black"}}>
-                  <i className="fa fa-clipboard" style={{color:"black"}}></i> All
+                <Link to="/admin/portfolio" style={{ color: "black" }}>
+                  <i className="fa fa-clipboard" style={{ color: "black" }}></i>{" "}
+                  All
                 </Link>
               </li>
 
               <li>
-                <Link to="/admin/portfolio/new" style={{color:"black"}}>
-                  <i className="fa fa-plus" style={{color:"black"}}></i> Create
+                <Link to="/admin/portfolio/new" style={{ color: "black" }}>
+                  <i className="fa fa-plus" style={{ color: "black" }}></i>{" "}
+                  Create
                 </Link>
               </li>
             </ul>
           </li>
 
           <li>
-            <Link to="/admin/users" style={{color:"black"}}>
-              <i className="fa fa-user" style={{color:"black"}}></i> Users
+            <Link to="/admin/users" style={{ color: "black" }}>
+              <i className="fa fa-user" style={{ color: "black" }}></i> Users
             </Link>
           </li>
 
           <li>
-            <Link to="/admin/orders"style={{color:"black"}}>
-              <i className="fa fa-shopping-cart" style={{color:"black"}}></i> Orders
+            <Link to="/admin/orders" style={{ color: "black" }}>
+              <i className="fa fa-shopping-cart" style={{ color: "black" }}></i>{" "}
+              Orders
             </Link>
           </li>
 
           <li>
-            <Link to="/admin/portfolio" style={{color:"black"}}>
-              <i className="fa fa-product-hunt" style={{color:"black"}}></i> Portfolio
+            <Link to="/admin/portfolio" style={{ color: "black" }}>
+              <i className="fa fa-product-hunt" style={{ color: "black" }}></i>{" "}
+              Portfolio
             </Link>
           </li>
 
@@ -86,20 +94,22 @@ const Sidebar = () => {
               data-toggle="collapse"
               aria-expanded="false"
               className="dropdown-toggle"
-              style={{color:"black"}}
+              style={{ color: "black" }}
             >
-              <i className="fa fa-cogs" style={{color:"black"}}></i> Team
+              <i className="fa fa-users" style={{ color: "black" }}></i> Team
             </a>
             <ul className="collapse list-unstyled" id="memberSubmenu">
               <li>
-                <Link to="/admin/MemberList" style={{color:"black"}}>
-                  <i className="fa fa-clipboard" style={{color:"black"}}></i> All
+                <Link to="/admin/MemberList" style={{ color: "black" }}>
+                  <i className="fa fa-clipboard" style={{ color: "black" }}></i>{" "}
+                  All
                 </Link>
               </li>
 
               <li>
-                <Link to="/admin/NewMember" style={{color:"black"}}>
-                  <i className="fa fa-plus" style={{color:"black"}}></i> Create
+                <Link to="/admin/NewMember" style={{ color: "black" }}>
+                  <i className="fa fa-plus" style={{ color: "black" }}></i>{" "}
+                  Create
                 </Link>
               </li>
             </ul>

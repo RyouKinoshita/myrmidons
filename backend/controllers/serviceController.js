@@ -16,9 +16,14 @@ exports.newService = async (req, res, next) => {
 
   for (let i = 0; i < images.length; i++) {
     let imageDataUri = images[i];
-    // console.log(imageDataUri)
+    // Check if the base64 string has the correct prefix
+    if (!imageDataUri.startsWith("data:image/")) {
+      // If not, assume it's a JPEG image and add the prefix
+      imageDataUri = `data:image/jpeg;base64,${imageDataUri}`;
+    }
+
     try {
-      const result = await cloudinary.v2.uploader.upload(`${imageDataUri}`, {
+      const result = await cloudinary.v2.uploader.upload(imageDataUri, {
         folder: "services",
         width: 150,
         crop: "scale",
@@ -29,10 +34,9 @@ exports.newService = async (req, res, next) => {
         url: result.secure_url,
       });
     } catch (error) {
-      console.log(error);
+      console.log("Error uploading image:", error);
     }
   }
-
   req.body.images = imagesLinks;
   req.body.user = req.user.id;
 

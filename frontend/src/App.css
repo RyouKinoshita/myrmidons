@@ -91,7 +91,7 @@ nav {
 
 
 .cardlang {
-    width: 500px;
+    width: 800px;
     min-height: 100px;
     padding: 20px;
     border-radius: 3px;
@@ -104,11 +104,11 @@ nav {
 .cardlang:after {
     content: '';
     display: block;
-    width: 190px;
-    height: 300px;
+    width: 250px;
+    height: 500px;
     background: yellow;
     position: absolute;
-    animation: rotatemagic 0.75s cubic-bezier(0.425, 1.04, 0.47, 1.105) 1s both;
+    animation: rotatemagic 2s cubic-bezier(0.425, 1.04, 0.47, 5) 1s both;
 }
 
 .badgescard {
@@ -219,10 +219,10 @@ nav {
 .buttonforLogin{
   border-radius: 2rem;
   margin-bottom: 10px;
-  margin-left: 60px;
+ 
   border: none;
   padding: 0.5rem 2rem;
-  width: 400px; /* Adjust as needed */
+  /* Adjust as needed */
   background-color: yellow;
   font-family: 'Courier New', Courier, monospace;
 }

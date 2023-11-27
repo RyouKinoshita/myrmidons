@@ -279,7 +279,7 @@ const NewService = () => {
                       id="loginsbut"
                       type="submit"
                       className="buttonforLogin"
-                      style={{ marginLeft: "15px", width: "340px" }}
+                      
                     >
                       CREATE
                     </button>

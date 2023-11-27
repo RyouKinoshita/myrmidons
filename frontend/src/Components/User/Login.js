@@ -77,7 +77,7 @@ const Login = () => {
 <div className="body" style={{backgroundImage:"linear-gradient(315deg, #838487,#AFB0B3)",backgroundImage:"-webkit-linear-gradient(315deg, #838487,#AFB0B3)"}}>
       <div className="row wrapper"  >
         <div className="col-10 col-lg-5">
-          <form className="shadow-lg" onSubmit={formik.handleSubmit} style={{backgroundColor:"#a7a2a9", borderRadius: "20px",marginTop:"40px"}}>
+          <form className="shadow-lg" onSubmit={formik.handleSubmit} style={{backgroundColor:"#a7a2a9", borderRadius: "20px",marginTop:"40px", alignItems:"center",justifyContent:"center"}}>
             <h1 className="mb-3" style={{color:"black",fontWeight: "bold"}}>Login</h1>
             <div className="form-group">
               <label htmlFor="email_field" style={{color:"black",fontWeight: "bold"}}>Email</label>
