@@ -35,7 +35,9 @@ const ServicesList = () => {
       );
       console.log(data);
       setServices(data.services);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -77,7 +79,9 @@ const ServicesList = () => {
       );
 
       setIsDeleted(data.success);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setDeleteError(error.response.data.message);
     }
@@ -159,7 +163,9 @@ const ServicesList = () => {
   };
 
   const deleteServiceHandler = (id) => {
+    
     deleteService(id);
+    setLoading(true);
   };
 
   return (

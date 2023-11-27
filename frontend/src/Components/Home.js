@@ -7,6 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Search from "./Layout/Search";
 import Pagination from 'react-js-pagination'
 import { useParams,useNavigate } from "react-router-dom";
+import Loader from "./Layout/Loader";
 const categories = [
     'Digital Marketing',
     'Social Media Management',
@@ -30,8 +31,10 @@ const Home = () => {
     const [resPerPage, setResPerPage] = useState(0)
     const [filteredServiceCount, setFilteredServiceCount] = useState(0)
     const [category, setCategory] = useState("");
+    const [loading, setLoading] = useState(true);
     let { keyword } = useParams();
     let navigate = useNavigate();
+    
     const getService = async (page = 1, keyword = "") => {
         let link = `http://localhost:4001/api/v1/service?page=${page}`;
 
@@ -48,6 +51,9 @@ const Home = () => {
         
         console.log(link)
         let res = await axios.get(link)
+        const timeoutId = setTimeout(() => {
+          setLoading(false);
+        }, 1000);
         console.log(res)
         setService(res.data.services)
         setFilteredServiceCount(res.data.filteredServiceCount)
@@ -81,7 +87,9 @@ const Home = () => {
     }, [currentPage, category, keyword]);
     return (
         <Fragment>
-           
+            {loading ? (
+            <Loader />
+          ) : (
                 <Fragment>
                     <MetaData title={'Myrmidons Shop'} />
                     <BG/>
@@ -155,7 +163,7 @@ const Home = () => {
                 </Fragment>
 
 
-           
+)}
         </Fragment>
 
     )

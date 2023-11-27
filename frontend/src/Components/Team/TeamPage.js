@@ -15,7 +15,9 @@ const Team = () => {
       .get("http://localhost:4001/api/v1/members")
       .then((response) => {
         setTeam(response.data.team);
-        setLoading(false);
+        const timeoutId = setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

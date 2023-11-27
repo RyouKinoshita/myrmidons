@@ -1,14 +1,19 @@
-import React, { Fragment } from "react";
+import React, {useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import MetaData from "../Layout/Metadata";
 import { useParams, useNavigate } from "react-router-dom";
+import Loader from "../Layout/Loader";
 
 const Cart = ({ cartItems, removeItemFromCart }) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const removeCartItemHandler = (id) => {
     removeItemFromCart(id);
   };
+  const timeoutId = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
   const checkoutHandler = () => {
     const userDetails = JSON.parse(sessionStorage.getItem("user"));
 
@@ -24,7 +29,12 @@ const Cart = ({ cartItems, removeItemFromCart }) => {
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
   return (
+    <>
+    {loading ? (
+      <Loader />
+    ) : (
     <Fragment>
+      
       <MetaData title={"Your Cart"} />
       {cartItems.length === 0 ? (
         <h2 className="mt-5">Your Cart is Empty</h2>
@@ -107,8 +117,12 @@ const Cart = ({ cartItems, removeItemFromCart }) => {
             </div>
           </div>
         </Fragment>
+        
       )}
+      
     </Fragment>
+    )}
+    </>
   );
 };
 

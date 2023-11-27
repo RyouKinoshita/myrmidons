@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { getToken } from "../../utils/helpers";
+import Loader from "../Layout/Loader";
 
 const UpdateService = () => {
   const [name, setName] = useState("");
@@ -54,7 +55,9 @@ const UpdateService = () => {
         `http://localhost:4001/api/v1/service/${id}`
       );
       setService(data.service);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -131,7 +134,13 @@ const UpdateService = () => {
     });
   };
   return (
+    <>
+    {loading ? (
+            <Loader />
+          ) : (
+    
     <Fragment>
+      
       <MetaData title={"Update Service"} />
       <div className="row">
         <div className="col-12 col-md-2">
@@ -255,7 +264,10 @@ const UpdateService = () => {
           </Fragment>
         </div>
       </div>
+      
     </Fragment>
+    )}
+    </>
   );
 };
 

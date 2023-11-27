@@ -4,7 +4,7 @@ import phoneLogo from "./phone-logo.png";
 import locationLogo from "./location-logo.png";
 import axios from "axios";
 import emailjs from "@emailjs/browser";
-
+import Loader from "../Layout/Loader";
 const AboutUs = () => {
   const imageUrl =
     "https://res.cloudinary.com/dljixcnvk/image/upload/v1699772774/about/375198686_687556942843684_6240065041052319830_n_jwsxre.jpg";
@@ -14,13 +14,15 @@ const AboutUs = () => {
   const handleButtonClick = () => {
     window.open(googleDriveFileLink, "_blank");
   };
-
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
-
+  const timeoutId = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
   const [submitMessage, setSubmitMessage] = useState("");
 
   const handleChange = (e) => {
@@ -64,6 +66,9 @@ const AboutUs = () => {
 
   return (
     <>
+    {loading ? (
+            <Loader />
+          ) : ( <>
       <div
         style={{
           width: "100%",
@@ -284,6 +289,8 @@ const AboutUs = () => {
           </form>
         </div>
       </div>
+      </>
+      )}
     </>
   );
 };

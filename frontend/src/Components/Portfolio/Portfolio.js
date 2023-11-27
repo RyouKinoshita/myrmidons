@@ -5,16 +5,21 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import Loader from "../Layout/Loader";
 
 const Portfolio = () => {
   const [portfolios, setPortfolios] = useState([]);
   const [hoveredPortfolio, setHoveredPortfolio] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
       .get("http://localhost:4001/api/v1/portfolio")
       .then((response) => {
         setPortfolios(response.data.portfolios);
+        const timeoutId = setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -54,7 +59,9 @@ const Portfolio = () => {
           Recent Projects
         </h1>
       </div>
-
+{loading ? (
+            <Loader />
+          ) : (
       <Fragment >
   {portfolios.map((portfolio) => (
     <Row xs={1} md={1} className="g-4" key={portfolio.id} >
@@ -143,6 +150,7 @@ const Portfolio = () => {
   ))}
   <br />
 </Fragment>
+)}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect,useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
@@ -6,11 +6,12 @@ import MetaData from "../Layout/Metadata";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import Loader from "../Layout/Loader";
 
 const NewPassword = () => {
   const navigate = useNavigate();
   const { token } = useParams();
-
+  const [loading, setLoading] = useState(true);
   const validationSchema = Yup.object().shape({
     password: Yup.string().required("Password is required"),
     confirmPassword: Yup.string()
@@ -40,6 +41,7 @@ const NewPassword = () => {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         navigate("/login");
+        
       } catch (error) {
         toast.error(error.response.data.message, {
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -47,7 +49,9 @@ const NewPassword = () => {
       }
     },
   });
-
+  const timeoutId = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
   useEffect(() => {
     if (formik.errors.password || formik.errors.confirmPassword) {
       toast.error("Invalid input. Please check your password and try again.", {
