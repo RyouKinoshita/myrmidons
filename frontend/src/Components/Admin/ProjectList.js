@@ -18,6 +18,7 @@ const ProjectList = () => {
   const [isDeleted, setIsDeleted] = useState(false);
 
   let navigate = useNavigate();
+
   const getAdminProjects = async () => {
     try {
       const config = {
@@ -31,15 +32,17 @@ const ProjectList = () => {
         `http://localhost:4001/api/v1/admin/portfolio`,
         config
       );
-      console.log(data);
+      console.log(data.portfolios);
       setProjects(data.portfolios);
       setLoading(false);
     } catch (error) {
       setError(error.response.data.message);
     }
   };
+
   useEffect(() => {
     getAdminProjects();
+
     if (error) {
       toast.error(error, {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -59,6 +62,15 @@ const ProjectList = () => {
       navigate("/admin/portfolio");
     }
   }, [error, deleteError, isDeleted]);
+
+  useEffect(() => {
+    if (isDeleted) {
+      // If a project is deleted, reload the project list
+      getAdminProjects();
+      setIsDeleted(false); // Reset the isDeleted state
+    }
+  }, [isDeleted]);
+
   const deleteProject = async (id) => {
     try {
       const config = {
@@ -72,8 +84,10 @@ const ProjectList = () => {
         config
       );
 
-      setIsDeleted(data.success);
-      setLoading(false);
+      if (data.success) {
+        setIsDeleted(true); // Set isDeleted to trigger the useEffect
+        setLoading(false);
+      }
     } catch (error) {
       setDeleteError(error.response.data.message);
     }
@@ -127,19 +141,22 @@ const ProjectList = () => {
         date: formattedDate,
         actions: (
           <Fragment>
-            <Link
-              to={`/admin/portfolio/${project._id}`}
-              className="btn btn-primary py-1 px-2"
-            >
-              <i className="fa fa-pencil" title="Edit Project"></i>
-            </Link>
-            <button
-              className="btn btn-danger py-1 px-2 ml-2"
-              title="Delete Project"
-              onClick={() => deleteServiceHandler(project._id)}
-            >
-              <i className="fa fa-trash"></i>
-            </button>
+            <div className="button-container">
+              <Link
+                to={`/admin/portfolio/${project._id}`}
+                className="btn btn-primary py-1 px-2"
+                title="Edit Project"
+              >
+                <i className="fa fa-pencil"></i>
+              </Link>
+              <button
+                className="btn btn-danger py-1 px-2 ml-2"
+                title="Delete Project"
+                onClick={() => deleteServiceHandler(project._id)}
+              >
+                <i className="fa fa-trash"></i>
+              </button>
+            </div>
           </Fragment>
         ),
       });
