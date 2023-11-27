@@ -85,11 +85,12 @@ const Team = () => {
           <div className="card" style={{height:"950px"}}>
           <Carousel>
               {teams.images.map((image, index) => (
-                <div key={index}>
+                <div key={index} className="image-containerss">
                   <img
                     src={image.url}
                     alt={`${teams.name} Image ${index + 1}`}
-                    style={{ width: '100%', height: 'auto' }}
+                    
+                    className="team-image"
                   />
                 </div>
               ))}

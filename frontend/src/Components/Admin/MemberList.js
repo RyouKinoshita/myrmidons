@@ -74,11 +74,13 @@ const MemberList = () => {
         `http://localhost:4001/api/v1/admin/Memberlist/${id}`,
         config
       );
-
+      console.log(data.success)
       setIsDeleted(data.success);
       const timeoutId = setTimeout(() => {
         setLoading(false);
       }, 1000);
+      setLoading(false);
+      
     } catch (error) {
       setDeleteError(error.response.data.message);
     }
@@ -148,6 +150,7 @@ const MemberList = () => {
   };
 
   const deleteMemberHandler = (id) => {
+    console.log(id)
     deleteMember(id);
   };
 
