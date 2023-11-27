@@ -37,17 +37,22 @@ const Header = ({ cartItems }) => {
       <nav className="navbar row">
         <div className="col-12 col-md-3">
           <div className="navbar-brand">
-          <a href="/">
-  <img
-    src="./images/MYR.png"
-    alt="Logo"
-    style={{ width: "100px", height: "auto" }}
-  />
-</a>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+  <a href="/" style={{ backgroundColor: 'yellow', borderRadius: '50%', width: '80px', height: '80px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <img
+      src="./images/MYR.png"
+      alt="Logo"
+      style={{ width: "80px", height: "auto" }}
+    />
+  </a>
+  <div style={{ display: 'flex', flexDirection: 'row', marginLeft: '20px' }}>
+    <a href="/"><button class="button-54" role="button">Home</button></a>
+    <a href="/about"><button class="button-54" role="button">About Us</button></a>
+    <a href="/teamPage"><button class="button-54" role="button">Meet the Team</button></a>
+    <a href="/portfolio"><button class="button-54" role="button">Portfolio</button></a>
+  </div>
+</div>
              
-             <Button variant="outlined" href="/about" style={{color:"yellow", border:"2px solid", marginLeft:"20px"}}>About Us</Button>
-             <Button variant="outlined" href="/teamPage" style={{color:"yellow", border:"2px solid", marginLeft:"20px"}}>Team</Button>
-             <Button variant="outlined" href="/portfolio" style={{color:"yellow", border:"2px solid", marginLeft:"20px"}}>Portfolio</Button>
              
           </div>
 
