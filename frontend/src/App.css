@@ -118,6 +118,9 @@ nav {
   overflow: hidden;
   height: 200px; /* Set a fixed height for uniform sizes, adjust as needed */
 }
+.image-containersss {
+  /* Set a fixed height for uniform sizes, adjust as needed */
+}
 
 .card__image {
   width: 300px;

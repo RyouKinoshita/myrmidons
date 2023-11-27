@@ -6,7 +6,7 @@ const BG = () => {
   return (
     <div className="card p-3 rounded">
     <Fragment>
-      <div className="image-container" style={{ position: 'relative' }}>
+      <div className="image-containersss" style={{ position: 'relative' }}>
         <img src={imageUrl} alt="Cloudinary Image" style={{ width: '100%', height: '900px' }} />
   
         <div className="image-overlay" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.75)', color: 'white', textAlign: 'left', padding: '70px' }}>

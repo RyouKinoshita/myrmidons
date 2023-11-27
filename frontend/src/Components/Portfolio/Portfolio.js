@@ -30,7 +30,7 @@ const Portfolio = () => {
   };
 
   return (
-    <div>
+    <div >
       <div className="navbar"></div>
 
       <div
@@ -55,11 +55,11 @@ const Portfolio = () => {
         </h1>
       </div>
 
-      <Fragment>
+      <Fragment >
   {portfolios.map((portfolio) => (
-    <Row xs={1} md={1} className="g-4" key={portfolio.id}>
+    <Row xs={1} md={1} className="g-4" key={portfolio.id} >
       <Col className="mx-auto"> {/* Center the column */}
-        <Card style={{ width: "1910px" }}>
+        <Card style={{display:"flex", justifyContent:"center",alignItems:"center",height:"50vh",margin:"0"}}>
           <Card.Body
             style={{
               backgroundColor: "#DCDCDC",
@@ -67,6 +67,7 @@ const Portfolio = () => {
               fontWeight: "bold",
               fontFamily: "Impact",
               textAlign: "center",
+              width: "100%",
             }}
           >
             <Row className="text-center"> {/* Center the row content */}
