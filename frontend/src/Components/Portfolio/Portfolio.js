@@ -5,6 +5,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import Loader from "../Layout/Loader";
 import Loading from "./Loader.js";
 
 const Portfolio = () => {
@@ -46,6 +47,9 @@ const Portfolio = () => {
       (entries) => {
         if (entries[0].isIntersecting) {
           loadMore();
+          const timeoutId = setTimeout(() => {
+            setLoading(false);
+          }, 1000);
         }
       },
       { threshold: 1 }
@@ -119,19 +123,12 @@ const Portfolio = () => {
       </div>
 
       <Fragment>
-        {portfolios.map((portfolios) => (
-          <Row
-            xs={1}
-            md={1}
-            className="g-4"
-            key={portfolios.id}
-            portfolios={portfolios}
-            // col={4}
-          >
+        {portfolios.map((portfolio) => (
+          <Row xs={1} md={1} className="g-4" key={portfolio.id}>
             <Col className="mx-auto">
               {" "}
               {/* Center the column */}
-              <Card style={{ width: "1530px" }}>
+              <Card style={{ width: "1910px" }}>
                 <Card.Body
                   style={{
                     backgroundColor: "#DCDCDC",
@@ -146,7 +143,7 @@ const Portfolio = () => {
                     {/* Center the row content */}
                     <Col md={4}>
                       <Carousel>
-                        {portfolios.images.map((image, index) => (
+                        {portfolio.images.map((image, index) => (
                           <div
                             key={index}
                             className="image-container"
@@ -173,7 +170,7 @@ const Portfolio = () => {
                           marginTop: "70px",
                         }}
                       >
-                        {portfolios.name}
+                        {portfolio.name}
                       </Card.Title>
                       <Card.Title
                         style={{
@@ -185,7 +182,7 @@ const Portfolio = () => {
                         }}
                       >
                         <time
-                          dateTime={portfolios.date}
+                          dateTime={portfolio.date}
                           className="card__date"
                           style={{
                             fontWeight: "bold",
@@ -195,7 +192,7 @@ const Portfolio = () => {
                             fontSize: "50px",
                           }}
                         >
-                          {new Date(portfolios.date).toLocaleDateString()}
+                          {new Date(portfolio.date).toLocaleDateString()}
                         </time>
                       </Card.Title>
                       <Card.Title
@@ -208,7 +205,7 @@ const Portfolio = () => {
                           fontSize: "30px",
                         }}
                       >
-                        Location: {portfolios.location}
+                        Location: {portfolio.location}
                       </Card.Title>
                     </Col>
                   </Row>
@@ -218,13 +215,6 @@ const Portfolio = () => {
           </Row>
         ))}
         <br />
-        <div className="loading" ref={pageEnd}>
-          {/* {currentPage <= portfolios.length ? (
-            <h2>Tapos naaaaa!!!</h2>
-          ) : (
-            <Loading />
-          )} */}
-        </div>
       </Fragment>
     </div>
   );

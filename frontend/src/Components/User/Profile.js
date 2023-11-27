@@ -8,9 +8,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { getToken } from "../../utils/helpers";
 import { fontFamily, textAlign } from "@mui/system";
 import Button from "@mui/material/Button";
+import Loader from "../Layout/Loader";
 const Profile = () => {
   const [user, setUser] = useState("");
-
+  const [loading, setLoading] = useState(true);
   const getProfile = async () => {
     const config = {
       headers: {
@@ -23,6 +24,9 @@ const Profile = () => {
         config
       );
       setUser(data.user);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       console.log(error);
       toast.error("Invalid user or password", {
@@ -46,7 +50,12 @@ const Profile = () => {
   };
 
   return (
+    <>
+    {loading ? (
+        <Loader />
+      ) : (
     <Fragment>
+       
       <MetaData title={"Your Profile"} />
       <br />
       <br />
@@ -99,7 +108,10 @@ const Profile = () => {
           </Button>
         </div>
       </div>
+      
     </Fragment>
+    )}
+    </>
   );
 };
 

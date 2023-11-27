@@ -81,12 +81,7 @@ const Sidebar = () => {
             </Link>
           </li>
 
-          <li>
-            <Link to="/admin/portfolio" style={{ color: "black" }}>
-              <i className="fa fa-product-hunt" style={{ color: "black" }}></i>{" "}
-              Portfolio
-            </Link>
-          </li>
+          
 
           <li>
             <a

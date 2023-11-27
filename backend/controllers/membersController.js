@@ -10,18 +10,29 @@ exports.getmembers = async (req, res, next) => {
     team,
   });
 };
+
 exports.newMember = async (req, res, next) => {
   let images = [];
- if (typeof req.body.images === "string") {
+
+  if (typeof req.body.images === "string") {
     req.body.images = [];
     req.body.images.push(images);
     images = req.body.images;
   }
+
   let imagesLinks = [];
+
+  if (req.files) {
+    images = req.files.map((image) => image.path);
+  }
+
+  if (req.file) {
+    images.push(req.file);
+  }
 
   for (let i = 0; i < images.length; i++) {
     let imageDataUri = images[i];
-    // console.log(imageDataUri)
+    
     try {
       const result = await cloudinary.v2.uploader.upload(`${imageDataUri}`, {
         folder: "members",
@@ -93,7 +104,7 @@ exports.updateMember = async (req, res, next) => {
     images = req.body.images;
   }
   if (images !== undefined) {
-    // Deleting images associated with the member
+
     for (let i = 0; i < member.images.length; i++) {
       const result = await cloudinary.v2.uploader.destroy(
         member.images[i].public_id

@@ -17,10 +17,11 @@ const NewMember = () => {
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState("");
   const [member, setMember] = useState({});
-  
 
   let navigate = useNavigate();
-
+  const timeoutId = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
   const onChange = (e, setFieldValue) => {
     const files = Array.from(e.target.files);
     setImagesPreview([]);
@@ -87,6 +88,10 @@ const NewMember = () => {
   });
 
   return (
+    <>
+    {loading ? (
+            <Loader />
+          ) : (
     <Fragment>
       <MetaData title={"New Member"} />
       <div className="row">
@@ -96,7 +101,6 @@ const NewMember = () => {
 
         <div className="col-12 col-md-10">
           <Fragment>
-            
             <div className="wrapper my-5">
               {/* {loading && <Loader />}  */}
               <Formik
@@ -104,8 +108,7 @@ const NewMember = () => {
                   name: "",
                   position: "",
                   description: "",
-                  images: [],
-                  
+                  images: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {
@@ -226,6 +229,8 @@ const NewMember = () => {
         </div>
       </div>
     </Fragment>
+     )}
+     </>
   );
 };
 

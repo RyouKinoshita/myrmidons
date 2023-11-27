@@ -38,7 +38,9 @@ const OrdersList = () => {
       console.log(data); // Add this line to log the data
 
       setAllOrders(data.orders);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }

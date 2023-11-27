@@ -32,7 +32,9 @@ const MemberList = () => {
       );
       console.log(data.team);
       setMembers(data.team);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -72,9 +74,13 @@ const MemberList = () => {
         `http://localhost:4001/api/v1/admin/Memberlist/${id}`,
         config
       );
-
+      console.log(data.success)
       setIsDeleted(data.success);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
       setLoading(false);
+      
     } catch (error) {
       setDeleteError(error.response.data.message);
     }
@@ -144,6 +150,7 @@ const MemberList = () => {
   };
 
   const deleteMemberHandler = (id) => {
+    console.log(id)
     deleteMember(id);
   };
 

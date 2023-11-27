@@ -1,20 +1,53 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Carousel } from "react-bootstrap";
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import Loader from "../Layout/Loader";
 const Team = () => {
   const [team, setTeam] = useState([]);
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
       .get("http://localhost:4001/api/v1/members")
       .then((response) => {
         setTeam(response.data.team);
+        const timeoutId = setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }, []);
+  const settings = {
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          arrows: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: true,
+        },
+      },
+    ],
+  };
 
   return (
     <div>
@@ -43,55 +76,52 @@ const Team = () => {
           Team Members
         </h1>
       </div>
-
-      {/* Team Members Section */}
-      <div className="row">
-        {/* Mapping through 'team' array */}
-        {team.map((teams) => (
-          <div
-            className="column"
-            key={teams._id}
-            style={{
-              float: "left",
-              width: "33.3%",
-              marginBottom: "16px",
-              padding: "0 8px",
-            }}
-          >
-            <div
-              className="card"
-              style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)" }}
-            >
-              <img
-                src={teams.images[0].url}
-                alt={teams.name}
-                style={{ width: "100%", height: "500px" }}
-              />
-              <div className="container" style={{ padding: "0 25px" }}>
-                <h2
-                  style={{
-                    fontFamily: "Arial, sans-serif",
-                    fontSize: "30px",
-                    fontWeight: "bold",
-                    color: "cyan",
-                  }}
-                >
-                  {teams.name}
-                </h2>{" "}
-               
-                <p className="title" style={{ color: "yellow" }}>
-                  {teams.position}
-                </p>
-                <p style={{ color: "black" }}>{teams.description}</p>
-                <p>{teams.email}</p>
-              </div>
+      {loading ? (
+            <Loader />
+          ) : (
+<Slider {...settings}>
+      {team.map((teams) => (
+        <div key={teams._id}>
+          <div className="card" style={{height:"950px"}}>
+          <Carousel>
+              {teams.images.map((image, index) => (
+                <div key={index} className="image-containerss">
+                  <img
+                    src={image.url}
+                    alt={`${teams.name} Image ${index + 1}`}
+                    
+                    className="team-image"
+                  />
+                </div>
+              ))}
+            </Carousel>
+            <div className="container" style={{ padding: "0 25px" }}>
+              <h2
+                style={{
+                  fontFamily: "Oswald, sans-serif",
+                  fontSize: "30px",
+                  fontWeight: "bold",
+                  color: "white",
+                }}
+              >
+                {teams.name}
+              </h2>{" "}
+              <p className="title" style={{ color: "yellow" }}>
+                {teams.position}
+              </p>
+              <p style={{ color: "black" }}>{teams.description}</p>
+              <p>{teams.email}</p>
             </div>
           </div>
-        ))}
-  
-      </div>
+          
+        </div>
+      ))}      
+    </Slider>
+          )}
+   
     </div>
-  );
-};
+ );
+}; 
+
 
 export default Team;

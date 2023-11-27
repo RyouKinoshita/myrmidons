@@ -44,7 +44,9 @@ const Dashboard = () => {
       );
       console.log(data);
       setServices(data.services);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -64,7 +66,9 @@ const Dashboard = () => {
       );
       console.log(data);
       setPortfolios(data.portfolios);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -85,7 +89,9 @@ const Dashboard = () => {
       );
       console.log(data);
       setUsers(data.users);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -106,7 +112,9 @@ const Dashboard = () => {
       );
       console.log(data);
       setTeam(data.team);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -128,7 +136,9 @@ const Dashboard = () => {
         </div>
 
         <div className="col-12 col-md-10">
-          <h1 className="my-4" style={{color:"yellow" ,marginLeft:"-10px"}}>Dashboard</h1>
+          <h1 className="my-4" style={{ color: "yellow", marginLeft: "-10px" }}>
+            Dashboard
+          </h1>
 
           {loading ? (
             <Loader />
@@ -156,11 +166,17 @@ const Dashboard = () => {
                     </Link>
                   </div>
                 </div>
-                
-                <div className="col-xl-3 col-sm-6 mb-3" >
-                  <div className="card text-white  o-hidden h-100"  style={{backgroundColor:"red"}}>
-                    <div className="card-body" style={{backgroundColor:"red"}}>
-                      <div className="text-center card-font-size" >
+
+                <div className="col-xl-3 col-sm-6 mb-3">
+                  <div
+                    className="card text-white  o-hidden h-100"
+                    style={{ backgroundColor: "red" }}
+                  >
+                    <div
+                      className="card-body"
+                      style={{ backgroundColor: "red" }}
+                    >
+                      <div className="text-center card-font-size">
                         Users
                         <br /> <b>{users && users.length}</b>
                       </div>
@@ -168,7 +184,8 @@ const Dashboard = () => {
 
                     <Link
                       className="card-footer text-white clearfix small z-1"
-                      to="/admin/users" style={{backgroundColor:"red"}}
+                      to="/admin/users"
+                      style={{ backgroundColor: "red" }}
                     >
                       <span className="float-left">View Details</span>
                       <span className="float-right">
@@ -178,8 +195,14 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="col-xl-3 col-sm-6 mb-3">
-                  <div className="card text-white  o-hidden h-100" style={{backgroundColor:"orange"}}>
-                    <div className="card-body" style={{backgroundColor:"orange"}}>
+                  <div
+                    className="card text-white  o-hidden h-100"
+                    style={{ backgroundColor: "orange" }}
+                  >
+                    <div
+                      className="card-body"
+                      style={{ backgroundColor: "orange" }}
+                    >
                       <div className="text-center card-font-size">
                         Portfolio
                         <br /> <b>{portfolios && portfolios.length}</b>
@@ -188,7 +211,8 @@ const Dashboard = () => {
 
                     <Link
                       className="card-footer text-white clearfix small z-1"
-                      to="/admin/portfolio" style={{backgroundColor:"orange"}}
+                      to="/admin/portfolio"
+                      style={{ backgroundColor: "orange" }}
                     >
                       <span className="float-left">View Details</span>
                       <span className="float-right">
@@ -219,42 +243,46 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="row pr-4" style={{
-                      justifyContent: "center",
-                
-                      marginBottom:"40px",
-                      alignItems:"center",
-                    }}>
-              <Fragment>
+              <div
+                className="row pr-4"
+                style={{
+                  justifyContent: "center",
+
+                  marginBottom: "40px",
+                  alignItems: "center",
+                }}
+              >
+                <Fragment>
                   <div
                     style={{
                       justifyContent: "center",
                       width: "1250px",
                       height: "1500",
-                      marginBottom:"40px",
-                      alignItems:"center",
+                      marginBottom: "40px",
+                      alignItems: "center",
                     }}
                   >
                     <Calendar />
                   </div>
-                  
                 </Fragment>
-                
+
                 <Fragment>
-  <div className="chart-container">
-    <h2>User Sales Chart</h2>
-    <UserSalesChart />
-  </div>
-  <div className="chart-container">
-    <h2>Monthly Sales Chart</h2>
-    <MonthlySalesChart />
-  </div>
-  <div className="chart-container" style={{backgroundColor:"black", color:"yellow"}}>
-    <h2 style={{color:"yellow"}}>Service Sales Chart</h2>
-    <ServiceSalesChart />
-  </div>
-</Fragment>
-                
+                  <div className="chart-container">
+                    <h2>User Sales Chart</h2>
+                    <UserSalesChart />
+                  </div>
+                  <div className="chart-container">
+                    <h2>Monthly Sales Chart</h2>
+                    <MonthlySalesChart />
+                  </div>
+                  <div
+                    className="chart-container"
+                    style={{ backgroundColor: "black", color: "yellow" }}
+                  >
+                    <h2 style={{ color: "yellow" }}>Service Sales Chart</h2>
+                    <ServiceSalesChart />
+                  </div>
+                </Fragment>
               </div>
             </Fragment>
           )}

@@ -31,7 +31,9 @@ const UsersList = () => {
         config
       );
       setAllUsers(data.users);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -43,7 +45,9 @@ const UsersList = () => {
         config
       );
       setIsDeleted(data.success);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }

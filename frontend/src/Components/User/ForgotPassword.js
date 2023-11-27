@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import MetaData from "../Layout/Metadata";
@@ -6,10 +6,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import Loader from "../Layout/Loader";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(true);
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email address")
@@ -34,10 +35,13 @@ const ForgotPassword = () => {
         );
 
         console.log(data.message);
+        
         toast.success(data.message, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
+       
         navigate("/login");
+
       } catch (error) {
         console.log(error);
         toast.error(error.response.data.message, {
@@ -46,9 +50,14 @@ const ForgotPassword = () => {
       }
     },
   });
-
+  const timeoutId = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
   return (
     <Fragment>
+      {loading ? (
+            <Loader />
+          ) : (
       <div style={{backgroundImage:"linear-gradient(315deg, #838487,#AFB0B3)",backgroundImage:"-webkit-linear-gradient(315deg, #838487,#AFB0B3)"}}>
       <MetaData title={"Forgot Password"} />
       <div className="row wrapper">
@@ -86,7 +95,9 @@ const ForgotPassword = () => {
           </form>
         </div>
       </div>
+      
       </div>
+      )}
     </Fragment>
   );
 };

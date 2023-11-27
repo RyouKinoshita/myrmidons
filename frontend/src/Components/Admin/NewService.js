@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import Loader from "../Layout/Loader";
 
 const NewService = () => {
   const [images, setImages] = useState([]);
@@ -59,6 +60,10 @@ const NewService = () => {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  const timeoutId = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
 
   const onChange = (e) => {
     const files = Array.from(e.target.files);
@@ -141,6 +146,10 @@ const NewService = () => {
   }
 
   return (
+    <>
+    {loading ? (
+            <Loader />
+          ) : (
     <Fragment>
       <MetaData title={"New Service"} />
       <div className="row">
@@ -295,6 +304,8 @@ const NewService = () => {
         </div>
       </div>
     </Fragment>
+    )}
+    </>
   );
 };
 

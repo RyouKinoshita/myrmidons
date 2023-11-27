@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { errMsg, successMsg } from "../../utils/helpers";
 import { getToken } from "../../utils/helpers";
 import axios from "axios";
+import Loader from "../Layout/Loader";
 
 const UpdateUser = () => {
   const [name, setName] = useState("");
@@ -32,7 +33,9 @@ const UpdateUser = () => {
         config
       );
       setUser(data.user);
-      setLoading(false);
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -80,6 +83,10 @@ const UpdateUser = () => {
   };
 
   return (
+    <>
+    {loading ? (
+            <Loader />
+          ) : (
     <Fragment>
       <MetaData title={`Update User`} />
       <div className="row">
@@ -139,6 +146,8 @@ const UpdateUser = () => {
         </div>
       </div>
     </Fragment>
+    )}
+    </>
   );
 };
 

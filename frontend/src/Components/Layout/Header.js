@@ -9,9 +9,11 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import IconButton from '@mui/material/IconButton';
+import Loader from "../Layout/Loader";
 const Header = ({ cartItems }) => {
   const [user, setUser] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const logoutUser = async () => {
     try {
       await axios.get(`http://localhost:4001/api/v1/logout`);
@@ -25,6 +27,7 @@ const Header = ({ cartItems }) => {
   };
   const logoutHandler = () => {
     logoutUser();
+   
     toast.success("Logged out", {
       position: toast.POSITION.BOTTOM_RIGHT,
     });
@@ -34,6 +37,7 @@ const Header = ({ cartItems }) => {
   }, []);
   return (
     <Fragment>
+     
       <nav className="navbar row">
         <div className="col-12 col-md-3">
           <div className="navbar-brand">
