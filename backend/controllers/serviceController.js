@@ -5,20 +5,15 @@ const APIFeatures = require("../utils/apiFeatures");
 const cloudinary = require("cloudinary");
 
 exports.newService = async (req, res, next) => {
-  let images = [];
-  if (typeof req.body.images === "string") {
-    images.push(req.body.images);
-  } else {
-    images = req.body.images;
-  }
+  console.log(req.files); // This should log the uploaded files
+  console.log(req.body);
 
   let imagesLinks = [];
 
-  for (let i = 0; i < images.length; i++) {
-    let imageDataUri = images[i];
-    // console.log(imageDataUri)
+  for (let i = 0; i < req.files.length; i++) {
+    let image = req.files[i];
     try {
-      const result = await cloudinary.v2.uploader.upload(`${imageDataUri}`, {
+      const result = await cloudinary.v2.uploader.upload(image.path, {
         folder: "services",
         width: 150,
         crop: "scale",
