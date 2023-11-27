@@ -74,10 +74,10 @@ const Login = () => {
   return (
     <Fragment>
       <Metadata title={"Login"} />
-
-      <div className="row wrapper" >
+<div className="body" style={{backgroundImage:"linear-gradient(315deg, #838487,#AFB0B3)",backgroundImage:"-webkit-linear-gradient(315deg, #838487,#AFB0B3)"}}>
+      <div className="row wrapper"  >
         <div className="col-10 col-lg-5">
-          <form className="shadow-lg" onSubmit={formik.handleSubmit} style={{backgroundColor:"gray"}}>
+          <form className="shadow-lg" onSubmit={formik.handleSubmit} style={{backgroundColor:"#a7a2a9", borderRadius: "20px",marginTop:"40px"}}>
             <h1 className="mb-3" style={{color:"black",fontWeight: "bold"}}>Login</h1>
             <div className="form-group">
               <label htmlFor="email_field" style={{color:"black",fontWeight: "bold"}}>Email</label>
@@ -128,7 +128,7 @@ const Login = () => {
               id="loginsbut"
               type="submit"
               className="buttonforLogin"
-              style={{justifyContent:"center",fontWeight: "bold"}}
+              style={{fontWeight: "bold", fontSize:"20px", color:"black"}}
             >
               LOGIN
             </button>
@@ -142,6 +142,7 @@ const Login = () => {
       <br />
       
       <br />
+      </div> 
     </Fragment>
   );
 };

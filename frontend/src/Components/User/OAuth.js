@@ -7,6 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { authenticateGoogle, authenticateFacebook } from "../../utils/helpers";
 import GoogleIcon from '@mui/icons-material/Google';
+import FacebookIcon from '@mui/icons-material/Facebook';
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
@@ -104,13 +105,13 @@ function OAuth() {
       type="button"
       className="buttonforLogin"
       id="login-with-google-btn"
-      style={{fontWeight: "bold"}}
+      style={{fontWeight: "bolder", backgroundColor:"red" , fontSize:"20px", color:"white"}}
     >
-       CONTINUE WITH <b style={{color: "#4285F4"}}>G</b><b style={{color: "#EA4335"}}>O</b><b style={{color: "#FBBC05"}}>O</b><b style={{color: "#4285F4"}}>G</b><b style={{color: "#34A853"}}>L</b><b style={{color: "#EA4335"}}>E</b>
+       CONTINUE WITH <GoogleIcon/>
     </button>
-    <button onClick={handleFacebookLogin} type="button"
+    <button onClick={handleFacebookLogin} type="button" style={{fontWeight: "bold", backgroundColor:"blue", fontSize:"20px", color:"white"}}
       className="buttonforLogin"
-      id="login-with-facebook-btn">Login with Facebook</button></>
+      id="login-with-facebook-btn">Login with <FacebookIcon/></button></>
     
   );
   

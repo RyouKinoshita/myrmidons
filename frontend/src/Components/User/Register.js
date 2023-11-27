@@ -78,7 +78,7 @@ const Register = () => {
   return (
     <Fragment>
       <Metadata title={"Register User"} />
-
+<div className="body" style={{backgroundImage:"linear-gradient(315deg, #838487,#AFB0B3)",backgroundImage:"-webkit-linear-gradient(315deg, #838487,#AFB0B3)"}}   >
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
           <Formik
@@ -97,11 +97,12 @@ const Register = () => {
             }}
           >
             {({ setFieldValue, errors, touched }) => (
-              <Form className="shadow-lg" encType="multipart/form-data" style={{border:"solid 4px white"}}>
-                <h1 className="mb-3">Register</h1>
+              
+              <Form className="shadow-lg" encType="multipart/form-data" style={{backgroundColor:"#a7a2a9", borderRadius: "20px",marginTop:"0px"}}>
+                <h1 className="mb-3" style={{color:"black",fontWeight: "bold"}}>Register</h1>
 
                 <div className="form-group">
-                  <label htmlFor="name_field">Name</label>
+                  <label htmlFor="name_field" style={{color:"black",fontWeight: "bold"}}>Name</label>
                   <Field
                     type="text"
                     id="name_field"
@@ -116,7 +117,7 @@ const Register = () => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="email_field">Email</label>
+                  <label htmlFor="email_field" style={{color:"black",fontWeight: "bold"}}>Email</label>
                   <Field
                     type="email"
                     id="email_field"
@@ -131,7 +132,7 @@ const Register = () => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="password_field">Password</label>
+                  <label htmlFor="password_field" style={{color:"black",fontWeight: "bold"}}>Password</label>
                   <Field
                     type="password"
                     id="password_field"
@@ -146,7 +147,7 @@ const Register = () => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="avatar_upload">Avatar</label>
+                  <label htmlFor="avatar_upload" style={{color:"black",fontWeight: "bold"}}>Avatar</label>
                   <div className="d-flex align-items-center">
                     <div>
                       <figure className="avatar mr-3 item-rtl">
@@ -185,15 +186,19 @@ const Register = () => {
                   id="loginsbut"
                   type="submit"
                   className="buttonforLogin"
+                  style={{fontWeight: "bold", fontSize:"20px", color:"black"}}
                 >
                   REGISTER
                 </button>
               </Form>
             )}
+            
           </Formik>
         </div>
       </div>
+      </div>  
     </Fragment>
+    
   );
 };
 

@@ -52,7 +52,7 @@ const UpdatePassword = () => {
   return (
     <Fragment>
       <MetaData title={"Change Password"} />
-
+<div style={{backgroundImage:"linear-gradient(315deg, #838487,#AFB0B3)",backgroundImage:"-webkit-linear-gradient(315deg, #838487,#AFB0B3)"}}>
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
           <Formik
@@ -66,7 +66,7 @@ const UpdatePassword = () => {
             })}
             onSubmit={updatePassword}
           >
-            <Form className="shadow-lg" style={{ backgroundColor: "gray" }}>
+            <Form className="shadow-lg" style={{backgroundColor:"#a7a2a9", borderRadius: "20px",marginTop:"0px"}}>
               <h1
                 className="mt-2 mb-5"
                 style={{ color: "black", fontWeight: "bold" }}
@@ -124,6 +124,7 @@ const UpdatePassword = () => {
             </Form>
           </Formik>
         </div>
+      </div>
       </div>
     </Fragment>
   );

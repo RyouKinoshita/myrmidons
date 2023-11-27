@@ -51,7 +51,7 @@ const Profile = () => {
             <br/>
            <br/>
 <div className='container' style={{justifyContent:"center",textAlign:"center"}}>
-    <div class="cardlang" style={{marginLeft:"350px", backgroundColor:"gray"}}>
+    <div class="cardlang" style={{marginLeft:"350px", backgroundColor:"gray", border:"solid 6px black"}}>
         <div class="firstinfo"><img src={user.avatar && user.avatar.url} alt={user.name} />
             <div class="profileinfo">
                 <h1 >{user.name}</h1>

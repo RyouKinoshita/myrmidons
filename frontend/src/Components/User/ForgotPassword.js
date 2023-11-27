@@ -49,10 +49,11 @@ const ForgotPassword = () => {
 
   return (
     <Fragment>
+      <div style={{backgroundImage:"linear-gradient(315deg, #838487,#AFB0B3)",backgroundImage:"-webkit-linear-gradient(315deg, #838487,#AFB0B3)"}}>
       <MetaData title={"Forgot Password"} />
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
-          <form className="shadow-lg" onSubmit={formik.handleSubmit} style={{backgroundColor:"gray"}}>
+          <form className="shadow-lg" onSubmit={formik.handleSubmit} style={{backgroundColor:"#a7a2a9", borderRadius: "20px",marginTop:"0px"}}>
             <h1 className="mb-3" style={{color:"black",fontWeight: "bold"}}>Forgot Password</h1>
             <div className="form-group">
               <label htmlFor="email_field" style={{color:"black",fontWeight: "bold"}}>Enter Email</label>
@@ -84,6 +85,7 @@ const ForgotPassword = () => {
             </button>
           </form>
         </div>
+      </div>
       </div>
     </Fragment>
   );

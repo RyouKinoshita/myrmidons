@@ -97,10 +97,10 @@ const UpdateProfile = () => {
     return (
         <Fragment>
             <MetaData title={'Update Profile'} />
-
+            <div style={{backgroundImage:"linear-gradient(315deg, #838487,#AFB0B3)",backgroundImage:"-webkit-linear-gradient(315deg, #838487,#AFB0B3)"}}>
             <div className="row wrapper">
                 <div className="col-10 col-lg-5">
-                    <form className="shadow-lg" onSubmit={submitHandler} encType='multipart/form-data' style={{backgroundColor:"grey"}}>
+                    <form className="shadow-lg" onSubmit={submitHandler} encType='multipart/form-data' style={{backgroundColor:"#a7a2a9", borderRadius: "20px",marginTop:"0px"}}>
                         <h1 className="mt-2 mb-5" style={{color:"black"}}>Update Profile</h1>
 
                         <div className="form-group">
@@ -158,6 +158,7 @@ const UpdateProfile = () => {
                         <button type="submit" id="loginbuts" className="buttonforLogin" disabled={loading ? true : false} >Update</button>
                     </form>
                 </div>
+            </div>
             </div>
         </Fragment>
     )
