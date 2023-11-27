@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import Loader from "../Layout/Loader";
 
 const NewMember = () => {
   const [images, setImages] = useState([]);
@@ -16,6 +17,7 @@ const NewMember = () => {
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState("");
   const [member, setMember] = useState({});
+  
 
   let navigate = useNavigate();
 
@@ -94,13 +96,16 @@ const NewMember = () => {
 
         <div className="col-12 col-md-10">
           <Fragment>
+            
             <div className="wrapper my-5">
+              {/* {loading && <Loader />}  */}
               <Formik
                 initialValues={{
                   name: "",
                   position: "",
                   description: "",
                   images: [],
+                  
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {
@@ -202,7 +207,9 @@ const NewMember = () => {
                         className="invalid-feedback d-block"
                       />
                     </div>
-
+                    <Fragment>
+                      <h1 className="my-5"></h1>
+                    </Fragment>
                     <button
                       id="login_button"
                       type="submit"
