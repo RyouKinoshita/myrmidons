@@ -79,15 +79,16 @@ const Payment = ({cartItems, eventInfo}) => {
                             />
                         </div>
 
+                        
                         <div className="form-group">
-                            <label htmlFor="card_exp_field">Card Expiry</label>
-                            <input
-                                type="text"
-                                id="card_exp_field"
-                                className="form-control"
-                               
-                            />
-                        </div>
+                  <label htmlFor="date_field">Date</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    id="card_exp_field"
+                   
+                  />
+                </div>
 
                         <div className="form-group">
                             <label htmlFor="card_cvc_field">Card CVC</label>

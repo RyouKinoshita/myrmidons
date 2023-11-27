@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { getToken } from "../../utils/helpers";
+// import { get } from "mongoose";
 
 const UpdateProject = () => {
   const [name, setName] = useState("");
@@ -40,14 +41,13 @@ const UpdateProject = () => {
         `http://localhost:4001/api/v1/portfolio/${id}`
       );
       setProject(data.portfolios);
-      
       setLoading(false);
     } catch (error) {
       setError(error.response.data.message);
     }
   };
 
-  const updateProject = async (id, userData) => {
+  const updateProject = async (id, projectData) => {
     try {
       const config = {
         headers: {
@@ -57,9 +57,10 @@ const UpdateProject = () => {
       };
       const { data } = await axios.put(
         `http://localhost:4001/api/v1/admin/portfolio/${id}`,
-        userData,
+        projectData,
         config
       );
+      console.log(data);
       setIsUpdated(data.success);
     } catch (error) {
       setUpdateError(error.response.data.message);
@@ -67,42 +68,14 @@ const UpdateProject = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log("Fetching project data...");
-        const response = await axios.get(
-          `http://localhost:4001/api/v1/portfolio/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${getToken()}`,
-            },
-          }
-        );
-        console.log("API Response:", response.data);
-
-        const projectData = response.data.portfolios;
-
-        // Initialize state with fetched data
-        setName(projectData.name);
-        setLocation(projectData.location);
-        setDate(projectData.date);
-        setImagesPreview(projectData.images.map((img) => img.url));
-        setOldImages(projectData.images);
-        setProject(projectData); // Set the project state
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching project data:", error);
-
-        if (error.response && error.response.data) {
-          setError(error.response.data.message);
-        } else {
-          setError("An error occurred while fetching project data");
-        }
-      }
-    };
-
-    fetchData();
+    if (project && project._id !== id) {
+      getPortfolio(id);
+    } else {
+      setName(project.name);
+      setLocation(project.location);
+      setDate(project.date);
+      setOldImages(project.images);
+    }
 
     if (error) {
       errMsg(error);
@@ -114,7 +87,7 @@ const UpdateProject = () => {
       navigate("/admin/portfolio");
       successMsg("Project updated successfully");
     }
-  }, [error, isUpdated, updateError, id]);
+  }, [error, isUpdated, updateError, project, id]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -138,7 +111,7 @@ const UpdateProject = () => {
       reader.onload = () => {
         if (reader.readyState === 2) {
           setImagesPreview((oldArray) => [...oldArray, reader.result]);
-          setImages((oldArray) => [...oldArray, file]); // Store file instead of reader.result
+          setImages((oldArray) => [...oldArray, reader.result]); // Store file instead of reader.result
         }
       };
       reader.readAsDataURL(file);
@@ -159,7 +132,7 @@ const UpdateProject = () => {
                 className="shadow-lg"
                 onSubmit={submitHandler}
                 encType="multipart/form-data"
-                style={{border:"solid 4px white"}}
+                style={{ border: "solid 4px white" }}
               >
                 <h1 className="mb-4">Update Project</h1>
                 <div className="form-group">
@@ -221,10 +194,10 @@ const UpdateProject = () => {
                         height="52"
                       />
                     ))}
-                  {imagesPreview.map((img, index) => (
+                  {imagesPreview.map((img) => (
                     <img
                       src={img}
-                      key={index}
+                      key={img}
                       alt="Images Preview"
                       className="mt-3 mr-2"
                       width="55"
@@ -236,7 +209,7 @@ const UpdateProject = () => {
                   id="loginbut"
                   type="submit"
                   className="buttonforLogin"
-                  style={{marginLeft:"3px", width:"800px"}}
+                  style={{ marginLeft: "3px", width: "800px" }}
                   disabled={loading ? true : false}
                 >
                   UPDATE

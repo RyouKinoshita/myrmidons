@@ -170,7 +170,7 @@ const ServicesList = () => {
           <Sidebar />
         </div>
 
-        <div className="col-12 col-md-10">
+        <div className="col-12 col-md-10" style={{justifyContent:"center"}}>
           <Fragment>
             <h1
               className="my-5"

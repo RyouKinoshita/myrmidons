@@ -13,7 +13,7 @@ const Service = ({ service }) => {
 		<Row xs={1} md={1} className="g-4">
 		  <Col>
 			<Card style={{ width: '1200px'}}>
-			  <Card.Body style={{backgroundColor: "white", border: "2px solid black", fontWeight: "bold", fontFamily:"Impact",textAlign:"center"}}>
+			  <Card.Body style={{backgroundColor: "#DCDCDC", border: "6px solid yellow", fontWeight: "bold", fontFamily:"Impact",textAlign:"center"}}>
 				<Row>
 				  <Col md={4}>
 				  <div className="image-container" id='cardcon'>
