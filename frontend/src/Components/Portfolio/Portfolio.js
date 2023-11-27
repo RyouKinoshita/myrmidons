@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Carousel } from 'react-bootstrap'
+import React, { useState, useEffect, Fragment } from "react";
+import axios from "axios";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 const Portfolio = () => {
-  const [portfolio, setPortfolios] = useState([]);
-
+  const [portfolios, setPortfolios] = useState([]);
   const [hoveredPortfolio, setHoveredPortfolio] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:4001/api/v1/portfolio')
-      .then(response => {
+    axios
+      .get("http://localhost:4001/api/v1/portfolio")
+      .then((response) => {
         setPortfolios(response.data.portfolios);
-        console.log(portfolio)
       })
-      .catch(error => {
-        console.error('Error fetching data:', error);
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
   }, []);
 
@@ -28,70 +31,117 @@ const Portfolio = () => {
 
   return (
     <div>
-      <div className="navbar">
+      <div className="navbar"></div>
+
+      <div
+        className="recent-projects-section"
+        style={{
+          backgroundColor: "gray",
+          color: "white",
+          padding: "15px",
+          marginTop: "-15px",
+          marginBottom: "1cm",
+        }}
+      >
+        <h1
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            fontSize: "40px",
+            fontFamily: "Georgia, serif",
+          }}
+        >
+          Recent Projects
+        </h1>
       </div>
 
-      <div className="recent-projects-section" style={{ backgroundColor: 'gray', color: 'white', padding: '15px', marginTop: '-15px', marginBottom: '1cm' }}>
-        <h1 style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '40px', fontFamily: 'Georgia, serif' }}>Recent Projects</h1>
-      </div>
-
-      <div className="portfolio-section">
-        <div className="container">
-          <div className="row portfolio-container">
-            {portfolio.map(portfolio => (
-              <div
-                key={portfolio._id}
-                className="col-lg-4 col-md-4 col-sm-4 portfolio-item mix"
-                onMouseEnter={() => handleMouseEnter(portfolio)}
-                onMouseLeave={handleMouseLeave}
-                style={{ position: 'relative', marginBottom: '1cm' }}
-              >
-                 {/* <div className="pd" style={{ position: 'relative' }}>
-                  <img
-                    src={portfolio.images[0].url}
-                    alt={portfolio.name}
-                    style={{ width: '100%', height: '100%' }}
-                  /> */}
-                <div className="col-12 col-lg-5 img-fluid" id="portfolios_image">
-                            <Carousel pause='hover'>
-                                {portfolio.images && portfolio.images.map(images => (
-                                    <Carousel.Item key={images.public_id}>
-                                        <img src={portfolio.images[0].url} alt={portfolio.name} />
-                                    </Carousel.Item>
-                                ))}
-                            </Carousel>
-                        
-
-                  {hoveredPortfolio && hoveredPortfolio._id === portfolio._id && (
-                    <div
-                      className="hovered-content"
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        backgroundColor: 'rgba(150, 100, 150, 0.8)',
-                        borderRadius: '4px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        color: 'yellow',
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      <p>Name: {portfolio.name}</p>
-                      <p>Location: {portfolio.location}</p>
-                      <p>Date: {portfolio.date}</p>
+      <Fragment>
+  {portfolios.map((portfolio) => (
+    <Row xs={1} md={1} className="g-4" key={portfolio.id}>
+      <Col className="mx-auto"> {/* Center the column */}
+        <Card style={{ width: "1910px" }}>
+          <Card.Body
+            style={{
+              backgroundColor: "#DCDCDC",
+              border: "6px solid yellow",
+              fontWeight: "bold",
+              fontFamily: "Impact",
+              textAlign: "center",
+            }}
+          >
+            <Row className="text-center"> {/* Center the row content */}
+              <Col md={4}>
+                <Carousel>
+                  {portfolio.images.map((image, index) => (
+                    <div key={index} className="image-container" style={{ height: "300px" }}>
+                      <img
+                        src={image.url}
+                        alt={`portfolio-image-${index}`}
+                        className="image-content"
+                      />
                     </div>
-                  )}
-                </div>
-               </div>
-            ))}
-          </div>
-        </div>
-      </div>
+                  ))}
+                </Carousel>
+              </Col>
+              <Col md={8} className="text-left"> {/* Align the content to the left */}
+                <Card.Title
+                  style={{
+                    fontSize: "70px",
+                    color: "black",
+                    textDecoration: "underline",
+                    textAlign: "center",
+                    marginTop: "70px",
+                  
+                  }}
+                >
+                 {portfolio.name}
+                </Card.Title>
+                <Card.Title
+                  style={{
+                    fontWeight: "bold",
+                    fontFamily: "Arial",
+                    textAlign: "left",
+                    color: "black",
+                    textAlign: "center"
+                    
+                  }}
+                >
+                  
+                  <time
+                    dateTime={portfolio.date}
+                    className="card__date"
+                    style={{
+                      fontWeight: "bold",
+                      fontFamily: "Arial",
+                      textAlign: "left",
+                      color: "black",
+                      fontSize: "50px",
+                    }}
+                  >
+                   {new Date(portfolio.date).toLocaleDateString()}
+                  </time>
+                </Card.Title>
+                <Card.Title
+                  style={{
+                    fontWeight: "bold",
+                    fontFamily: "Arial",
+                    textAlign: "left",
+                    color: "black",
+                    textAlign: "center",
+                    fontSize: "30px",
+                  }}
+                >
+                  Location: {portfolio.location}
+                </Card.Title>
+              </Col>
+            </Row>
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
+  ))}
+  <br />
+</Fragment>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { Carousel } from "react-bootstrap";
 const Team = () => {
   const [team, setTeam] = useState([]);
 
