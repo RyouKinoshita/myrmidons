@@ -8,13 +8,12 @@ exports.google = async (req, res, next) => {
   try {
     const { email, name, avatar } = req.body;
 
-    // Check if the user already exists
     const existingUser = await User.findOne({ email });
 
     let avatarData;
 
     if (avatar) {
-      // Upload avatar to Cloudinary
+  
       await cloudinary.v2.uploader.upload(
         avatar,
         {
@@ -36,11 +35,10 @@ exports.google = async (req, res, next) => {
     }
 
     if (existingUser) {
-      // User exists, log in the user
-      // You may generate a token or create a session here
+
       sendToken(existingUser, 200, res);
     } else {
-      // User doesn't exist, create a new user
+
       const randomPassword = Math.random().toString(36).slice(-8);
       const hashedPassword = await bcrypt.hash(randomPassword, 10);
 
@@ -53,7 +51,6 @@ exports.google = async (req, res, next) => {
 
       await newUser.save();
 
-      // Log in the new user
       sendToken(newUser, 201, res);
     }
   } catch (error) {
@@ -65,13 +62,12 @@ exports.facebook = async (req, res, next) => {
   try {
     const { email, name, avatar } = req.body;
 
-    // Check if the user already exists
     const existingUser = await User.findOne({ email });
 
     let avatarData;
 
     if (avatar) {
-      // Upload avatar to Cloudinary
+
       await cloudinary.v2.uploader.upload(
         avatar,
         {
@@ -93,11 +89,10 @@ exports.facebook = async (req, res, next) => {
     }
 
     if (existingUser) {
-      // User exists, log in the user
-      // You may generate a token or create a session here
+
       sendToken(existingUser, 200, res);
     } else {
-      // User doesn't exist, create a new user
+
       const randomPassword = Math.random().toString(36).slice(-8);
       const hashedPassword = await bcrypt.hash(randomPassword, 10);
 
@@ -110,7 +105,7 @@ exports.facebook = async (req, res, next) => {
 
       await newUser.save();
 
-      // Log in the new user
+
       sendToken(newUser, 201, res);
     }
   } catch (error) {
@@ -156,38 +151,24 @@ exports.registerUser = async (req, res, next) => {
 exports.loginUser = async (req, res, next) => {
   const { email, password } = req.body;
 
-  // Checks if email and password is entered by user
+
   if (!email || !password) {
     return res.status(400).json({ error: "Please enter email & password" });
   }
-  // if (!email || !password) {
-  //     return next(new ErrorHandler('Please enter email & password', 400))
-  // }
 
-  // Finding user in database
   const user = await User.findOne({ email }).select("+password");
 
   if (!user) {
     return res.status(401).json({ message: "Invalid Email or Password" });
   }
-  // if (!user) {
-  //     return next(new ErrorHandler('Invalid Email or Password', 401));
-  // }
+
   const isPasswordMatched = await user.comparePassword(password);
 
-  // if (!isPasswordMatched) {
-  //     return next(new ErrorHandler('Invalid Email or Password', 401));
-  // }
+
   if (!isPasswordMatched) {
     return res.status(401).json({ message: "Invalid Email or Password" });
   }
-  // const token = user.getJwtToken();
-
-  //  res.status(201).json({
-  //  	success:true,
-
-  //  	token
-  //  });
+ 
   sendToken(user, 200, res);
 };
 
@@ -207,12 +188,12 @@ exports.forgotPassword = async (req, res, next) => {
   console.log(req.body.email);
   if (!user) {
     return res.status(404).json({ error: "User not found with this email" });
-    // return next(new ErrorHandler('User not found with this email', 404));
+
   }
-  // Get reset token
+ 
   const resetToken = user.getResetPasswordToken();
   await user.save({ validateBeforeSave: false });
-  // Create reset password url
+
 
   const resetUrl = `${req.protocol}://localhost:3000/password/reset/${resetToken}`;
   const message = `Your password reset token is as follow:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.`;
@@ -232,7 +213,7 @@ exports.forgotPassword = async (req, res, next) => {
     user.resetPasswordExpire = undefined;
     await user.save({ validateBeforeSave: false });
     return res.status(500).json({ error: error.message });
-    // return next(new ErrorHandler(error.message, 500))
+  
   }
 };
 
@@ -251,15 +232,15 @@ exports.resetPassword = async (req, res, next) => {
     return res
       .status(400)
       .json({ message: "Password reset token is invalid or has been expired" });
-    // return next(new ErrorHandler('Password reset token is invalid or has been expired', 400))
+   
   }
 
   if (req.body.password !== req.body.confirmPassword) {
     return res.status(400).json({ message: "Password does not match" });
-    // return next(new ErrorHandler('Password does not match', 400))
+    
   }
 
-  // Setup new password
+
   user.password = req.body.password;
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
@@ -268,7 +249,7 @@ exports.resetPassword = async (req, res, next) => {
 };
 
 exports.getUserProfile = async (req, res, next) => {
-  // console.log(req.header('authorization'))
+
   const user = await User.findById(req.user.id);
 
   res.status(200).json({
@@ -279,7 +260,7 @@ exports.getUserProfile = async (req, res, next) => {
 
 exports.updatePassword = async (req, res, next) => {
   const user = await User.findById(req.user.id).select("password");
-  // Check previous user password
+  
   const isMatched = await user.comparePassword(req.body.oldPassword);
   if (!isMatched) {
     return res.status(400).json({ message: "Old password is incorrect" });
@@ -340,7 +321,7 @@ exports.getUserDetails = async (req, res, next) => {
     return res
       .status(400)
       .json({ message: `User does not found with id: ${req.params.id}` });
-    // return next(new ErrorHandler(`User does not found with id: ${req.params.id}`))
+    
   }
 
   res.status(200).json({
@@ -356,10 +337,10 @@ exports.deleteUser = async (req, res, next) => {
     return res
       .status(401)
       .json({ message: `User is not found with id: ${req.params.id}` });
-    // return next(new ErrorHandler(`User does not found with id: ${req.params.id}`))
+    
   }
 
-  // Remove avatar from cloudinary
+  
   const image_id = user.avatar.public_id;
   await cloudinary.v2.uploader.destroy(image_id);
   await User.findByIdAndRemove(req.params.id);
@@ -378,7 +359,7 @@ exports.updateUser = async (req, res, next) => {
   const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
     new: true,
     runValidators: true,
-    // useFindAndModify: false
+    
   });
 
   return res.status(200).json({

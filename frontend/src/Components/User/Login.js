@@ -67,9 +67,7 @@ const Login = () => {
       login(values.email, values.password);
     },
   });
-  const timeoutId = setTimeout(() => {
-    setLoading(false);
-  }, 1000);
+
   useEffect(() => {
     if (getUser() && redirect === "event") {
       navigate(`/${redirect}`);
