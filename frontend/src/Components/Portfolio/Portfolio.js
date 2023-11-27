@@ -131,7 +131,7 @@ const Portfolio = () => {
             <Col className="mx-auto">
               {" "}
               {/* Center the column */}
-              <Card style={{ width: "1530px" }}>
+              <Card style={{ width: "100%" }}>
                 <Card.Body
                   style={{
                     backgroundColor: "#DCDCDC",
