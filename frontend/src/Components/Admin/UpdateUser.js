@@ -1,5 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import MetaData from "../Layout/Metadata";
 import Sidebar from "./SideBar";
 import { toast } from "react-toastify";
@@ -10,22 +13,37 @@ import axios from "axios";
 import Loader from "../Layout/Loader";
 
 const UpdateUser = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState({});
   const [isUpdated, setIsUpdated] = useState(false);
-  let navigate = useNavigate();
-
+  const navigate = useNavigate();
   const { id } = useParams();
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    role: Yup.string().oneOf(["user", "admin"]).required("Role is required"),
+  });
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
   const config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${getToken()}`,
     },
   };
+
   const getUserDetails = async (id) => {
     try {
       const { data } = await axios.get(
@@ -33,9 +51,7 @@ const UpdateUser = () => {
         config
       );
       setUser(data.user);
-      const timeoutId = setTimeout(() => {
-        setLoading(false);
-      }, 1000);
+      setLoading(false);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -49,20 +65,18 @@ const UpdateUser = () => {
         config
       );
       setIsUpdated(data.success);
-      setLoading(false);
     } catch (error) {
       setError(error.response.data.message);
     }
   };
 
   useEffect(() => {
-    // console.log(user && user._id !== userId);
     if (user && user._id !== id) {
       getUserDetails(id);
     } else {
-      setName(user.name);
-      setEmail(user.email);
-      setRole(user.role);
+      setValue("name", user.name);
+      setValue("email", user.email);
+      setValue("role", user.role);
     }
     if (error) {
       errMsg(error);
@@ -72,81 +86,122 @@ const UpdateUser = () => {
       successMsg("User updated successfully");
       navigate("/admin/users");
     }
-  }, [error, isUpdated, id, user]);
-  const submitHandler = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.set("name", name);
-    formData.set("email", email);
-    formData.set("role", role);
-    updateUser(user._id, formData);
+  }, [error, isUpdated, id, user, setValue]);
+
+  const submitHandler = (data) => {
+    const userData = {
+      name: data.name,
+      email: data.email,
+      role: data.role,
+    };
+    updateUser(user._id, userData);
   };
 
   return (
     <>
-    {loading ? (
-            <Loader />
-          ) : (
-    <Fragment>
-      <MetaData title={`Update User`} />
-      <div className="row">
-        <div className="col-12 col-md-2">
-          <Sidebar />
-        </div>
-        <div className="col-12 col-md-10">
-          <div className="row wrapper">
-            <div className="col-10 col-lg-5">
-              <form className="shadow-lg" onSubmit={submitHandler} style={{border:"solid 4px white"}}>
-                <h1 className="mt-2 mb-5">Update User</h1>
-                <div className="form-group">
-                  <label htmlFor="name_field">Name</label>
-                  <input
-                    type="name"
-                    id="name_field"
-                    className="form-control"
-                    name="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="email_field">Email</label>
-                  <input
-                    type="email"
-                    id="email_field"
-                    className="form-control"
-                    name="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="role_field">Role</label>
-                  <select
-                    id="role_field"
-                    className="form-control"
-                    name="role"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
+      {loading ? (
+        <Loader />
+      ) : (
+        <Fragment>
+          <MetaData title={`Update User`} />
+          <div className="row">
+            <div className="col-12 col-md-2">
+              <Sidebar />
+            </div>
+            <div className="col-12 col-md-10">
+              <div className="row wrapper">
+                <div className="col-10 col-lg-5">
+                  <form
+                    className="shadow-lg"
+                    onSubmit={handleSubmit(submitHandler)}
+                    style={{ border: "solid 4px white" }}
                   >
-                    <option value="user">user</option>
-                    <option value="admin">admin</option>
-                  </select>
+                    <h1 className="mt-2 mb-5">Update User</h1>
+                    <div className="form-group">
+                      <label htmlFor="name_field">Name</label>
+                      <Controller
+                        name="name"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                          <input
+                            {...field}
+                            type="text"
+                            id="name_field"
+                            className={`form-control ${
+                              errors.name ? "is-invalid" : ""
+                            }`}
+                          />
+                        )}
+                      />
+                      {errors.name && (
+                        <p className="invalid-feedback">
+                          {errors.name.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="email_field">Email</label>
+                      <Controller
+                        name="email"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                          <input
+                            {...field}
+                            type="email"
+                            id="email_field"
+                            className={`form-control ${
+                              errors.email ? "is-invalid" : ""
+                            }`}
+                          />
+                        )}
+                      />
+                      {errors.email && (
+                        <p className="invalid-feedback">
+                          {errors.email.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="role_field">Role</label>
+                      <Controller
+                        name="role"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                          <select
+                            {...field}
+                            id="role_field"
+                            className={`form-control ${
+                              errors.role ? "is-invalid" : ""
+                            }`}
+                          >
+                            <option value="user">user</option>
+                            <option value="admin">admin</option>
+                          </select>
+                        )}
+                      />
+                      {errors.role && (
+                        <p className="invalid-feedback">
+                          {errors.role.message}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      type="submit"
+                      className="buttonforLogin"
+                      style={{ marginLeft: "0px" }}
+                    >
+                      Update
+                    </button>
+                  </form>
                 </div>
-                <button
-                  type="submit"
-                  className="buttonforLogin"
-                  style={{marginLeft:"0px"}}
-                >
-                  Update
-                </button>
-              </form>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </Fragment>
-    )}
+        </Fragment>
+      )}
     </>
   );
 };
