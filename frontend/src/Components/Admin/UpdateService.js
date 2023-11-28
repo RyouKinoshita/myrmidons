@@ -85,7 +85,6 @@ const UpdateService = () => {
     setImages([]);
     setOldImages([]);
     setValue("images", files);
-    console.log("Form values after setValue:", setValue("images", files));
 
     files.forEach((file) => {
       const reader = new FileReader();
