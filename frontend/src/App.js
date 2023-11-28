@@ -104,7 +104,7 @@ function App() {
         });
       }
 
-      toast.success("Item Added to Cart", {
+      toast.success("Service Added to Cart", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     } catch (error) {
@@ -119,7 +119,7 @@ function App() {
       ...state,
       cartItems: state.cartItems.filter((i) => i.service !== id),
     });
-    toast.success("Item Removed in Cart", {
+    toast.success("Service Removed in Cart", {
       position: toast.POSITION.BOTTOM_RIGHT,
     });
     localStorage.setItem("cartItems", JSON.stringify(state.cartItems));

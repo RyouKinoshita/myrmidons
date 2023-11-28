@@ -241,6 +241,7 @@ exports.confirmOrder = async (req, res, next) => {
     await sendEmail(order);
 
     res.status(200).json({ success: true, message: "Order confirmed" });
+    
   } catch (error) {
     console.error("Error confirming order:", error);
     res.status(500).json({ success: false, error: "Failed to confirm order" });

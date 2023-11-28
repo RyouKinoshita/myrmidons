@@ -56,7 +56,7 @@ const Payment = ({ cartItems, eventInfo }) => {
       // setIsUpdated(data.success)
       setLoading(false);
 
-      toast.success("order created", {
+      toast.success("Service has been Availed. Please wait for Confirmation.", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
 
