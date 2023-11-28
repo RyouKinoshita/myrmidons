@@ -119,9 +119,12 @@ const UpdateProject = () => {
       setDate(project.date);
       setOldImages(project.images);
 
+      const formattedDate = new Date(project.date).toISOString().split("T")[0];
+      setDate(formattedDate);
+
       setValue("name", project.name);
       setValue("location", project.location);
-      setValue("date", project.date);
+      setValue("date", formattedDate);
       setValue("images", []);
     };
 
@@ -148,7 +151,9 @@ const UpdateProject = () => {
     const formData = new FormData();
     formData.set("name", name);
     formData.set("location", location);
-    formData.set("date", date);
+    const formattedDate = new Date(data.date).toISOString().split("T")[0];
+
+    formData.set("date", formattedDate);
     for (let i = 0; i < data.images.length; i++) {
       const file = data.images[i];
       const base64 = await convertFileToBase64(file);
